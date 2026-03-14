@@ -1,4 +1,5 @@
-from smolagents import tool
+from smolagents import Tool, tool
+from typing import Dict, Tuple
 from e2b_desktop import Sandbox
 import os
 
@@ -30,23 +31,6 @@ def perform_mouse_action(action_type: str, x: int, y: int) -> str:
         return f"Error: Unsupported mouse action type '{action_type}'"
 
     return f"Successfully performed {action_type} at coordinates ({x}, {y})."
-
-
-@tool
-def click_element(element_id: int) -> str:
-    """
-    Click a specific element on the screen using its numeric ID.
-    Please input the ID of the element you wish to click based on the provided list of screen elements.
-
-    Args:
-        element_id: The numeric ID of the element you want to click.
-    """
-    if element_id in current_mapping:
-        x, y = current_mapping[element_id]
-        sandbox.commands.run(f"xdotool mousemove {x} {y} click 1")
-        return f"Successfully clicked element {element_id} at coordinates ({x}, {y})."
-    else:
-        return f"Error: Element ID {element_id} not found. Please check if the ID exists in the list."
 
 
 @tool
@@ -207,3 +191,43 @@ def wait(ms: int) -> str:
         return f"Waited for {ms} milliseconds successfully."
     except Exception as e:
         return f"Error during wait:\n{str(e)}"
+
+
+class ClickElementTool(Tool):
+    name = "click_element"
+    description = "Click a specific element on the screen using its numeric ID."
+    inputs = {
+        "element_id": {
+            "type": "integer",
+            "description": "The numeric ID of the element to click."
+        }
+    }
+    output_type = "string"
+
+    def __init__(self):
+        super().__init__()
+        self.current_mapping: Dict[int, Tuple[int, int]] = {}
+
+    def update_mapping(self, element_mapping: Dict[int, Tuple[int, int]]) -> None:
+        """Update the element mapping after a new screenshot/UI tree dump."""
+        self.current_mapping = element_mapping
+
+    def forward(self, element_id: int) -> str:
+        if not self.current_mapping:
+            return (
+                "Error: No UI element mapping available. "
+                "The screen elements have not been captured yet. "
+                "Please ensure an observation step was performed before clicking."
+            )
+
+        if element_id not in self.current_mapping:
+            available_ids = sorted(self.current_mapping.keys())[:10]
+            return f"Error: Element ID {element_id} not found in current screen elements. "
+        
+        x, y = self.current_mapping[element_id]
+        
+        try:
+            sandbox.commands.run(f"xdotool mousemove {int(x)} {int(y)} click 1")
+            return f"Successfully clicked element {element_id} at coordinates ({x}, {y})."
+        except Exception as e:
+            return f"Error clicking element {element_id}: {str(e)}"
