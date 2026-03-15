@@ -1,0 +1,3 @@
+At each step, you must select and execute ONLY ONE action. 
+Wait for the outcome of that action before proceeding to the next step. 
+Never chain multiple actions in a single turn.
