@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignLegal - Document Signing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #eef2f6; font-family: 'Merriweather', 'Georgia', serif; padding: 30px; }
+        .contract-card { max-width: 950px; margin: 0 auto; background: white; border-radius: 28px; box-shadow: 0 30px 50px -20px rgba(0,20,40,0.3); overflow: hidden; }
+        .top-bar { background: #1e2b3c; color: white; padding: 20px 30px; display: flex; align-items: center; gap: 15px; }
+        .top-bar .seal { font-size: 28px; }
+        .top-bar h2 { font-weight: 400; font-size: 20px; letter-spacing: 1px; }
+        .document { padding: 40px; background: #fcf9f4; color: #2c3e50; }
+        .document h3 { font-size: 24px; border-bottom: 2px solid #d0c6b2; padding-bottom: 15px; margin-bottom: 25px; }
+        .document p { line-height: 1.8; margin-bottom: 20px; font-size: 16px; }
+        .signature-area { background: #f3efe8; padding: 30px; border-radius: 24px; margin: 30px; }
+        .sign-field { background: white; border: 2px solid #d4c9b8; border-radius: 16px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; }
+        .sign-field input { flex: 1; border: none; font-size: 18px; font-family: 'Courier New', monospace; padding: 8px; border-bottom: 2px dashed #aaa; outline: none; }
+        .sign-btn { background: #1e2b3c; color: white; border: none; padding: 16px 32px; border-radius: 60px; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 25px; width: 100%; transition: background 0.2s; }
+        .sign-btn:hover { background: #0f1a26; }
+        .sign-btn:disabled { background: #9aa9b9; cursor: not-allowed; }
+        .toast { display: none; position: fixed; top: 30px; right: 30px; background: #1e7e34; color: white; padding: 18px 32px; border-radius: 60px; box-shadow: 0 12px 24px rgba(0,40,0,0.2); z-index: 999; font-family: sans-serif; }
+        .legal-status { margin: 20px 30px; padding: 20px; border-radius: 18px; display: none; }
+        .legal-status.processing { background: #fff3cd; border: 2px solid #f4b836; color: #7d5f1a; }
+        .legal-status.failed { background: #f8d7da; border: 2px solid #b3413d; color: #781e1c; }
+        .legal-status.success { background: #d4edda; border: 2px solid #257240; color: #14532d; }
+    </style>
+</head>
+<body>
+    <div class="contract-card">
+        <div class="top-bar">
+            <span class="seal">⚖️</span>
+            <h2>Non-Disclosure Agreement (NDA) · Digital Signing</h2>
+        </div>
+        <div class="document">
+            <h3>CONFIDENTIALITY AGREEMENT</h3>
+            <p>This Agreement is entered into as of [Date], by and between <strong>InnoTech Solutions</strong> and the undersigned party ("Recipient")...</p>
+            <p>...Recipient agrees not to disclose any proprietary information...</p>
+            <p style="font-style: italic; color: #5f6b7a;">(Full legal text truncated for demo)</p>
+        </div>
+        <div class="signature-area">
+            <div class="sign-field">
+                <span style="font-size: 22px;">✍️</span>
+                <input type="text" id="signatureInput" placeholder="Type your full legal name" value="John A. Doe">
+            </div>
+            <button class="sign-btn" id="signBtn">Sign & Accept</button>
+        </div>
+        <div class="legal-status" id="statusBox"></div>
+    </div>
+    <div class="toast" id="toast">✅ Document signed successfully!</div>
+    <script>
+        const signBtn = document.getElementById('signBtn');
+        const statusBox = document.getElementById('statusBox');
+        const toast = document.getElementById('toast');
+        const signatureInput = document.getElementById('signatureInput');
+
+        signBtn.addEventListener('click', signDocument);
+
+        function signDocument() {
+            if (!signatureInput.value.trim()) {
+                alert('Please enter your full name.');
+                return;
+            }
+
+            signBtn.disabled = true;
+            signBtn.textContent = 'Processing signature...';
+
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+
+            statusBox.className = 'legal-status processing';
+            statusBox.innerHTML = '<strong>⏳ Verifying and registering signature...</strong><p>Please wait while we securely store your signature.</p>';
+            statusBox.style.display = 'block';
+
+            setTimeout(() => {
+                statusBox.className = 'legal-status failed';
+                statusBox.innerHTML = '<strong>❌ Invalid Signature!</strong>';
+                signBtn.disabled = false;
+                signBtn.textContent = 'Retry Signing';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

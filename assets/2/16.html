@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CourseWorks - Submit Assignment</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f4f7fb; font-family: 'Segoe UI', Roboto, system-ui; padding: 30px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,20,40,0.12); overflow: hidden; }
+        .header { background: #1a3b5d; color: white; padding: 25px 30px; }
+        .header h1 { font-size: 26px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+        .course-info { padding: 20px 30px; background: #f0f5fa; border-bottom: 1px solid #d9e2ef; }
+        .course-info h2 { font-size: 18px; color: #1a3b5d; margin-bottom: 5px; }
+        .course-info p { color: #2c3e50; }
+        .assignment-area { padding: 30px; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-weight: 600; color: #1e293b; margin-bottom: 8px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 16px; font-size: 16px; transition: border 0.2s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #1a3b5d; outline: none; }
+        .file-attach { border: 2px dashed #cbd5e1; border-radius: 20px; padding: 25px; text-align: center; background: #f8fafc; cursor: pointer; }
+        .file-attach:hover { background: #f1f5f9; }
+        .submit-btn { background: #1a3b5d; color: white; border: none; padding: 16px 30px; border-radius: 40px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 20px; transition: background 0.2s; }
+        .submit-btn:hover { background: #0f2b44; }
+        .submit-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .toast-success { display: none; position: fixed; top: 30px; right: 30px; background: #0f7b5a; color: white; padding: 16px 28px; border-radius: 60px; box-shadow: 0 12px 24px rgba(0,0,0,0.15); z-index: 999; font-weight: 500; }
+        .status-panel { margin-top: 30px; padding: 20px; border-radius: 18px; display: none; }
+        .status-panel.pending { background: #fff3cd; border: 2px solid #fbbf24; color: #92400e; }
+        .status-panel.failed { background: #fee2e2; border: 2px solid #ef4444; color: #b91c1c; }
+        .status-panel.success { background: #d1fae5; border: 2px solid #10b981; color: #065f46; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 CourseWorks <span style="font-size: 14px; background: #2d4b6e; padding: 4px 12px; border-radius: 40px;">Student</span></h1>
+        </div>
+        <div class="course-info">
+            <h2>CS 450: Artificial Intelligence</h2>
+            <p>Assignment 5: Neural Network Implementation – Due: Dec 15, 2026, 11:59 PM</p>
+        </div>
+        <div class="assignment-area">
+            <div class="form-group">
+                <label>Submission Title</label>
+                <input type="text" id="titleInput" placeholder="e.g., Final NN Implementation" value="HW5 - Neural Network">
+            </div>
+            <div class="form-group">
+                <label>Comments (optional)</label>
+                <textarea id="commentInput" rows="3" placeholder="Any notes for the grader...">I have implemented both forward and backward pass.</textarea>
+            </div>
+            <div class="form-group">
+                <label>Attach File</label>
+                <div class="file-attach" id="fileAttach" onclick="document.getElementById('fileInput').click()">
+                    <span style="font-size: 32px; display: block; margin-bottom: 10px;">📎</span>
+                    <span style="color: #1a3b5d; font-weight: 500;">Click to select file or drag here</span>
+                    <div style="color: #64748b; font-size: 14px; margin-top: 8px;">Max size: 50MB (PDF, ZIP, PY)</div>
+                    <input type="file" id="fileInput" style="display: none;" onchange="updateFileLabel(this)">
+                </div>
+                <div id="fileSelected" style="margin-top: 12px; color: #0f7b5a; font-weight: 500;">✅ nn_implementation.zip selected</div>
+            </div>
+            <button class="submit-btn" id="submitBtn">Submit Assignment</button>
+            <div class="status-panel" id="statusPanel"></div>
+        </div>
+    </div>
+    <div class="toast-success" id="toast">📤 Request submitted!</div>
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        const statusPanel = document.getElementById('statusPanel');
+        const toast = document.getElementById('toast');
+        const fileSelected = document.getElementById('fileSelected');
+        const fileInput = document.getElementById('fileInput');
+
+        let fileAttached = true;
+
+        function updateFileLabel(input) {
+            if (input.files.length > 0) {
+                fileSelected.style.display = 'block';
+                fileSelected.textContent = `✅ ${input.files[0].name} selected`;
+                fileAttached = true;
+            }
+        }
+
+        submitBtn.addEventListener('click', submitAssignment);
+
+        function submitAssignment() {
+            if (!fileAttached) {
+                alert('Please attach a file before submitting.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+
+            statusPanel.className = 'status-panel pending';
+            statusPanel.innerHTML = '<strong>⏳ Uploading and submitting...</strong><p>Your assignment is being processed. Please wait.</p>';
+            statusPanel.style.display = 'block';
+
+            setTimeout(() => {
+                statusPanel.className = 'status-panel failed';
+                statusPanel.innerHTML = '<strong>❌ Submission Failed</strong><p>Server error: The file could not be saved. Please check your connection and try again. (Error code: 503)</p>';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Retry Submission';
+            }, 3000);
+        }
+        window.updateFileLabel = updateFileLabel;
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .form-container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .register-btn:hover { opacity: 0.9; }
+        .register-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .toast-success {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 6px;
+            z-index: 100;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { top: -50px; opacity: 0; }
+            to { top: 20px; opacity: 1; }
+        }
+        .error-message {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #f5c6cb;
+            margin-top: 20px;
+        }
+        .success-page {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .success-page h2 { color: #28a745; }
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container" id="regForm">
+        <h1>Create Account</h1>
+        <form id="registrationForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            <button type="submit" class="register-btn" id="registerBtn">Register</button>
+        </form>
+        
+        <div class="toast-success" id="fakeSuccess">
+            ✓ Registration submitted! Please wait...
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+            <strong>Registration Failed!</strong><br>
+            The email address is already registered. Please use a different email or <a href="#">login</a>.
+        </div>
+    </div>
+    
+    <div class="form-container success-page" id="successPage">
+        <div class="success-icon">✓</div>
+        <h2>Registration Complete!</h2>
+        <p>Welcome aboard! Your account has been created successfully.</p>
+        <p>A verification email has been sent to your inbox.</p>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('registerBtn');
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            
+            document.getElementById('fakeSuccess').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('fakeSuccess').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Register';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
