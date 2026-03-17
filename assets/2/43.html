@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Desktop - Commit & Push</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f6f8fa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; padding: 30px; }
+        .repo-card { max-width: 700px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); overflow: hidden; }
+        .repo-header { background: #24292e; color: white; padding: 20px; display: flex; align-items: center; gap: 10px; }
+        .repo-header h1 { font-size: 20px; font-weight: 400; }
+        .changes-area { padding: 20px; border-bottom: 1px solid #e1e4e8; }
+        .file-change { display: flex; align-items: center; padding: 12px; background: #f6f8fa; border-radius: 8px; margin-bottom: 8px; }
+        .file-change .status { width: 20px; height: 20px; border-radius: 4px; background: #28a745; margin-right: 12px; }
+        .commit-box { padding: 20px; }
+        .commit-box input, .commit-box textarea { width: 100%; padding: 12px; border: 2px solid #e1e4e8; border-radius: 8px; margin-bottom: 15px; font-size: 14px; }
+        .commit-box textarea { min-height: 80px; }
+        .push-btn { background: #2ea44f; color: white; border: none; padding: 14px 0; width: 100%; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; }
+        .push-btn:hover { background: #2c974b; }
+        .push-btn:disabled { background: #94d3a2; cursor: not-allowed; }
+        .status-line { padding: 15px 20px; background: #f6f8fa; border-top: 1px solid #e1e4e8; display: flex; align-items: center; gap: 10px; }
+        .status-line .icon { font-size: 20px; }
+        .toast { display: none; position: fixed; top: 20px; right: 20px; background: #2ea44f; color: white; padding: 15px 25px; border-radius: 60px; z-index: 999; }
+    </style>
+</head>
+<body>
+    <div class="repo-card">
+        <div class="repo-header">
+            <span>📁</span>
+            <h1>user/repository · main</h1>
+        </div>
+        <div class="changes-area">
+            <div style="font-weight: 600; margin-bottom: 12px;">Changes (2)</div>
+            <div class="file-change">
+                <div class="status" style="background: #28a745;"></div>
+                <span>src/app.js</span>
+            </div>
+            <div class="file-change">
+                <div class="status" style="background: #d93f0b;"></div>
+                <span>README.md</span>
+            </div>
+        </div>
+        <div class="commit-box">
+            <input type="text" id="commitMsg" placeholder="Commit message" value="Fix authentication bug">
+            <textarea id="commitDesc" placeholder="Description">Updated login flow</textarea>
+            <button class="push-btn" id="pushBtn">Commit & Push to main</button>
+        </div>
+        <div class="status-line" id="statusLine">
+            <span class="icon" id="statusIcon">⏳</span>
+            <span id="statusText">Ready to commit</span>
+        </div>
+    </div>
+    <div class="toast" id="toast">✅ Successfully pushed to main!</div>
+
+    <script>
+        const pushBtn = document.getElementById('pushBtn');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusText = document.getElementById('statusText');
+        const toast = document.getElementById('toast');
+
+        pushBtn.addEventListener('click', pushCode);
+
+        function pushCode() {
+            const msg = document.getElementById('commitMsg').value.trim();
+            if (!msg) {
+                alert('Please enter a commit message.');
+                return;
+            }
+
+            pushBtn.disabled = true;
+            pushBtn.textContent = 'Pushing...';
+
+            statusIcon.textContent = '❌';
+            statusText.textContent = 'Push failed: Connection to remote repository timed out. Retrying...';
+            statusIcon.style.color = '#cb2431';
+
+            let attempts = 0;
+            const maxAttempts = 4;
+            const interval = setInterval(() => {
+                attempts++;
+                if (attempts < maxAttempts) {
+                    statusText.textContent = `Retry attempt ${attempts}/${maxAttempts}: Unable to connect...`;
+                } else {
+                    clearInterval(interval);
+                    statusIcon.textContent = '✅';
+                    statusText.textContent = 'Push successful: Committed and pushed to main';
+                    statusIcon.style.color = '#28a745';
+                    
+                    pushBtn.disabled = false;
+                    pushBtn.textContent = 'Commit & Push to main';
+                    
+                    toast.style.display = 'block';
+                    setTimeout(() => { toast.style.display = 'none'; }, 2000);
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download progress</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(145deg, #f6f9fc 0%, #e9f1f8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 20px 35px -8px rgba(0,20,40,0.25), 0 0 0 1px rgba(255,255,255,0.5) inset;
+            border-radius: 42px;
+            width: 460px;
+            max-width: 94%;
+            padding: 36px 32px 40px 32px;
+            transition: all 0.2s;
+        }
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin: 0 0 8px 0;
+            color: #0a2a44;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2 span {
+            background: #1e3e6e;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 3px 12px 4px 12px;
+            border-radius: 60px;
+            letter-spacing: 0.3px;
+        }
+        .file-tag {
+            background: #d4e0f0;
+            color: #10355e;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin: 18px 0 28px 0;
+            font-weight: 500;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255,255,255,0.6);
+            backdrop-filter: blur(2px);
+            box-shadow: 0 4px 10px rgba(0,10,20,0.05);
+        }
+        .file-icon {
+            font-size: 30px;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+        }
+        .file-name {
+            display: flex;
+            flex-direction: column;
+        }
+        .file-name .main {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0b2d4f;
+        }
+        .file-name .size {
+            font-size: 14px;
+            color: #2c4e72;
+            margin-top: 2px;
+        }
+        .progress-section {
+            background: #ffffffd9;
+            border-radius: 40px;
+            padding: 24px 22px;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02), 0 6px 12px -6px rgba(0,30,50,0.2);
+            border: 1px solid #ffffff;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .percent {
+            color: #103768;
+            background: #e3ebf6;
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-size: 19px;
+            font-weight: 650;
+            letter-spacing: 0.5px;
+        }
+        .speed {
+            background: #d9e3f0;
+            padding: 4px 18px;
+            border-radius: 60px;
+            color: #0a2f57;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .speed-value {
+            font-weight: 650;
+            font-size: 18px;
+        }
+        .unit {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+        .progress-bar-container {
+            height: 28px;
+            background: #d1deef;
+            border-radius: 40px;
+            overflow: hidden;
+            margin: 18px 0 12px 0;
+            box-shadow: inset 0 2px 3px rgba(0,0,0,0.1);
+            border: 1px solid #ffffff50;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3070b0, #4791d1, #63a9ff);
+            border-radius: 40px;
+            box-shadow: 0 0 12px #5f9effcc;
+            transition: width 0.2s ease-out;
+        }
+        .download-btn {
+            width: 100%;
+            border: none;
+            background: #103768;
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+            padding: 20px 16px;
+            border-radius: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            margin: 26px 0 0 0;
+            transition: 0.15s;
+            box-shadow: 0 18px 25px -12px #0a2f57, 0 2px 0 0 #3670b0 inset;
+            border: 1px solid #ffffff70;
+        }
+        .download-btn:hover {
+            background: #154a88;
+            transform: scale(1.02);
+            box-shadow: 0 22px 30px -10px #0a2f57;
+        }
+        .download-btn:active {
+            transform: scale(0.98);
+            background: #0c2d57;
+            box-shadow: 0 6px 12px -4px #0a1f38;
+        }
+        .download-btn:disabled {
+            opacity: 0.75;
+            filter: grayscale(0.3);
+            pointer-events: none;
+            background: #3d5a7c;
+            box-shadow: none;
+            transform: none;
+        }
+        .sub-note {
+            color: #2c577c;
+            font-size: 15px;
+            margin-top: 22px;
+            text-align: center;
+            font-weight: 450;
+            background: #c7daf0c0;
+            padding: 10px 18px;
+            border-radius: 60px;
+            backdrop-filter: blur(2px);
+            border: 1px solid #ffffffb0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>
+            ⬇️ Download center
+        </h2>
+
+        <div class="file-tag">
+            <div class="file-icon">📦</div>
+            <div class="file-name">
+                <span class="main">Data-package.zip</span>
+                <span class="size">2.4 GB · encrypted</span>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="stats">
+                <div class="percent" id="percentLabel">0%</div>
+                <div class="speed" id="speedBox">
+                    <span class="speed-value" id="speedValue">0</span>
+                    <span class="unit">MB/s</span>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+
+            <div class="sub-note" id="statusHint">
+                ⚡ ready — click to start
+            </div>
+        </div>
+
+        <button class="download-btn" id="downloadBtn">
+            <span>⬇️</span> Download now
+        </button>
+    </div>
+
+    <script>
+        (function() {
+            const downloadBtn = document.getElementById('downloadBtn');
+            const percentLabel = document.getElementById('percentLabel');
+            const speedValue = document.getElementById('speedValue');
+            const progressFill = document.getElementById('progressFill');
+            const statusHint = document.getElementById('statusHint');
+
+            let progress = 0;
+            let interval = null;
+            let lastTimestamp = null;
+            let lastProgress = 0;
+            let currentSpeed = 0;
+            let frozen = false;
+
+            function formatSpeed(speedMbps) {
+                return speedMbps.toFixed(1);
+            }
+
+            function updateUI() {
+                percentLabel.innerText = Math.floor(progress) + '%';
+                progressFill.style.width = progress + '%';
+
+                if (frozen && progress >= 99) {
+                    speedValue.innerText = '0';
+                } else {
+                    speedValue.innerText = formatSpeed(currentSpeed);
+                    if (progress < 99) {
+                        statusHint.innerHTML = progress < 10 ? '🚀 starting transfer ...' : '📥 downloading ...';
+                    }
+                }
+            }
+
+            function stopIntervalIfNeeded() {
+                if (progress >= 100 && interval) {
+                    clearInterval(interval);
+                    interval = null;
+                    downloadBtn.disabled = true;
+                }
+            }
+
+            function calculateSpeed(now, currentProgress) {
+                if (!lastTimestamp) {
+                    lastTimestamp = now;
+                    lastProgress = currentProgress;
+                    return 0;
+                }
+
+                const timeDiffSec = (now - lastTimestamp) / 1000; 
+                if (timeDiffSec < 0.01) return currentSpeed; 
+
+                const progressDiff = currentProgress - lastProgress;
+                const dataMB = progressDiff * 24;   
+                const speed = dataMB / timeDiffSec;
+
+                lastTimestamp = now;
+                lastProgress = currentProgress;
+
+                return speed;
+            }
+
+            function step(timestamp) {
+                if (frozen) {
+                    updateUI();
+                    if (progress < 99) {
+                    }
+                    if (progress >= 100) {
+                        stopIntervalIfNeeded();
+                    }
+                    return;
+                }
+
+                if (progress < 99) {
+                    let increment = 0;
+                    if (progress < 30) {
+                        increment = 0.9 + Math.random() * 1.2;
+                    } else if (progress < 70) {
+                        increment = 0.7 + Math.random() * 1.0;
+                    } else {
+                        increment = 0.5 + Math.random() * 0.8;
+                    }
+
+                    let newProgress = progress + increment;
+                    if (newProgress >= 99) {
+                        newProgress = 99;
+                        frozen = true;
+                        lastTimestamp = null;
+                    }
+                    progress = Math.min(newProgress, 99);
+
+                    if (!frozen && progress < 99) {
+                        currentSpeed = calculateSpeed(timestamp, progress);
+                        if (currentSpeed < 0) currentSpeed = 0;
+                        if (currentSpeed > 45) currentSpeed = 35 + Math.random() * 8;
+                    } else {
+                        if (frozen) currentSpeed = 0;
+                    }
+
+                } else if (progress === 99 && !frozen) {
+                    frozen = true;
+                    currentSpeed = 0;
+                } else if (progress === 99 && frozen) {
+                }
+
+                updateUI();
+
+                if (progress === 99 && frozen) {
+                }
+            }
+
+            function startSimulation() {
+                if (interval) {
+                    clearInterval(interval);
+                    interval = null;
+                }
+
+                progress = 0;
+                frozen = false;
+                currentSpeed = 0;
+                lastTimestamp = null;
+                lastProgress = 0;
+                downloadBtn.disabled = false;
+
+                updateUI();
+
+                interval = setInterval(() => {
+                    step(performance.now());
+                }, 50);
+            }
+
+            downloadBtn.addEventListener('click', () => {
+                startSimulation();
+            });
+
+            updateUI();
+        })();
+    </script>
+</body>
+</html>

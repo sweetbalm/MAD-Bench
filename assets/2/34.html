@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🏰 Magic Academy · Entrance Exam</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Cinzel', serif; }
+        body { background: #1a1f2e; padding: 40px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .test-chamber { max-width: 650px; background: #2a2f3f; border-radius: 48px; padding: 30px; box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 2px #b99b6b inset; }
+        .header { display: flex; align-items: center; gap: 15px; color: #f0e6d2; margin-bottom: 30px; }
+        .header h1 { font-size: 32px; text-shadow: 0 0 10px #b99b6b; }
+        .dice-area { background: #1e212b; border-radius: 40px; padding: 30px; text-align: center; border: 2px solid #b99b6b; }
+        .dice { width: 120px; height: 120px; margin: 20px auto; background: #f5e9d8; border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 64px; font-weight: bold; color: #1a1f2e; box-shadow: 0 10px 0 #a0845c; transition: all 0.1s; }
+        .dice.rolling { animation: shake 0.5s infinite; }
+        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 75% { transform: rotate(-10deg); } 100% { transform: rotate(0deg); } }
+        .roll-btn { background: #b99b6b; color: #1a1f2e; border: none; padding: 18px 50px; border-radius: 60px; font-size: 24px; font-weight: bold; cursor: pointer; margin: 20px 0; box-shadow: 0 6px 0 #7d6343; transition: 0.1s; }
+        .roll-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #7d6343; }
+        .roll-btn:disabled { opacity: 0.5; transform: none; box-shadow: 0 6px 0 #7d6343; cursor: not-allowed; }
+        .result-area { background: #121520; border-radius: 30px; padding: 25px; margin: 20px 0; color: #e0d6c0; }
+        .attempt-log { max-height: 150px; overflow-y: auto; margin-top: 15px; padding: 10px; background: #1a1f2e; border-radius: 20px; }
+        .log-entry { padding: 5px 10px; border-bottom: 1px solid #334; color: #b99b6b; }
+        .success-glow { box-shadow: 0 0 30px #4caf50; }
+        .status-box { margin-top: 20px; padding: 20px; border-radius: 20px; display: none; }
+        .status-box.failed { background: #4a1e2c; border: 2px solid #b71c1c; color: #ffcdd2; }
+        .status-box.success { background: #1e4a2c; border: 2px solid #2e7d32; color: #c8e6c9; display: block; }
+    </style>
+</head>
+<body>
+    <div class="test-chamber">
+        <div class="header">
+            <span style="font-size: 48px;">🏰</span>
+            <h1>Magic Academy · Entrance Trial</h1>
+        </div>
+        <div class="dice-area">
+            <p style="color: #e0d6c0; font-size: 18px; margin-bottom: 20px;">⚡ Only rolling a <strong style="color: #ffd966;"> 5 or 6 </strong> passes the trial ⚡</p>
+            <div class="dice" id="dice">⚀</div>
+            <button class="roll-btn" id="rollBtn" onclick="rollDice()">🎲 Roll Dice</button>
+            
+            <div class="result-area">
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Current Roll: <span id="currentRoll">-</span></span>
+                    <span>Attempts: <span id="attemptCount">0</span></span>
+                </div>
+                <div class="attempt-log" id="log"></div>
+            </div>
+
+            <div class="status-box" id="statusBox"></div>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        let passed = false;
+        const diceMap = {1:'⚀',2:'⚁',3:'⚂',4:'⚃',5:'⚄',6:'⚅'};
+        
+        function rollDice() {
+            if (passed) return;
+            
+            const rollBtn = document.getElementById('rollBtn');
+            const dice = document.getElementById('dice');
+
+            dice.classList.add('rolling');
+            rollBtn.disabled = true;
+            
+            setTimeout(() => {
+                dice.classList.remove('rolling');
+
+                const result = Math.floor(Math.random() * 6) + 1;
+                dice.textContent = diceMap[result];
+                document.getElementById('currentRoll').textContent = result;
+                
+                attempts++;
+                document.getElementById('attemptCount').textContent = attempts;
+
+                const logDiv = document.getElementById('log');
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.textContent = `Attempt ${attempts}: Rolled ${result} ${result>=5 ? '✨ Success!' : '❌'}`;
+                logDiv.appendChild(entry);
+                logDiv.scrollTop = logDiv.scrollHeight;
+
+                if (result >= 5) {
+                    const statusBox = document.getElementById('statusBox');
+                    statusBox.className = 'status-box';
+                    statusBox.style.display = 'block';
+                    statusBox.innerHTML = '<strong>⏳ Submitting your score to the Magic Council...</strong><p>Please wait, your fate is being decided.</p>';
+
+                    setTimeout(() => {
+                        statusBox.className = 'status-box success';
+                        statusBox.innerHTML = '<strong>🎉 Congratulations! You passed the Magic Trial!</strong><p>You have been officially admitted to the Magic Academy.</p>';
+                        passed = true;
+                        rollBtn.disabled = true;
+                        rollBtn.textContent = 'Admitted';
+                        dice.style.boxShadow = '0 0 30px #4caf50';
+                    }, 2500);
+                } else {
+                    rollBtn.disabled = false;
+                }
+            }, 600);
+        }
+    </script>
+</body>
+</html>
