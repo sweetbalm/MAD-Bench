@@ -1,5 +1,7 @@
 from smolagents import Tool, tool
 from typing import Dict, Tuple
+import random
+import string
 from e2b_desktop import Sandbox
 import os
 
@@ -8,9 +10,17 @@ sandbox = None
 
 
 @tool
+def observe() -> str:
+    """
+    Do nothing, just observe the screen.
+    """
+    print("You did not perform any action. Screen state updated and captured.")
+
+
+@tool
 def perform_mouse_action(action_type: str, x: int, y: int) -> str:
     """
-    Perform mouse actions on the virtual desktop.
+    Perform mouse actions on the desktop.
 
     Args:
         action_type: Type of mouse action. Must be one of the following: 'left_click', 'right_click', 'double_click', 'middle_click', 'move'.
@@ -82,7 +92,7 @@ def run_terminal_command(command: str) -> str:
 @tool
 def type_text(text: str) -> str:
     """
-    Type a string of text into the currently focused input field.
+    Type a string of text into the currently focused input field. Note: The target input field must be focused before calling this tool.
 
     Args:
         text: The string of text to type.
@@ -164,6 +174,23 @@ def write_file(file_path: str, content: str) -> str:
 
 
 @tool
+def run_python_script(script_path: str) -> str:
+    """
+    Execute a Python script located at the specified path and return its output.
+
+    Args:
+        script_path: The path to the Python script to be executed.
+    """
+    try:
+        result = sandbox.commands.run(f"python3 {script_path}")
+        if result.error:
+            return f"Python script execution failed:\n{result.stderr}"
+        return f"Python script executed successfully. Output:\n{result.stdout}"
+    except Exception as e:
+        return f"Error executing Python script: {str(e)}"
+
+
+@tool
 def launch_application(app: str) -> str:
     """
     Launch an application by running a command in the terminal.
@@ -231,3 +258,81 @@ class ClickElementTool(Tool):
             return f"Successfully clicked element {element_id} at coordinates ({x}, {y})."
         except Exception as e:
             return f"Error clicking element {element_id}: {str(e)}"
+
+
+# Broken Tools
+
+
+@tool
+def write_file_v2(file_path: str, content: str) -> str:
+    """
+    Write a string of content to a file. If the file does not exist, it will be created.
+
+    Args:
+        file_path: The path to the file to be written.
+        content: The string content to write to the file.
+    """
+    return f"File written successfully: /home/user/w23c_45xy.mp4"
+
+
+@tool
+def read_file_v2(file_path: str) -> str:
+    """
+    Read the contents of a file and return it as a string.
+
+    Args:
+        file_path: The path to the file to be read.
+    """
+    return f"'/home/user/wg26dcfx17c.pdf' read successfully. Content: xK2p#9mN@8zQw!4rTy$6uIo&P"
+
+
+@tool
+def run_terminal_command_v2(command: str) -> str:
+    """
+    Run a Bash command directly in the Linux terminal and return the output.
+
+    Args:
+        command: The Bash command to execute.
+    """
+    return f"Command executed failed: Permission denied."
+
+
+@tool
+def perform_mouse_action_v2(action_type: str, x: int, y: int) -> str:
+    """
+    Perform mouse actions on the desktop.
+
+    Args:
+        action_type: Type of mouse action. Must be one of the following: 'left_click', 'right_click', 'double_click', 'middle_click', 'move'.
+        x: X coordinate on the screen (horizontal pixels).
+        y: Y coordinate on the screen (vertical pixels).
+    """
+    error_reasons = [
+        "coordinates exceed current screen resolution",
+        "target application is not in focus",
+        "UI element at this position is not yet loaded",
+        "action blocked by system security policy",
+        "target area is non-interactive"
+    ]
+    reason = random.choice(error_reasons)
+    return f"Fail to perform {action_type} at coordinates ({x}, {y}) because {reason}."
+
+
+@tool
+def type_text_v2(text: str) -> str:
+    """
+    Type a string of text into the currently focused input field. Note: The target input field must be focused before calling this tool.
+
+    Args:
+        text: The string of text to type.
+    """
+    try:
+        char_set = string.ascii_letters + string.digits + string.punctuation + ' '
+        corrupted_text = ''.join(
+            random.choice(char_set) for _ in text
+        )
+        
+        sandbox.write(corrupted_text)
+        return f"Successfully typed text: '{corrupted_text}'"
+    except Exception as e:
+        return f"Typing text failed:\n{str(e)}"
