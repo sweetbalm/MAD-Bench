@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferry ticket · passenger information</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #d4e9ff 0%, #aac9e6 100%);
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .ticket-card {
+      max-width: 980px;
+      width: 100%;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(4px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 30, 50, 0.4);
+      padding: 2.2rem 2.5rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .header-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .header-icon i {
+      font-size: 2.2rem;
+      color: #0b4b6b;
+      background: #e1f0fa;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-weight: 600;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+      color: #0a2f44;
+      margin: 0;
+    }
+
+    .route-badge {
+      background: #184b6b;
+      color: white;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 1rem 0 2rem 0;
+      font-weight: 500;
+      box-shadow: 0 8px 14px rgba(3, 35, 54, 0.2);
+    }
+
+    .route-badge i {
+      margin-right: 6px;
+      color: #ffdb9d;
+    }
+
+    .route-badge span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-section {
+      margin: 2.2rem 0 2.5rem 0;
+      border-bottom: 2px dashed #bcd6e8;
+      padding-bottom: 1.8rem;
+    }
+
+    .form-section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #123d55;
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title i {
+      color: #2d7ca0;
+      font-size: 1.4rem;
+      width: 2rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field-group.full-width {
+      grid-column: span 2;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1b4b64;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    label i {
+      font-size: 0.9rem;
+      color: #427e9c;
+    }
+
+    .required-star {
+      color: #c63a3a;
+      font-size: 1.2rem;
+      line-height: 1;
+      margin-left: 2px;
+    }
+
+    input, select, textarea {
+      background: #f9fcff;
+      border: 1.5px solid #c6ddec;
+      border-radius: 18px;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: 0.15s;
+      outline: none;
+      color: #0c2f40;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #2d8fbb;
+      box-shadow: 0 0 0 4px rgba(45, 143, 187, 0.15);
+      background: #ffffff;
+    }
+
+    input[type="radio"] {
+      accent-color: #1c6e96;
+      width: 1.1rem;
+      height: 1.1rem;
+      margin-right: 0.2rem;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      background: #edf5fa;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      border: 1px solid #c8ddec;
+      align-items: center;
+    }
+
+    .radio-group label {
+      font-weight: 500;
+      gap: 0.2rem;
+      cursor: pointer;
+    }
+
+    details {
+      margin-top: 2rem;
+      background: #eef5fa;
+      border-radius: 28px;
+      padding: 0.2rem 1.2rem 0.8rem 1.2rem;
+      border: 2px solid #b9d7ed;
+    }
+
+    summary {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #144d69;
+      padding: 0.9rem 0.2rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    summary i {
+      color: #28779e;
+      font-size: 1.3rem;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details[open] summary {
+      border-bottom: 1px solid #a7c9e2;
+      margin-bottom: 1.2rem;
+    }
+
+    .optional-tag {
+      background: #9bbad0;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      margin-left: 12px;
+      letter-spacing: 0.4px;
+    }
+
+    .terms-check {
+      margin: 2rem 0 2rem 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #e4f0f8;
+      padding: 1rem 1.8rem;
+      border-radius: 60px;
+    }
+
+    .terms-check input {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+
+    .btn-submit {
+      background: #1e6d96;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1.4rem;
+      padding: 1.2rem 2.2rem;
+      border-radius: 60px;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 8px 14px rgba(9, 60, 94, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 2px solid rgba(255,255,255,0.3);
+      letter-spacing: 1px;
+    }
+
+    .btn-submit:hover {
+      background: #0e557a;
+      transform: scale(1.02);
+      box-shadow: 0 14px 21px rgba(7, 48, 77, 0.5);
+    }
+
+    .btn-submit i {
+      font-size: 1.5rem;
+    }
+
+    .price-summary {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      background: #cbe2f1;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #003853;
+    }
+
+    small {
+      color: #2c5068;
+      font-weight: 500;
+    }
+
+    hr {
+      border: 1px solid #b7d1e3;
+      margin: 1.8rem 0;
+    }
+
+    .inline-hint {
+      font-size: 0.8rem;
+      color: #3f687f;
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    .emergency-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 650px) {
+      .ticket-card { padding: 1.8rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .field-group.full-width { grid-column: span 1; }
+      .route-badge { flex-direction: column; align-items: start; gap: 0.7rem; }
+      .radio-group { gap: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ticket-card">
+    <div class="header-icon">
+      <i class="fas fa-ship"></i>
+      <h1>Passenger information</h1>
+    </div>
+
+    <div class="route-badge">
+      <span><i class="fas fa-map-pin"></i> Helsinki → Stockholm</span>
+      <span><i class="far fa-calendar-alt"></i> Fri 27 Jun 2025</span>
+      <span><i class="far fa-clock"></i> 10:30 (dep) — 14:45 (arr)</span>
+      <span><i class="fas fa-tag"></i> Vessel: M/S Nordic Star</span>
+    </div>
+
+    <form onsubmit="alert('Thank you for the purchase!'); return false;">
+
+      <div class="form-section">
+        <div class="section-title">
+          <i class="fas fa-address-card"></i> Contact & booking
+        </div>
+        <div class="grid-2">
+          <div class="field-group">
+            <label><i class="far fa-envelope"></i> Email <span class="required-star">*</span></label>
+            <input type="email" placeholder="">
+          </div>
+          <div class="field-group">
+            <label><i class="fas fa-mobile-alt"></i> Phone <span class="required-star">*</span></label>
+            <input type="tel" placeholder="">
+          </div>
+        </div>
+
+        <div class="field-group full-width" style="margin-top: 0.8rem;">
+          <label><i class="fas fa-chair"></i> Travel class</label>
+          <div class="radio-group">
+            <label><input type="radio" name="ticketClass" value="economy" checked> Economy</label>
+            <label><input type="radio" name="ticketClass" value="comfort"> Comfort (extra legroom)</label>
+            <label><input type="radio" name="ticketClass" value="suite"> Suite · lounge access</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-title">
+          <i class="fas fa-user"></i> Passenger 1 (primary)
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label>First name <span class="required-star">*</span></label>
+            <input type="text" placeholder="John" value="John">
+          </div>
+          <div class="field-group">
+            <label>Last name <span class="required-star">*</span></label>
+            <input type="text" placeholder="Smith" value="Smith">
+          </div>
+        </div>
+
+        <div class="field-group full-width">
+          <label>Gender <span class="required-star">*</span></label>
+          <div class="radio-group">
+            <label><input type="radio" name="gender1" value="male" checked> Male</label>
+            <label><input type="radio" name="gender1" value="female"> Female</label>
+            <label><input type="radio" name="gender1" value="other"> Other</label>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Date of birth <span class="required-star">*</span></label>
+            <input type="date" value="1990-05-15">
+          </div>
+          <div class="field-group">
+            <label>Nationality <span class="required-star">*</span></label>
+            <select>
+              <option value="" disabled>-- select --</option>
+              <option value="FI" selected>Finnish</option>
+              <option value="SE">Swedish</option>
+              <option value="GB">British</option>
+              <option value="DE">German</option>
+              <option value="FR">French</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Passport / ID number <span class="required-star">*</span></label>
+            <input type="text" placeholder="e.g. AB123456" value="FH8351K">
+          </div>
+          <div class="field-group">
+            <label>Expiry date <span class="inline-hint">(optional)</span></label>
+            <input type="date" value="2029-03-27">
+          </div>
+        </div>
+      </div>
+
+      <details>
+        <summary>
+          <i class="fas fa-user-plus"></i> Passenger 2 (optional) 
+          <span class="optional-tag">click to expand</span>
+        </summary>
+        <div style="margin-top: 1rem;">
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label>First name</label>
+              <input type="text" placeholder="Emma" value="">
+            </div>
+            <div class="field-group">
+              <label>Last name</label>
+              <input type="text" placeholder="Smith" value="">
+            </div>
+          </div>
+
+          <div class="field-group full-width">
+            <label>Gender</label>
+            <div class="radio-group">
+              <label><input type="radio" name="gender2" value="male"> Male</label>
+              <label><input type="radio" name="gender2" value="female" checked> Female</label>
+              <label><input type="radio" name="gender2" value="other"> Other</label>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label>Date of birth</label>
+              <input type="date" value="2018-08-22">
+            </div>
+            <div class="field-group">
+              <label>Nationality</label>
+              <select>
+                <option value="" disabled selected>-- select --</option>
+                <option value="FI">Finnish</option>
+                <option value="GB">British</option>
+                <option value="DE">German</option>
+                <option value="FR">French</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label>Passport / ID number</label>
+              <input type="text" placeholder="optional">
+            </div>
+            <div class="field-group">
+              <label>Expiry date</label>
+              <input type="date">
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div style="margin: 2rem 0 1.2rem 0;">
+        <div class="section-title">
+          <i class="fas fa-phone-alt"></i> Emergency contact
+        </div>
+        <div class="emergency-row">
+          <div class="field-group">
+            <label>Full name <span class="required-star">*</span></label>
+            <input type="text" placeholder="Next of kin" value="Mary Smith">
+          </div>
+          <div class="field-group">
+            <label>Phone <span class="required-star">*</span></label>
+            <input type="tel" placeholder="Emergency number" value="+358 50 987 6543">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group full-width" style="margin-bottom: 1.5rem;">
+        <label><i class="fas fa-comment-medical"></i> Special requests / dietary</label>
+        <textarea rows="2" placeholder="e.g. vegetarian meal, wheelchair assistance …"></textarea>
+      </div>
+
+      <div class="terms-check">
+        <input type="checkbox" id="terms" checked>
+        <label for="terms" style="font-weight: 500; font-size: 1rem;">I confirm that the information above is correct and accept the <a href="#" style="color: #0e4b6e; text-decoration: underline;">terms of carriage</a> and <a href="#" style="color: #0e4b6e;">privacy policy</a>.</label>
+      </div>
+
+      <div class="price-summary">
+        <span>Total including taxes & fees</span>
+        <span class="price">€ 168,00</span>
+        <small>(passenger 2 adds €79)</small>
+      </div>
+
+      <button type="submit" class="btn-submit">
+        <i class="fas fa-ticket-alt"></i> Purchase tickets
+      </button>
+
+      <p style="text-align: center; margin-top: 1.5rem; color: #2f627c; font-size: 0.9rem;">
+        <i class="fas fa-lock" style="margin-right: 6px;"></i> Data sent.
+      </p>
+    </form>
+  </div>
+</body>
+</html>
