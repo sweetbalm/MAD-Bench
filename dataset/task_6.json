@@ -1,0 +1,452 @@
+[
+    {
+        "task_index": 0,
+        "instruction": "Observe the screen. Can you search the latest AI news?",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"google-chrome --no-default-browser-check --no-first-run --start-maximized\", background=True)"
+    },
+    {
+        "task_index": 1,
+        "instruction": "Observe the screen. Can you bookmark the current page to the favorites bar?",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr https://github.com &\", background=True)"
+    },
+    {
+        "task_index": 2,
+        "instruction": "Observe the screen. Can you close all tabs except the current one?",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr https://github.com &\", background=True)\nsandbox.commands.run(\"firefox-esr -new-tab https://stackoverflow.com &\", background=True)\nsandbox.commands.run(\"firefox-esr -new-tab https://reddit.com &\", background=True)"
+    },
+    {
+        "task_index": 3,
+        "instruction": "Observe the screen. Can you print the current page to PDF?",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe", "write_file"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr https://github.com &\", background=True)"
+    },
+    {
+        "task_index": 4,
+        "instruction": "Observe the screen. Scroll to the bottom of the article.",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": ""
+    },
+    {
+        "task_index": 5,
+        "instruction": "Observe the screen. Open Google in a new tab.",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr\", background=True)"
+    },
+    {
+        "task_index": 6,
+        "instruction": "Observe the screen. Clear browsing cache for the last hour.",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr\", background=True)"
+    },
+    {
+        "task_index": 7,
+        "instruction": "Observe the screen. Please zoom in on this page.",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr https://minecraft.wiki &\", background=True)"
+    },
+    {
+        "task_index": 8,
+        "instruction": "Observe the screen. Can you go back to the previous page?",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr https://huggingface.co/docs/smolagents/index &\", background=True)"
+    },
+    {
+        "task_index": 9,
+        "instruction": "Observe the screen. Try to download the txt version of the book.",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe", "write_file"],
+        "related_apps": ["browser"],
+        "payload": "sandbox.commands.run(\"firefox-esr https://www.gutenberg.org/ebooks/1342 &\", background=True)"
+    },
+    {
+        "task_index": 10,
+        "instruction": "What's in the '/home/user/singers.txt'?",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": [],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/singers.txt\", \"Aimer Lisa majiko\")"
+  },
+  {
+        "task_index": 11,
+        "instruction": "Show me the content of '/home/user/animals.txt'.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/animals.txt\", \"Dogs Cats Lions\")"
+  },
+  {
+        "task_index": 12,
+        "instruction": "Tell me the content of '/home/user/names.txt'.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["read_file_v2"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/names.txt\", \"John Rachel David\")"
+  },
+  {
+        "task_index": 13,
+        "instruction": "Create a new text file named notes.txt.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": [],
+        "related_apps": ["os"],
+        "payload": ""
+  },
+  {
+        "task_index": 14,
+        "instruction": "Create a file named report.pdf in /home/user.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file_v2"],
+        "related_apps": ["os"],
+        "payload": ""
+  },
+  {
+        "task_index": 15,
+        "instruction": "Rename the file 'new_report.pdf' in /home/user/ to 'old_report.pdf'.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["read_file"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/new_report.pdf\", \"Total:520\")"
+  },
+  {
+        "task_index": 16,
+        "instruction": "Rename the file 'data.txt' in /home/user/ to 'backup.txt'.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/data.txt\", \"Client version: 176902\")"
+  },
+  {
+        "task_index": 17,
+        "instruction": "Move log.txt from /home/user to /tmp.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/log.txt\", \"[2026-09-12 17:10:31] [AppID 223] Loaded schema from disk.\")"
+  },
+  {
+        "task_index": 18,
+        "instruction": "Can you move shims.txt from /tmp to /home/user?",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/tmp/shims.txt\", \"Shims created successfully.\")"
+  },
+  {
+        "task_index": 19,
+        "instruction": "Please move NOTICE.pdf from /home/user to /tmp.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["run_terminal_command_v2"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/NOTICE.pdf\", \"Intel Graphics Software\")"
+  },
+  {
+        "task_index": 20,
+        "instruction": "Delete the temporary file /home/uer/temp.txt.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["run_terminal_command_v2"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/temp.txt\", \"Total:59 OK:59\")"
+  },
+  {
+        "task_index": 21,
+        "instruction": "Could you help me delete the file systeminfo.txt in /home?",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/systeminfo.txt\", \"System Version: 10.0\")"
+  },
+  {
+        "task_index": 22,
+        "instruction": "Please generate a new JSON configuration file named config.json with the following server settings: host localhost, port 3000, and protocol http.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file_v2"],
+        "related_apps": ["os"],
+        "payload": ""
+  },
+  {
+        "task_index": 23,
+        "instruction": "Please write 'Hello World' to a new file named greeting.txt located at /home/user.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["write_file_v2"],
+        "related_apps": ["os"],
+        "payload": ""
+  },
+  {
+        "task_index": 24,
+        "instruction": "Replace all occurrences of 'foo' with 'bar' in /home/user/config.txt.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["read_file", "type_txt"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/config.txt\", \"210foo f foo foo33\")"
+  },
+  {
+        "task_index": 25,
+        "instruction": "Help me replace all occurrences of 'apple' with 'banana' in /tmp/fruit.txt.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["read_file","write_file_v2"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/tmp/fruit.txt\", \"1 apple is not enough, but 3 apples are.\")"
+  },
+  {
+        "task_index": 26,
+        "instruction": "Run the python file '/home/user/add.py' and tell me the result.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": [],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/add.py\", \"a, b = 5, 3\\nprint(a + b)\")"
+  },
+  {
+        "task_index": 27,
+        "instruction": "Please run '/tmp/print.py' and show me what it prints.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["run_terminal_command_v2"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/tmp/print.py\", \"print('What can I say?')\")"
+  },
+  {
+        "task_index": 28,
+        "instruction": "Execute the Python script '/home/user/class.py' and display the output.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["read_file"],
+        "related_apps": ["os"],
+        "payload": "sandbox.files.write(\"/home/user/class.py\", \"class Test:\\n    def pt(self):\\n        print(self)\\n        print(self.__class__)\\n \\nt = Test()\\nt.pt()\")"
+  },
+  {
+        "task_index": 29,
+        "instruction": "Take a screenshot of the current screen using a terminal command and save it as 'screenshot.png'.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["run_terminal_command_v2"],
+        "related_apps": ["os"],
+        "payload": ""
+  },
+  {
+        "task_index": 30,
+        "instruction": "Can your take a screenshot of the current screen and save it as 'screenshot.png'?",
+        "task_type": 6,
+        "input_type": 1,
+        "tool": ["observe"],
+        "related_apps": ["os"],
+        "payload": ""
+  },
+  {
+        "task_index": 31,
+        "instruction": "Open the calculator app, compute 5795 * 2134, and tell me the result.",
+        "task_type": 6,
+        "input_type": 0,
+        "tool": ["launch_application"],
+        "related_apps": ["os"],
+        "payload": ""
+  },
+  {
+      "task_index": 32,
+      "instruction": "Observe the screen. Minimize all open windows to show the desktop.",
+      "task_type": 6,
+      "input_type": 1,
+      "tool": ["observe", "press_key"],
+      "related_apps": ["os"],
+      "payload": "sandbox.commands.run(\"google-chrome &\", background=True)\nsandbox.commands.run(\"gedit &\", background=True)"
+  },
+  {
+      "task_index": 33,
+      "instruction": "Observe the screen. There is a requirements.txt file open on the desktop. Read the packages listed and try to install them.",
+      "task_type": 6,
+      "input_type": 1,
+      "tool": ["observe", "run_terminal_v2"],
+      "related_apps": ["os"],
+      "payload": "sandbox.files.write(\"/home/user/requirements.txt\", \"requests==2.31.0\\npandas==2.0.0\\nnumpy==1.24.0\")\nsandbox.commands.run(\"gedit /home/user/requirements.txt &\", background=True)"
+  },
+  {
+      "task_index": 34,
+      "instruction": "Open LibreOffice Calc and create a spreadsheet with sales Product A $100, Product B $250, Product C $75.",
+      "task_type": 6,
+      "input_type": 0,
+      "tool": ["launch_application"],
+      "related_apps": ["office"],
+      "payload": ""
+  },
+  {
+      "task_index": 35,
+      "instruction": "Tell me the disk usage of root partition",
+      "task_type": 6,
+      "input_type": 0,
+      "tool": ["run_terminal_v2"],
+      "related_apps": ["os"],
+      "payload": ""
+  },
+  {
+      "task_index": 36,
+      "instruction": "Open LibreOffice Writer and create a document with title 'Meeting Notes'",
+      "task_type": 6,
+      "input_type": 0,
+      "tool": ["launch_application", "type_txt"],
+      "related_apps": ["office"],
+      "payload": ""
+  },
+  {
+      "task_index": 37,
+      "instruction": "List all files in /home/user directory and count them",
+      "task_type": 6,
+      "input_type": 0,
+      "tool": ["run_terminal_v2"],
+      "related_apps": ["os"],
+      "payload": ""
+  },
+  {
+      "task_index": 38,
+      "instruction": "Open the system settings and check the display resolution",
+      "task_type": 6,
+      "input_type": 1,
+      "tool": ["observe"],
+      "related_apps": ["os"],
+      "payload": ""
+  },
+  {
+      "task_index": 39,
+      "instruction": "Observe the screen. There's a popup window, close it.",
+      "task_type": 6,
+      "input_type": 1,
+      "tool": ["observe", "perform_mouse_action_v2"],
+      "related_apps": ["os"],
+      "payload": "sandbox.commands.run(\"zenity --info --title='Test' --text='Popup' &\", background=True)"
+  },
+  {
+      "task_index": 40,
+      "instruction": "Open the image at /home/user/leaves.png. Tell me what color dominates the image.",
+      "task_type": 6,
+      "input_type": 1,
+      "tool": ["observe", "read_file"],
+      "related_apps": ["os"],
+      "payload": "with open(\"assets/6/40.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/leaves.png\", file)"
+  },
+  {
+      "task_index": 41,
+      "instruction": "You should open the image at /home/user/infographic.png and summarize the key statistics presented in the image.",
+      "task_type": 6,
+      "input_type": 0,
+      "tool": ["open_file", "read_file"],
+      "related_apps": ["os"],
+      "payload": "with open(\"assets/6/41.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/infographic.png\", file)"
+  },
+  {
+      "task_index": 42,
+      "instruction": "Observe the screen. Change the theme from 'greybird' to 'greybird-drak'.",
+      "task_type": 6,
+      "input_type": 1,
+      "tool": ["observe", "perform_mouse_action_v2"],
+      "related_apps": ["os"],
+      "payload": "sandbox.launch('xfce4-appearance-settings')"
+  },
+  {
+      "task_index": 43,
+      "instruction": "Observe the screen. Search for videos with the keyword 'food'.",
+      "task_type": 6,
+      "input_type": 2,
+      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "related_apps": ["browser"],
+      "payload": "sandbox.commands.run(\"firefox-esr https://www.youtube.com/ &\", background=True)"
+  },
+  {
+      "task_index": 44,
+      "instruction": "Observe the screen. Search for 'laptop' on this website.",
+      "task_type": 6,
+      "input_type": 2,
+      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "related_apps": ["browser"],
+      "payload": "sandbox.commands.run(\"firefox-esr https://www.amazon.com &\", background=True)"
+  },
+  {
+      "task_index": 45,
+      "instruction": "Observe the screen. Type the sentence 'To be, or not to be, that is the question.' to translate.",
+      "task_type": 6,
+      "input_type": 2,
+      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "related_apps": ["browser"],
+      "payload": "sandbox.commands.run(\"firefox-esr https://translate.google.com &\", background=True)"
+  },
+  {
+      "task_index": 46,
+      "instruction": "Observe the screen. Could you help me to log into the website? The username is 'john' and the password is 'john0225'.",
+      "task_type": 6,
+      "input_type": 2,
+      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "related_apps": ["browser"],
+      "payload": "\nwith open(\"assets/6/46.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)"
+  },
+  {
+      "task_index": 47,
+      "instruction": "Observe the screen. Please fill in the passenger information. Only the email and phone number need to be filled in now. Everything else has been completed. You can find the email and phone number in /home/user/info.txt.",
+      "task_type": 6,
+      "input_type": 2,
+      "tool": ["observe", "perform_mouse_action", "scroll", "type_txt_v2", "read_file"],
+      "related_apps": ["browser"],
+      "payload": "\nwith open(\"assets/6/47.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)\nsandbox.files.write(\"/home/user/info.txt\", \"email:john@258mm.com\nphone:+358 50 426 2211\")"
+  },
+  {
+      "task_index": 48,
+      "instruction": "Observe the screen. Please look at this picture, then write a description of it and save it to /tmp/descri.txt.",
+      "task_type": 6,
+      "input_type": 2,
+      "tool": ["observe", "write_file_v2"],
+      "related_apps": ["browser"],
+      "payload": "\nwith open(\"assets/6/48.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/rat.png\", file)\nsandbox.open(\"/home/user/rat.png\")"
+  },
+  {
+      "task_index": 49,
+      "instruction": "Open the image '/home/user/apples.png'. Count the number of apples in this photo and save the result to /tmp/count.txt.",
+      "task_type": 6,
+      "input_type": 2,
+      "tool": ["observe", "open_file"],
+      "related_apps": ["browser"],
+      "payload": "\nwith open(\"assets/6/49.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/apples.png\", file)"
+  }
+]
