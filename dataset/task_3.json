@@ -1,0 +1,452 @@
+[
+    {
+        "task_index": 0,
+        "instruction": "Open the player image at /home/user/player.png, identify the jersey number, and update /home/user/match_report.json by setting the jersey_number field to the detected number.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/0.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/player.png\", file)\nrt = '''{\n  \"match_id\": \"20231027-A\",\n  \"player_focus\": \"Forward_01\",\n  \"jersey_number\": null\n}'''\nsandbox.files.write(\"/home/user/match_report.json\", rt)"
+    },
+    {
+        "task_index": 1,
+        "instruction": "Open the scoreboard image at /home/user/scoreboard.png, read the final score of both teams, and update /home/user/game_summary.json with the correct scores.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/1.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/scoreboard.png\", file)\nrt = '''{\n  \"game_id\": \"YBA-20231215\",\n  \"home_team\": \"Sheep\",\n  \"away_team\": \"Donkey\",\n  \"home_score\": null,\n  \"away_score\": null\n}'''\nsandbox.files.write(\"/home/user/game_summary.json\", rt)"
+    },
+    {
+        "task_index": 2,
+        "instruction": "Open the athlete contract at /home/user/contract.png, find the salary amount, and record it in /home/user/roster_database.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/2.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/contract.png\", file)\nrt = '''{\n  \"player\": \"Jordan Taylor\",\n  \"team\": \"Prime Athletics\",\n  \"annual_salary\": null,\n  \"contract_end\": \"2026\"\n}'''\nsandbox.files.write(\"/home/user/roster_database.json\", rt)"
+    },
+    {
+        "task_index": 3,
+        "instruction": "Open the student transcript image at /home/user/transcript.png, extract the GPA value, and update /home/user/student_record.json with the exact GPA.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/3.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/transcript.png\", file)\nrt = '''{\n  \"student_id\": \"2024-CS-0156\",\n  \"major\": \"Computer Science\",\n  \"gpa\": null\n}'''\nsandbox.files.write(\"/home/user/student_record.json\", rt)"
+    },
+    {
+        "task_index": 4,
+        "instruction": "Open the patient vitals monitor image at /home/user/vitals.png, read the heart rate value, and update /home/user/patient_chart.json with the exact BPM.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/4.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/vitals.png\", file)\nrt = '''{\n  \"patient_id\": \"PT-2024-7823\",\n  \"department\": \"Emergency\",\n  \"heart_rate_bpm\": null\n}'''\nsandbox.files.write(\"/home/user/patient_chart.json\", rt)"
+    },
+    {
+        "task_index": 5,
+        "instruction": "Open the prescription image at /home/user/prescription.png, identify the dosage amount (mg), and record it in /home/user/medication_log.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/5.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/prescription.png\", file)\nrt = '''{\n  \"prescription_id\": \"RX-2024-0456\",\n  \"medication\": \"Amoxicillin\",\n  \"dosage_mg\": null,\n  \"frequency\": \"3x daily\"\n}'''\nsandbox.files.write(\"/home/user/medication_log.json\", rt)"
+    },
+    {
+        "task_index": 6,
+        "instruction": "Read the bank statement at /home/user/bank_statement.png, and record the details in /home/user/expense_report.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/6.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/bank_statement.png\", file)\nrt = '''{\n  \"account_id\": \"****4892\",\n  \"opening balance\": null,\n  \"total deposits\": null,\n  \"total withdrawals\": null,\n  \"closing balance\": null\n}'''\nsandbox.files.write(\"/home/user/expense_report.json\", rt)"
+    },
+    {
+        "task_index": 7,
+        "instruction": "Open the stock chart image at /home/user/stock_chart.png, and record the bullish and bearish days in /home/user/portfolio_tracker.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/7.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/stock_chart.png\", file)\nrt = '''{\n  \"ticker\": \"AAPL\",\n  \"date\": \"2025-03\",\n  \"bullish days\": null,\n  \"bearish days\": null\n}'''\nsandbox.files.write(\"/home/user/portfolio_tracker.json\", rt)"
+    },
+    {
+        "task_index": 8,
+        "instruction": "Observe the screen. It is an invoice and you should extract the info needed to update /home/user/invoice.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["read_file", "observe", "write_file"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/8.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/invoice.png\", file)\nsandbox.open(\"/home/user/invoice.png\")\nrt = '''{\n  \"invoice_id\": null,\n  \"seller\": null,\n  \"client\": null,\n \"total_amount\": 14157.0,\n  \"due_date\": \"2026-04-07\"\n}'''\nsandbox.files.write(\"/home/user/invoice.json\", rt)"
+    },
+    {
+        "task_index": 9,
+        "instruction": "Open the product page screenshot at /home/user/product_page.png. Observe the screen and find the current price. Then record it in /home/user/price_tracker.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/9.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/product_page.png\", file)\nrt = '''{\n  \"product_name\": null,\n  \"current_price\": null,\n  \"currency\": \"USD\"\n}'''\nsandbox.files.write(\"/home/user/price_tracker.json\", rt)"
+    },
+    {
+        "task_index": 10,
+        "instruction": "Observe the screen. Yous should read the order total, and update /home/user/purchase_history.json with the exact amount.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/10.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/order_confirm.png\", file)\nsandbox.open(\"/home/user/order_confirm.png\")\nrt = '''{\n  \"items_count\": 4,\n  \"order_total\": null\n}'''\nsandbox.files.write(\"/home/user/purchase_history.json\", rt)"
+    },
+    {
+        "task_index": 11,
+        "instruction": "Open the social media post screenshot at /home/user/post.png, and count the number of likes.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "scroll"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/11.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/post.png\", file)"
+    },
+    {
+        "task_index": 12,
+        "instruction": "Observe the screen. How many followers do I have?",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["observe", "scroll"],
+        "related_apps": ["os"],
+        "payload": "with open(\"assets/3/12.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/followers.png\", file)\nsandbox.open(\"/home/user/followers.png\")"
+    },
+    {
+        "task_index": 13,
+        "instruction": "Observe the screen. You should read the tree's age in years from the dendrochronology report and record it in /home/user/forestry_data.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/13.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"tree_species\": \"Sequoia sempervirens\",\n  \"location\": \"Humboldt Redwoods State Park\",\n  \"age_years\": null\n}'''\nsandbox.files.write(\"/home/user/forestry_data.json\", rt)"
+    },
+    {
+        "task_index": 14,
+        "instruction": "Observe the screen. You should read the total apple harvest weight in kilograms from the orchard dashboard and update /home/user/harvest_data.json with this value.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/14.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"orchard_name\": \"Sunset Valley Apple Farm\",\n  \"variety\": \"Honeycrisp\",\n  \"harvest_kg\": null,\n  \"season\": \"2024\"\n}'''\nsandbox.files.write(\"/home/user/harvest_data.json\", rt)"
+    },
+    {
+        "task_index": 15,
+        "instruction": "Observe the screen. You should identify the rocket's payload capacity in kilograms and record it in /home/user/launch_specs.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/15.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 16,
+        "instruction": "Observe the screen. You should identify the earthquake magnitude (Richter scale) from the seismological report and save it to /home/user/seismic_data.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/16.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 17,
+        "instruction": "Observe the screen. You should find the engine's maximum torque value in Nm from the technical specifications and write it to /home/user/engine_specs.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/17.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"model\": \"Titan V8 Twin-Turbo\",\n  \"manufacturer\": \"Apex Motors\",\n  \"max_torque_nm\": null,\n  \"year\": 2024\n}'''\nsandbox.files.write(\"/home/user/engine_specs.json\", rt)"
+    },
+    {
+        "task_index": 18,
+        "instruction": "Observe the screen. Identify the annual deforestation rate (km²) from the forestry report, and update /home/user/forest_data.json with the exact value.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/18.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"region\": \"Amazon Basin\",\n  \"year\": 2025,\n  \"deforestation_rate_km2\": null\n}'''\nsandbox.files.write(\"/home/user/forest_data.json\", rt)"
+    },
+    {
+        "task_index": 19,
+        "instruction": "Observe the screen. Find the nitrogen fertilizer usage (kg per hectare) from the agronomy dashboard, and write it into /home/user/agronomy_report.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/19.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"crop\": \"corn\",\n  \"region\": \"Midwest\",\n  \"nitrogen_usage_kg_per_ha\": null\n}'''\nsandbox.files.write(\"/home/user/agronomy_report.json\", rt)"
+    },
+    {
+        "task_index": 20,
+        "instruction": "Observe the screen. Extract the Gulf Stream flow rate in Sverdrups (Sv) from the oceanography page, and write it into /home/user/ocean_current.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/20.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 21,
+        "instruction": "Observe the screen. Identify the gold grade (g/t) from the mineral exploration report, and record it in /home/user/geology_log.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/21.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 22,
+        "instruction": "Observe the screen. Find the year the Magna Carta was originally signed from the historical document summary, and write it into /home/user/history_quiz.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/22.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 23,
+        "instruction": "Observe the screen. Read the first print run quantity of 'The Great Gatsby' from the literary collection page, and update /home/user/literature_inventory.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/23.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"book\": \"The Great Gatsby\",\n  \"first_print_copies\": null,\n  \"publisher\": \"Scribner\"\n}'''\nsandbox.files.write(\"/home/user/literature_inventory.json\", rt)"
+    },
+    {
+        "task_index": 24,
+        "instruction": "Observe the screen. You should identify the exact date (DD/MM/YYYY) of the treaty signing from the historical document, and save it to /home/user/historical_record.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/24.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 25,
+        "instruction": "Observe the screen. Read the price of the designer dress and record it in /home/user/fashion_inventory.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/25.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 26,
+        "instruction": "Observe the screen. You should identify the total CO2 emissions (in metric tons) for Q3 2024 from the environmental audit report, and record it in /home/user/emissions_data.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/26.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 27,
+        "instruction": "Observe the screen. You should identify the concentration percentage of Retinol in the serum formula from the product specification sheet, and save it to /home/user/formula_data.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/27.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 28,
+        "instruction": "Observe the screen. You should identify the protein content per 100g from the infant formula nutritional label, and record it in /home/user/nutrition_info.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/28.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 29,
+        "instruction": "Observe the screen. You should identify the exact dosage frequency (how many times per day) for the antibiotic prescription and record it in /home/user/medication_schedule.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/29.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 30,
+        "instruction": "Observe the screen. You should identify the exact start time of the headlining artist's performance and record it in /home/user/concert_schedule.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/30.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 31,
+        "instruction": "Observe the screen. You should read the concert seat number, date, and ticket price from the ticket, then update /home/user/concert_info.json with these details.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/31.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"event\": \"Concert Ticket\",\n  \"seat_number\": null,\n  \"date\": null,\n  \"price\": null\n}'''\nsandbox.files.write(\"/home/user/concert_info.json\", rt)"
+    },
+    {
+        "task_index": 32,
+        "instruction": "Observe the screen. Identify the reservation confirmation number, nightly rate, and check-in date from the hotel booking confirmation, then append these details to /home/user/travel_log.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/32.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 33,
+        "instruction": "Observe the screen. Extract the movie showtime, theater number, and seat information from the ticket, then write them to /home/user/movie_ticket.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/33.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 34,
+        "instruction": "Observe the screen. Read the order total amount, order number, and pickup code from the receipt, then save them to /home/user/fastfood_order.json.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/34.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"restaurant\": \"Burger Express\",\n  \"order_number\": null,\n  \"pickup_code\": null,\n  \"total\": null\n}'''\nsandbox.files.write(\"/home/user/fastfood_order.json\", rt)"
+    },
+    {
+        "task_index": 35,
+        "instruction": "Observe the screen. Extract the flight number, gate number, seat assignment, and departure time from the boarding pass, then record them in /home/user/flight_details.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/35.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 36,
+        "instruction": "Observe the screen. Read the total amount, discount savings, and membership ID from the receipt, then update /home/user/shopping_receipt.json with these values.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/36.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)\nrt = '''{\n  \"store\": \"MetroMart\",\n  \"membership_id\": null,\n  \"discount_saved\": null,\n  \"total_paid\": null\n}'''\nsandbox.files.write(\"/home/user/shopping_receipt.json\", rt)"
+    },
+    {
+        "task_index": 37,
+        "instruction": "Observe the screen. Extract the organic certification number, harvest batch code, and farm ID from the vegetable packaging label, then save them to /home/user/veggie_cert.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/37.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 38,
+        "instruction": "Observe the screen. Identify the plant species code, optimal pH level, and fertilization schedule from the plant care tag, then write them to /home/user/garden_plant.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/38.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 39,
+        "instruction": "Observe the screen. Extract the prescription ID, total weight of herbs, and processing batch number from the traditional medicine inventory sheet, then record them in /home/user/herb_inventory.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/39.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 40,
+        "instruction": "Observe the screen. Identify the product serial number, manufacturing date, and customer service code from the furniture specification label, then write them to /home/user/furniture_specs.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/40.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 41,
+        "instruction": "Observe the screen. Extract the animal ID tag number, vaccination batch code, and veterinarian license number from the livestock health record, then save them to /home/user/livestock_vaccine.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/41.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 42,
+        "instruction": "Observe the screen. Extract the grooming service total price, loyalty member ID, and appointment confirmation number from the pet grooming receipt, then record them in /home/user/pet_grooming.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/42.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 43,
+        "instruction": "Observe the screen. Extract the production batch number, oil acidity level, and quality grade code from the grain and oil processing report, then save them to /home/user/oil_quality.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/43.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 44,
+        "instruction": "Observe the screen. Extract the product SKU code, sodium content per serving, and microwave cooking time from the prepared meal nutrition label, then record them in /home/user/meal_prep.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/44.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 45,
+        "instruction": "Observe the screen. Extract the shoe size (EU), manufacturing country code, and retail price from the footwear product tag, then write them to /home/user/shoe_details.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/45.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 46,
+        "instruction": "Observe the screen. Extract the limited edition serial number, production batch code, and retail price from the fountain pen certificate of authenticity, then save them to /home/user/pen_certificate.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/46.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 47,
+        "instruction": "Observe the screen. Extract the extinguisher serial number, last inspection date, and next service due date from the fire safety inspection tag, then write them to /home/user/fire_safety.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/47.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 48,
+        "instruction": "Observe the screen. Extract the ticket serial number, winning amount, and validation code from the lottery scratch card, then record them in /home/user/lottery_ticket.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/48.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    },
+    {
+        "task_index": 49,
+        "instruction": "Observe the screen. Extract the sample ID, cell line designation, passage number, and cryopreservation date from the cell culture label, then write them to /home/user/cell_sample.txt.",
+        "task_type": 3,
+        "input_type": 1,
+        "tool": ["open_file", "observe", "write_file", "read_file", "scroll"],
+        "related_apps": ["os", "browser"],
+        "payload": "with open(\"assets/3/49.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\"firefox-esr /home/user/page.html &\", background=True)"
+    }
+]
