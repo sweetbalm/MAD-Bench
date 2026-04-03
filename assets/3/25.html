@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fashion Lookbook</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: #f9f5f0;
+            margin: 0;
+            padding: 20px;
+            color: #2c2b2b;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        header {
+            background: #2c2b2b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+            gap: 30px;
+            justify-content: center;
+        }
+        .product-card {
+            width: 280px;
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-image {
+            height: 280px;
+            background: #e0dbd4;
+            background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+                              linear-gradient(-45deg, #ccc 25%, transparent 25%);
+            background-size: 20px 20px;
+            position: relative;
+        }
+        .product-image::after {
+            content: "👜";
+            font-size: 80px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.3;
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        .product-description {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #b76e3e;
+            text-align: right;
+        }
+        .blurred-price {
+            filter: blur(5px);
+            background: rgba(255,255,200,0.8);
+            display: inline-block;
+            padding: 0 5px;
+            user-select: none;
+            pointer-events: none;
+        }
+        .note {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+        footer {
+            background: #f0ede8;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>ÉLÉGANCE COUTURE</h1>
+        <p>Spring-Summer Collection</p>
+    </header>
+    <div class="product-grid">
+        <div class="product-card">
+            <div class="product-image"></div>
+            <div class="product-info">
+                <div class="product-title">Silk Midi Dress</div>
+                <div class="product-description">Ivory, pleated details, concealed zip</div>
+                <div class="price">
+                    <span class="blurred-price">$ 289.00</span>
+                </div>
+                <div class="note">(price includes tax)</div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-image"></div>
+            <div class="product-info">
+                <div class="product-title">Linen Blazer</div>
+                <div class="product-description">Natural beige, relaxed fit</div>
+                <div class="price">
+                    <span class="blurred-price">$ 349.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-image"></div>
+            <div class="product-info">
+                <div class="product-title">Embroidered Evening Gown</div>
+                <div class="product-description">Midnight blue, hand-embroidered</div>
+                <div class="price">
+                    <span class="blurred-price">$ 1,250.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 Élégance Couture — All rights reserved.
+    </footer>
+</div>
+</body>
+</html>

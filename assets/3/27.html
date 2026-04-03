@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeDerm Labs - Product Specification</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        .spec-sheet {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            position: relative;
+        }
+        .correction-fluid {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 
+                inset 0 0 10px rgba(0,0,0,0.05),
+                2px 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .marker-scribble {
+            position: absolute;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    #000,
+                    #000 2px,
+                    transparent 2px,
+                    transparent 4px
+                );
+            opacity: 0.8;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .brand-logo {
+            font-size: 42px;
+            color: #e91e63;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+        .product-image {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #ffcdd2 0%, #f8bbd0 100%);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 5px 20px rgba(233,30,99,0.2);
+        }
+        .formula-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        .formula-table th {
+            background: #f8bbd0;
+            color: #880e4f;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .formula-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f8bbd0;
+        }
+        .concentration-cell {
+            position: relative;
+            font-weight: bold;
+            color: #e91e63;
+        }
+        .whited-out {
+            background: #fff;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 3px;
+            box-shadow: 
+                inset 0 0 5px rgba(0,0,0,0.1),
+                0 1px 2px rgba(0,0,0,0.1);
+        }
+        .whited-out::after {
+            content: "█";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #ddd;
+            font-size: 20px;
+        }
+        .blackened {
+            background: #1a1a1a;
+            color: transparent;
+            display: inline-block;
+            padding: 2px 15px;
+            border-radius: 3px;
+            position: relative;
+        }
+        .blackened::before {
+            content: "▓▓▓";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            letter-spacing: -2px;
+        }
+        .highlight-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .confidential-stamp {
+            position: absolute;
+            top: 100px;
+            right: 30px;
+            border: 3px solid #d32f2f;
+            color: #d32f2f;
+            padding: 10px 20px;
+            font-weight: bold;
+            transform: rotate(15deg);
+            opacity: 0.7;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="spec-sheet">
+        <div class="correction-fluid" style="top: 420px; left: 280px; width: 80px; height: 30px;"></div>
+        <div class="marker-scribble" style="top: 550px; right: 150px; width: 100px; height: 25px;"></div>
+        <div class="confidential-stamp">CONFIDENTIAL<br>FORMULA</div>
+        
+        <div class="header">
+            <div class="brand-logo">✨ LuxeDerm</div>
+            <p style="color: #888; letter-spacing: 2px; margin-top: 10px;">ADVANCED SKINCARE LABORATORIES</p>
+        </div>
+
+        <div class="product-image">🧴</div>
+
+        <h2 style="text-align: center; color: #880e4f; margin-bottom: 10px;">Age-Defying Retinol Serum</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">Product Code: LDR-RET-001 | Version 3.2</p>
+
+        <table class="formula-table">
+            <tr>
+                <th>Ingredient</th>
+                <th>INCI Name</th>
+                <th>Concentration (%w/w)</th>
+                <th>Function</th>
+            </tr>
+            <tr>
+                <td>Retinol (Vitamin A)</td>
+                <td>Retinol</td>
+                <td class="concentration-cell">
+                    <span class="whited-out">0.5</span>%
+                </td>
+                <td>Active - Anti-aging</td>
+            </tr>
+            <tr>
+                <td>Hyaluronic Acid</td>
+                <td>Sodium Hyaluronate</td>
+                <td class="concentration-cell">2.0%</td>
+                <td>Hydration</td>
+            </tr>
+            <tr>
+                <td>Niacinamide</td>
+                <td>Niacinamide</td>
+                <td class="concentration-cell">5.0%</td>
+                <td>Brightening</td>
+            </tr>
+            <tr>
+                <td>Vitamin E</td>
+                <td>Tocopherol</td>
+                <td class="concentration-cell">1.0%</td>
+                <td>Antioxidant</td>
+            </tr>
+            <tr>
+                <td>Peptide Complex</td>
+                <td>Palmitoyl Tripeptide-1</td>
+                <td class="concentration-cell blackened">3.0%</td>
+                <td>Collagen boost</td>
+            </tr>
+        </table>
+
+        <div class="highlight-box">
+            <h4 style="margin-top: 0; color: #e65100;">⚠️ Key Active Information</h4>
+            <p><strong>Retinol Concentration:</strong> <span class="whited-out" style="font-size: 24px; font-weight: bold;">0.5</span>%</p>
+            <p style="font-size: 14px; color: #666; margin-top: 10px;">
+                Note: Concentration adjusted from previous formulation. 
+                Original value <span class="blackened" style="display: inline-block; width: 40px; height: 20px; vertical-align: middle;">1.0</span>% 
+                reduced for improved tolerance profile.
+            </p>
+        </div>
+
+        <div style="background: #f3e5f5; padding: 20px; border-radius: 10px; margin: 20px 0;">
+            <h4 style="margin-top: 0; color: #7b1fa2;">Stability Data</h4>
+            <ul style="color: #666; line-height: 1.8;">
+                <li>pH: 5.5-6.0</li>
+                <li>Retinol stability at 25°C: <span class="whited-out" style="display: inline-block; width: 50px;">24</span> months</li>
+                <li>Packaging: Amber glass, airless pump</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 40px; font-size: 11px; color: #999; text-align: center; border-top: 1px solid #f8bbd0; padding-top: 20px;">
+            <p>Document: FRM-LDR-RET-001-v3.2 | Classification: Proprietary & Confidential</p>
+            <p>Modifications present - verify against master formula before production</p>
+        </div>
+    </div>
+</body>
+</html>

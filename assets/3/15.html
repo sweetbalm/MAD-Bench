@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StellarX Heavy Launch Vehicle - Technical Specifications</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.6), rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #00d4ff;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin: 0;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid #00d4ff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #00d4ff;
+        }
+        
+        .rocket-diagram {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+            position: relative;
+        }
+        .rocket-svg {
+            width: 150px;
+            height: 400px;
+        }
+        .stage-label {
+            position: absolute;
+            left: 200px;
+            font-size: 0.8em;
+            color: #7f8c8d;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .spec-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .spec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+        }
+        .spec-label {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .spec-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #fff;
+        }
+        .spec-unit {
+            color: #00d4ff;
+            font-size: 0.7em;
+        }
+        
+        .critical-spec {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(123, 44, 191, 0.1) 100%);
+            border: 2px solid #00d4ff;
+            text-align: center;
+            padding: 40px;
+        }
+        .critical-spec .spec-value {
+            font-size: 4em;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+        .critical-spec .spec-value .blur-mask {
+            filter: blur(20px);
+            user-select: none;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 212, 255, 0.1) 10px,
+                rgba(0, 212, 255, 0.1) 20px
+            );
+            padding: 10px 30px;
+            border-radius: 10px;
+        }
+        .warning-tape {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffd700,
+                #ffd700 10px,
+                #000 10px,
+                #000 20px
+            );
+            color: #000;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .telemetry {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .telemetry-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .telemetry-line:last-child { border-bottom: none; }
+        .telemetry-label { color: #7f8c8d; }
+        .telemetry-value { color: #00ff88; }
+        .telemetry-value.obscured {
+            filter: blur(8px);
+            color: transparent;
+            background: #1a1a2e;
+            padding: 2px 10px;
+            border-radius: 3px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 0.9em;
+        }
+        .comparison-table th {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 15px;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85em;
+        }
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .comparison-table tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        .highlight-row {
+            background: rgba(0, 212, 255, 0.1) !important;
+            border-left: 3px solid #00d4ff;
+        }
+        .redacted {
+            background: #1a1a2e;
+            color: transparent;
+            filter: blur(6px);
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        
+        .footer-note {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #7f8c8d;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>StellarX Heavy</h1>
+            <div class="badge">Next Generation Launch Vehicle</div>
+            <p style="margin-top: 20px; color: #7f8c8d; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Super-heavy lift launch vehicle designed for deep space missions, lunar bases, and Mars colonization.
+            </p>
+        </div>
+
+        <div class="rocket-diagram">
+            <svg class="rocket-svg" viewBox="0 0 100 300">
+                <defs>
+                    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#e0e0e0"/>
+                        <stop offset="50%" style="stop-color:#ffffff"/>
+                        <stop offset="100%" style="stop-color:#c0c0c0"/>
+                    </linearGradient>
+                </defs>
+                <path d="M50 10 L70 80 L70 250 L50 270 L30 250 L30 80 Z" fill="url(#bodyGrad)" stroke="#999" stroke-width="1"/>
+                <path d="M50 10 Q65 50 70 80 L30 80 Q35 50 50 10" fill="#f0f0f0"/>
+                <rect x="35" y="100" width="30" height="40" fill="#333" rx="5"/>
+                <rect x="35" y="150" width="30" height="40" fill="#333" rx="5"/>
+                <text x="50" y="125" text-anchor="middle" fill="#00d4ff" font-size="8">PAYLOAD</text>
+                <path d="M30 250 L20 280 L35 270 Z" fill="#555"/>
+                <path d="M70 250 L80 280 L65 270 Z" fill="#555"/>
+                <circle cx="50" cy="200" r="3" fill="#ff6b6b"/>
+                <text x="50" cy="290" text-anchor="middle" fill="#7f8c8d" font-size="8">Scale: 1:100</text>
+            </svg>
+            <div class="stage-label" style="top: 50px;">Fairing Height: 13.1m</div>
+            <div class="stage-label" style="top: 130px;">Stage 2: Interstage</div>
+            <div class="stage-label" style="top: 220px;">Stage 1: Booster</div>
+        </div>
+
+        <div class="specs-grid">
+            <div class="spec-card">
+                <div class="spec-label">Overall Height</div>
+                <div class="spec-value">118 <span class="spec-unit">meters</span></div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-label">Core Diameter</div>
+                <div class="spec-value">9.7 <span class="spec-unit">meters</span></div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-label">Stages</div>
+                <div class="spec-value">2 <span class="spec-unit">(reusable)</span></div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-label">Engines (1st Stage)</div>
+                <div class="spec-value">33 <span class="spec-unit">Raptor V3</span></div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-label">Thrust (Sea Level)</div>
+                <div class="spec-value">7,590 <span class="spec-unit">tonnes</span></div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-label">Fairing Volume</div>
+                <div class="spec-value">3,400 <span class="spec-unit">m³</span></div>
+            </div>
+            
+            <div class="critical-spec">
+                <div class="warning-tape">Classified</div>
+                <div class="spec-label">Payload to LEO (Low Earth Orbit)</div>
+                <div class="spec-value">
+                    <span class="blur-mask">150,000</span>
+                    <span class="spec-unit">kg</span>
+                </div>
+                <p style="margin-top: 20px; color: #7f8c8d; font-size: 0.9em;">
+                    Maximum theoretical capacity with full propellant load and optimal trajectory
+                </p>
+            </div>
+        </div>
+
+        <div class="telemetry">
+            <div style="color: #00d4ff; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;">📡 Live Vehicle Telemetry</div>
+            <div class="telemetry-line">
+                <span class="telemetry-label">Vehicle Mass (Dry)</span>
+                <span class="telemetry-value">285,000 kg</span>
+            </div>
+            <div class="telemetry-line">
+                <span class="telemetry-label">Propellant Mass</span>
+                <span class="telemetry-value">4,600,000 kg</span>
+            </div>
+            <div class="telemetry-line">
+                <span class="telemetry-label">Max Payload (GTO)</span>
+                <span class="telemetry-value obscured">████████</span>
+            </div>
+            <div class="telemetry-line">
+                <span class="telemetry-label">Max Payload (TMI)</span>
+                <span class="telemetry-value obscured">████████</span>
+            </div>
+            <div class="telemetry-line">
+                <span class="telemetry-label">Launch Cost Estimate</span>
+                <span class="telemetry-value obscured">$████████</span>
+            </div>
+        </div>
+
+        <table class="comparison-table">
+            <tr>
+                <th>Vehicle</th>
+                <th>Height</th>
+                <th>Payload to LEO</th>
+                <th>First Flight</th>
+            </tr>
+            <tr>
+                <td>Saturn V</td>
+                <td>110.6 m</td>
+                <td>140,000 kg</td>
+                <td>1967</td>
+            </tr>
+            <tr>
+                <td>Falcon Heavy</td>
+                <td>70 m</td>
+                <td>63,800 kg</td>
+                <td>2018</td>
+            </tr>
+            <tr class="highlight-row">
+                <td><strong>StellarX Heavy</strong></td>
+                <td>118 m</td>
+                <td class="redacted">███████████</td>
+                <td>2026 (Planned)</td>
+            </tr>
+            <tr>
+                <td>SLS Block 1</td>
+                <td>98 m</td>
+                <td>95,000 kg</td>
+                <td>2022</td>
+            </tr>
+        </table>
+
+        <div class="footer-note">
+            <p>Document Classification: RESTRICTED // NOFORN</p>
+            <p style="margin-top: 10px;">StellarX Aerospace Corporation • Propulsion Division</p>
+            <p style="margin-top: 5px; font-size: 0.8em;">Spec Rev. 4.2.1 • Export Control: ITAR Category XV</p>
+        </div>
+    </div>
+</body>
+</html>

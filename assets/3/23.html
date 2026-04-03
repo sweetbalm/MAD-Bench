@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scribner Archives – First Edition Gatsby</title>
+    <style>
+        body {
+            background: #1e2a2e;
+            font-family: 'Times New Roman', serif;
+            padding: 2rem;
+            color: #e6ddc4;
+        }
+        .book-card {
+            background: #2d3e40;
+            max-width: 750px;
+            margin: auto;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px #00000055;
+        }
+        .print-info {
+            background: #1f2f30;
+            padding: 1rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        .print-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            filter: blur(5px);
+            background: #00000055;
+            display: inline-block;
+            padding: 0 1.5rem;
+            border-radius: 60px;
+        }
+        .watermark {
+            background: repeating-linear-gradient(45deg, #ffffff30 0px, #ffffff30 2px, transparent 2px, transparent 10px);
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top:0;
+            left:0;
+            border-radius: 20px;
+            pointer-events: none;
+        }
+        .quote {
+            font-style: italic;
+            margin-top: 1rem;
+            border-left: 3px solid #c4a27a;
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="book-card">
+    <h1>📖 The Great Gatsby – F. Scott Fitzgerald</h1>
+    <p>First edition, first printing, April 1925</p>
+    <div class="print-info">
+        <div>📚 Initial print run (copies)</div>
+        <div class="print-number">20,870 copies</div>
+        <div class="watermark"></div>
+        <div style="font-size:0.7rem;">* Archival records partially damaged, obscured for preservation</div>
+    </div>
+    <p>Publisher's original green cloth binding, iconic dust jacket with "jazz age" art.</p>
+    <div class="quote">
+        “So we beat on, boats against the current, borne back ceaselessly into the past.”
+    </div>
+    <p>Current estimated surviving copies: ≈ 180 with original jacket.</p>
+</div>
+</body>
+</html>
