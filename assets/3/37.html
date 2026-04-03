@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Vegetable Certification Label</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .label-container {
+            width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+            transform: rotate(-2deg);
+        }
+        .label-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .organic-seal {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .certified-text {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .label-body {
+            padding: 40px;
+            position: relative;
+        }
+        .product-name {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #48bb78;
+            padding-bottom: 20px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .info-item {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #48bb78;
+        }
+        .info-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #718096;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .info-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+        }
+        .blurred-data {
+            filter: blur(8px) opacity(0.5);
+            user-select: none;
+        }
+        .redacted-box {
+            background: #1a202c;
+            color: transparent;
+            border-radius: 6px;
+            padding: 5px 10px;
+            display: inline-block;
+        }
+        .cert-section {
+            background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 2px dashed #cbd5e0;
+            position: relative;
+        }
+        .cert-title {
+            font-size: 14px;
+            color: #4a5568;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .cert-number {
+            font-size: 26px;
+            font-weight: 800;
+            color: #22543d;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .scratch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(0,0,0,0.1) 3px,
+                    rgba(0,0,0,0.1) 6px
+                );
+            pointer-events: none;
+            border-radius: 12px;
+        }
+        .water-stain {
+            position: absolute;
+            width: 120px;
+            height: 80px;
+            background: radial-gradient(ellipse at center, rgba(200,180,140,0.3) 0%, transparent 70%);
+            top: 200px;
+            right: 30px;
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        .barcode-section {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        .barcode {
+            height: 60px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000 0px,
+                #000 2px,
+                #fff 2px,
+                #fff 4px,
+                #000 4px,
+                #000 6px,
+                #fff 6px,
+                #fff 9px
+            );
+            margin-bottom: 10px;
+        }
+        .qr-obscured {
+            width: 80px;
+            height: 80px;
+            background: #e2e8f0;
+            margin: 0 auto;
+            position: relative;
+            filter: blur(10px);
+            opacity: 0.6;
+        }
+        .footer-stamp {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            border: 4px solid rgba(72, 187, 120, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(72, 187, 120, 0.3);
+            font-size: 14px;
+            font-weight: bold;
+            transform: rotate(-15deg);
+        }
+        .tear-mark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.05) 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="label-container">
+        <div class="tear-mark"></div>
+        <div class="water-stain"></div>
+        <div class="label-header">
+            <div class="organic-seal">🌿</div>
+            <div class="certified-text">USDA Organic</div>
+            <div style="opacity: 0.9; margin-top: 5px;">Certified Organic Producer</div>
+        </div>
+        <div class="label-body">
+            <div class="product-name">Premium Heirloom Tomatoes</div>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Farm Location</div>
+                    <div class="info-value">Green Valley, CA</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Net Weight</div>
+                    <div class="info-value">2 lbs (907g)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Harvest Date</div>
+                    <div class="info-value blurred-data">Oct 12, 2024</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Farm ID</div>
+                    <div class="info-value redacted-box">GV-2024-8847</div>
+                </div>
+            </div>
+            
+            <div class="cert-section">
+                <div class="scratch-overlay"></div>
+                <div class="cert-title">Organic Certification Number</div>
+                <div class="cert-number" style="position: relative;">
+                    <span style="filter: blur(6px) opacity(0.4); display: inline-block;">OR-99834-CA</span>
+                    <div style="position: absolute; top: 50%; left: 0; right: 0; height: 3px; background: rgba(0,0,0,0.2); transform: translateY(-50%) rotate(-1deg);"></div>
+                </div>
+            </div>
+            
+            <div class="cert-section" style="margin-top: 15px;">
+                <div class="cert-title">Batch Code / Trace ID</div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="qr-obscured"></div>
+                    <div class="info-value" style="font-size: 18px;">
+                        <span class="blurred-data">BTCH-2024-10-12-A7X9</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="barcode-section">
+                <div class="barcode"></div>
+                <div style="font-size: 12px; color: #718096; letter-spacing: 3px;">
+                    <span class="redacted-box">7 12345</span> 67890
+                </div>
+            </div>
+            
+            <div class="footer-stamp">APPROVED</div>
+        </div>
+    </div>
+</body>
+</html>
