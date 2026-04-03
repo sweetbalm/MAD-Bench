@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Geological Survey Database</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; background: #3d3d3d; color: #e0e0e0; padding: 30px; }
+        .survey-header { background: #2d5016; padding: 25px; border-radius: 8px 8px 0 0; border-bottom: 4px solid #8b7355; }
+        .survey-header h1 { margin: 0; color: #c9d9a3; }
+        .survey-header p { margin: 8px 0 0 0; color: #a8b890; }
+        .sample-panel { background: #4a4a4a; padding: 25px; border-radius: 0 0 8px 8px; }
+        .filter-row { background: #3d3d3d; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .filter-row label { color: #aaa; }
+        .filter-row select { padding: 8px; background: #2d2d2d; color: #e0e0e0; border: 1px solid #555; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; background: #3d3d3d; }
+        th { background: #2d5016; color: #fff; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #555; }
+        tr:hover { background: #505050; }
+        .sample-id { color: #c9d9a3; font-weight: 600; font-family: monospace; }
+        .rock-type { color: #aaa; }
+        .analysis-link { color: #87ceeb; text-decoration: none; }
+        .analysis-link:hover { text-decoration: underline; }
+        .status { padding: 3px 8px; border-radius: 4px; font-size: 0.8em; }
+        .status-complete { background: #2d5016; color: #fff; }
+        .status-processing { background: #8b7355; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="survey-header">
+        <h1>🪨 Geological Survey Database</h1>
+        <p>Mineral Composition Analysis Repository</p>
+    </div>
+    <div class="sample-panel">
+        <div class="filter-row">
+            <div><label>Rock Type:</label> <select><option>Granite</option><option>Basalt</option><option>Limestone</option></select></div>
+            <div><label>Year:</label> <select><option>2024</option><option>2023</option></select></div>
+            <div><label>Region:</label> <select><option>North</option><option>South</option><option>East</option><option>West</option></select></div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sample ID</th>
+                    <th>Rock Type</th>
+                    <th>Collection Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Analysis Report</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="sample-id">GRANITE-2024-087</td>
+                    <td class="rock-type">Granite</td>
+                    <td>2024-08-12</td>
+                    <td>Quarry Site A</td>
+                    <td><span class="status status-complete">Complete</span></td>
+                    <td><a href="#" class="analysis-link">mineral_analysis_087.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="sample-id">GRANITE-2024-088</td>
+                    <td class="rock-type">Granite</td>
+                    <td>2024-08-15</td>
+                    <td>Quarry Site A</td>
+                    <td><span class="status status-complete">Complete</span></td>
+                    <td><a href="#" class="analysis-link">mineral_analysis_088.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="sample-id">GRANITE-2024-090</td>
+                    <td class="rock-type">Granite</td>
+                    <td>2024-08-20</td>
+                    <td>Quarry Site B</td>
+                    <td><span class="status status-complete">Complete</span></td>
+                    <td><a href="#" class="analysis-link">mineral_analysis_090.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="sample-id">GRANITE-2024-091</td>
+                    <td class="rock-type">Granite</td>
+                    <td>2024-08-22</td>
+                    <td>Quarry Site B</td>
+                    <td><span class="status status-processing">Processing</span></td>
+                    <td><a href="#" class="analysis-link">mineral_analysis_091_PENDING.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="sample-id">BASALT-2024-045</td>
+                    <td class="rock-type">Basalt</td>
+                    <td>2024-07-10</td>
+                    <td>Volcanic Site C</td>
+                    <td><span class="status status-complete">Complete</span></td>
+                    <td><a href="#" class="analysis-link">mineral_analysis_b045.pdf</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

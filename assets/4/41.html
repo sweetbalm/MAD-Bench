@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marine Research Database</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #0c1929 0%, #1a3a5c 100%); color: #fff; padding: 30px; min-height: 100vh; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { background: rgba(255,255,255,0.1); padding: 25px; border-radius: 10px; border-left: 5px solid #00d4ff; }
+        .header h1 { margin: 0 0 10px 0; color: #00d4ff; }
+        .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 25px; }
+        .file-card { background: rgba(255,255,255,0.08); padding: 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); transition: 0.3s; }
+        .file-card:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+        .file-icon { font-size: 2em; margin-bottom: 10px; }
+        .file-name { color: #00d4ff; font-weight: 600; margin-bottom: 8px; word-break: break-all; }
+        .file-meta { font-size: 0.85em; color: #8899a6; }
+        .download-btn { display: inline-block; margin-top: 12px; padding: 6px 14px; background: #00d4ff; color: #0c1929; text-decoration: none; border-radius: 4px; font-weight: 600; font-size: 0.85em; }
+        .download-btn:hover { background: #00a8cc; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 Marine Research Database</h1>
+            <p>Ocean Temperature & Salinity Data Archive</p>
+        </div>
+        <div class="file-grid">
+            <div class="file-card">
+                <div class="file-icon">📊</div>
+                <div class="file-name">Ocean_Temperature_Data_2023.csv</div>
+                <div class="file-meta">Size: 45.2 MB | Updated: 2024-01-15</div>
+                <a href="#" class="download-btn">Download</a>
+            </div>
+            <div class="file-card">
+                <div class="file-icon">📊</div>
+                <div class="file-name">Ocean_Temperature_Data_2024.csv</div>
+                <div class="file-meta">Size: 52.8 MB | Updated: 2025-01-20</div>
+                <a href="#" class="download-btn">Download</a>
+            </div>
+            <div class="file-card">
+                <div class="file-icon">📊</div>
+                <div class="file-name">Ocean_Temperature_Q1_2025.csv</div>
+                <div class="file-meta">Size: 12.1 MB | Updated: 2025-04-05</div>
+                <a href="#" class="download-btn">Download</a>
+            </div>
+            <div class="file-card">
+                <div class="file-icon">📊</div>
+                <div class="file-name">Ocean_Temperature_Q2_2025.csv</div>
+                <div class="file-meta">Size: 13.5 MB | Updated: 2025-07-10</div>
+                <a href="#" class="download-btn">Download</a>
+            </div>
+            <div class="file-card">
+                <div class="file-icon">📊</div>
+                <div class="file-name">Ocean_Temperature_Q3_2025.csv</div>
+                <div class="file-meta">Size: 14.2 MB | Updated: 2025-10-08</div>
+                <a href="#" class="download-btn">Download</a>
+            </div>
+            <div class="file-card">
+                <div class="file-icon">📊</div>
+                <div class="file-name">Salinity_Data_Global_2024.csv</div>
+                <div class="file-meta">Size: 38.6 MB | Updated: 2025-02-01</div>
+                <a href="#" class="download-btn">Download</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

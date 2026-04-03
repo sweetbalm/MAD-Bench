@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agricultural Database</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; background: #f5f9ed; padding: 30px; }
+        .header { background: #4a7c23; color: white; padding: 25px; border-radius: 8px 8px 0 0; }
+        .header h1 { margin: 0; }
+        .header p { margin: 8px 0 0 0; opacity: 0.9; }
+        .content { background: white; padding: 25px; border-radius: 0 0 8px 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .filter-bar { background: #f5f9ed; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; gap: 15px; align-items: center; }
+        .filter-bar select { padding: 8px 15px; border: 1px solid #ccc; border-radius: 4px; background: white; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #4a7c23; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
+        tr:hover { background: #f5f9ed; }
+        .plot-id { font-weight: 600; color: #4a7c23; }
+        .crop-type { color: #666; }
+        .report-link { color: #2e7d32; text-decoration: none; font-weight: 600; }
+        .report-link:hover { text-decoration: underline; }
+        .status-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; }
+        .status-ready { background: #c8e6c9; color: #2e7d32; }
+        .status-pending { background: #fff3e0; color: #e65100; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌾 Agricultural Database</h1>
+        <p>Soil Analysis & Crop Management System</p>
+    </div>
+    <div class="content">
+        <div class="filter-bar">
+            <label>Region:</label>
+            <select><option>North District</option><option>South District</option></select>
+            <label>Season:</label>
+            <select><option>2024 Harvest</option><option>2025 Planting</option></select>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Plot ID</th>
+                    <th>Crop Type</th>
+                    <th>Area (hectares)</th>
+                    <th>Last Analysis</th>
+                    <th>Status</th>
+                    <th>Report</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="plot-id">Field_Plot_A5</td>
+                    <td class="crop-type">Wheat</td>
+                    <td>25.5</td>
+                    <td>2024-10-15</td>
+                    <td><span class="status-badge status-ready">Ready</span></td>
+                    <td><a href="#" class="report-link">soil_analysis_A5.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="plot-id">Field_Plot_A6</td>
+                    <td class="crop-type">Corn</td>
+                    <td>32.0</td>
+                    <td>2024-10-18</td>
+                    <td><span class="status-badge status-ready">Ready</span></td>
+                    <td><a href="#" class="report-link">soil_analysis_A6.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="plot-id">Field_Plot_A8</td>
+                    <td class="crop-type">Soybean</td>
+                    <td>28.3</td>
+                    <td>2024-10-22</td>
+                    <td><span class="status-badge status-ready">Ready</span></td>
+                    <td><a href="#" class="report-link">soil_analysis_A8.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="plot-id">Field_Plot_B1</td>
+                    <td class="crop-type">Rice</td>
+                    <td>45.0</td>
+                    <td>2024-11-01</td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                    <td><a href="#" class="report-link">soil_analysis_B1_DRAFT.pdf</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Livestock Management System</title>
+    <style>
+        body { font-family: 'Georgia', serif; background: #fff8f0; padding: 30px; }
+        .dashboard { max-width: 1000px; margin: 0 auto; }
+        .top-bar { background: #8b4513; color: white; padding: 20px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .top-bar h1 { margin: 0; font-size: 1.4em; }
+        .top-bar span { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.9em; }
+        .main-panel { background: white; padding: 25px; border-radius: 0 0 8px 8px; box-shadow: 0 4px 12px rgba(139,69,19,0.2); }
+        .section-header { border-bottom: 2px solid #8b4513; padding-bottom: 10px; margin-bottom: 20px; }
+        .section-header h2 { margin: 0; color: #8b4513; }
+        .herd-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .herd-card { border: 2px solid #e8d5c4; border-radius: 8px; padding: 20px; background: #fffefb; }
+        .herd-card:hover { border-color: #8b4513; }
+        .herd-title { font-size: 1.2em; font-weight: 600; color: #5d3a1a; margin-bottom: 10px; }
+        .herd-details { font-size: 0.9em; color: #666; margin-bottom: 15px; line-height: 1.8; }
+        .record-btn { display: inline-block; padding: 8px 20px; background: #8b4513; color: white; text-decoration: none; border-radius: 4px; }
+        .record-btn:hover { background: #6d360f; }
+        .icon { margin-right: 8px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="top-bar">
+            <h1>🐄 Livestock Management System</h1>
+            <span>📍 Ranch #42</span>
+        </div>
+        <div class="main-panel">
+            <div class="section-header">
+                <h2>Cattle Herd Vaccination Records</h2>
+            </div>
+            <div class="herd-grid">
+                <div class="herd-card">
+                    <div class="herd-title"><span class="icon">📋</span>Herd #2024-A</div>
+                    <div class="herd-details">
+                        Head Count: 156<br>
+                        Last Vaccination: 2024-09-15<br>
+                        Vaccine Type: Brucellosis, Anthrax<br>
+                        Veterinarian: Dr. Sarah Johnson
+                    </div>
+                    <a href="#" class="record-btn">View Records</a>
+                </div>
+                <div class="herd-card">
+                    <div class="herd-title"><span class="icon">📋</span>Herd #2025-A</div>
+                    <div class="herd-details">
+                        Head Count: 142<br>
+                        Last Vaccination: 2025-02-20<br>
+                        Vaccine Type: Brucellosis, Anthrax<br>
+                        Veterinarian: Dr. Sarah Johnson
+                    </div>
+                    <a href="#" class="record-btn">View Records</a>
+                </div>
+                <div class="herd-card">
+                    <div class="herd-title"><span class="icon">📋</span>Herd #2025-B</div>
+                    <div class="herd-details">
+                        Head Count: 178<br>
+                        Last Vaccination: 2025-03-10<br>
+                        Vaccine Type: Brucellosis, Anthrax<br>
+                        Veterinarian: Dr. Michael Chen
+                    </div>
+                    <a href="#" class="record-btn">View Records</a>
+                </div>
+                <div class="herd-card">
+                    <div class="herd-title"><span class="icon">📋</span>Herd #2023-B</div>
+                    <div class="herd-details">
+                        Head Count: 134<br>
+                        Last Vaccination: 2023-11-05<br>
+                        Vaccine Type: Brucellosis, Anthrax<br>
+                        Veterinarian: Dr. Michael Chen
+                    </div>
+                    <a href="#" class="record-btn">View Records (Archived)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
