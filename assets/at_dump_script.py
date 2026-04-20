@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import sys
 import subprocess
 import time
+import psutil
 
 from playwright.sync_api import sync_playwright
 
@@ -10,10 +11,22 @@ from playwright.sync_api import sync_playwright
 sys.setrecursionlimit(3000)
 
 
+def is_browser_active():
+    for proc in psutil.process_iter(['pid', 'name']):
+        try:
+            if 'chrome' in proc.info['name'].lower() or \
+               'firefox' in proc.info['name'].lower() or \
+               'edge' in proc.info['name'].lower():
+                return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return False
+
+
 def dump_playwright():
     root = ET.Element("browser-page")
     
-    offset_x, offset_y = -3, 165
+    offset_x, offset_y = -3, 170
 
     with sync_playwright() as p:
         browser = p.chromium.connect_over_cdp("http://127.0.0.1:9222")
@@ -139,8 +152,9 @@ def dump_atspi():
 def main():
     root = ET.Element("hybrid-ui-tree")
 
-    pw_tree = dump_playwright()
-    root.append(pw_tree)
+    if is_browser_active():
+        pw_tree = dump_playwright()
+        root.append(pw_tree)
 
     atspi_tree = dump_atspi()
     root.append(atspi_tree)
