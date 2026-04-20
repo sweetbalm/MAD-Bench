@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Submission Review | Academic Portal</title>
+    <style>
+        :root {
+            --warning-bg: #fff3cd;
+            --warning-border: #ffc107;
+            --warning-text: #856404;
+            --danger-bg: #f8d7da;
+            --danger-border: #f5c6cb;
+            --danger-text: #721c24;
+            --primary: #0d6efd;
+            --dark: #212529;
+            --light: #f8f9fa;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(120deg, #1a3a6c, #2c5282);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid #e53e3e;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1a3a6c;
+            font-size: 1.2rem;
+        }
+        
+        .institution {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .portal-name {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+        
+        .status-badge {
+            background: #e53e3e;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-badge::before {
+            content: "⚠️";
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .alert-banner {
+            background: var(--danger-bg);
+            border-left: 5px solid var(--danger-border);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 25px;
+            color: var(--danger-text);
+        }
+        
+        .alert-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-title::before {
+            content: "❌";
+            font-size: 1.3rem;
+        }
+        
+        .course-info {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #cbd5e0;
+        }
+        
+        .course-id {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .course-title {
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+        
+        .course-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+        
+        .rejection-reason {
+            margin: 30px 0;
+        }
+        
+        .reason-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .reason-title::before {
+            content: "🔍";
+        }
+        
+        .reason-list {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        
+        .reason-list ul {
+            padding-left: 22px;
+            margin: 10px 0;
+        }
+        
+        .reason-list li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .reason-list li::marker {
+            color: #e53e3e;
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #e53e3e;
+            margin: 8px 0;
+        }
+        
+        .stat-label {
+            color: #4a5568;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .action-section {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-radius: 10px;
+            padding: 22px;
+            margin: 30px 0;
+            color: var(--warning-text);
+        }
+        
+        .action-title {
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-title::before {
+            content: "📋";
+        }
+        
+        .action-list {
+            padding-left: 22px;
+            margin: 10px 0;
+        }
+        
+        .action-list li {
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            background: var(--light);
+            padding: 20px 30px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        
+        .timestamp {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .reference {
+            font-family: monospace;
+            background: #e2e8f0;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #0b5ed7;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: #f8fafc;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(229, 62, 62, 0.15), transparent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .course-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .footer {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">U</div>
+                <div>
+                    <div class="institution">University Academic Portal</div>
+                    <div class="portal-name">Grade Management System • Spring 2026</div>
+                </div>
+            </div>
+            <div class="status-badge">SUBMISSION REJECTED</div>
+        </div>
+        
+        <div class="content">
+            <div class="alert-banner">
+                <div class="alert-title">Batch Grade Submission Blocked</div>
+                <p style="margin: 8px 0 0 0; font-size: 1.05rem;">
+                    Automated quality control has flagged this submission for manual review. 
+                    <strong>Do not proceed with final upload</strong> until the academic integrity committee completes verification.
+                </p>
+            </div>
+            
+            <div class="course-info">
+                <div class="course-header">
+                    <div>
+                        <div class="course-id">CS-401: Advanced Machine Learning</div>
+                        <div class="course-title">Department of Computer Science • Graduate Level</div>
+                    </div>
+                    <div style="text-align: right; font-weight: 600;">
+                        Instructor: Dr. Elena Rodriguez<br>
+                        Term: Spring 2026
+                    </div>
+                </div>
+                
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Total Students</span>
+                        <span>156 enrolled</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Submission Attempt</span>
+                        <span>March 21, 2026 • 14:32 UTC</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Review ID</span>
+                        <span class="reference">REV-2026-CS401-8842</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rejection-reason">
+                <div class="reason-title">Anomaly Detection Report</div>
+                <div class="reason-list">
+                    <p>Our statistical integrity engine identified significant deviations from expected grade distributions:</p>
+                    <ul>
+                        <li><span class="highlight">67.3% similarity score</span> detected across 23 student submissions in the final project component</li>
+                        <li>Grade distribution shows <span class="highlight">23 students (14.7%) scored ≥95%</span>, exceeding the historical departmental threshold of 5.2%</li>
+                        <li>Unusual clustering of identical solution approaches in Problem Set #7 (correlation coefficient: 0.94)</li>
+                        <li>Timestamp analysis indicates 19 submissions uploaded within a 4-minute window from distinct network locations</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-weight: 600; color: #c53030;">
+                        Per Academic Policy §4.2.7: Submissions exceeding 30% similarity threshold or showing statistical anomalies require manual review by the Academic Integrity Committee before finalization.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Similarity Score</div>
+                    <div class="stat-value">67.3%</div>
+                    <div style="font-size: 0.85rem; color: #718096;">Threshold: 30%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">High Scorers</div>
+                    <div class="stat-value">23/156</div>
+                    <div style="font-size: 0.85rem; color: #718096;">Expected: ≤8</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Review Priority</div>
+                    <div class="stat-value" style="color: #dd6b20;">HIGH</div>
+                    <div style="font-size: 0.85rem; color: #718096;">Committee queue</div>
+                </div>
+            </div>
+            
+            <div class="action-section">
+                <div class="action-title">Required Next Steps</div>
+                <ul class="action-list">
+                    <li><strong>Do not</strong> attempt to resubmit grades through the automated portal</li>
+                    <li>Prepare documentation for the 23 flagged submissions (drafts, commit history, development logs)</li>
+                    <li>Schedule a review meeting with the Academic Integrity Committee via <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600;">portal.university.edu/integrity-review</a></li>
+                    <li>Notify affected students that grade finalization is pending verification (template available in Faculty Resources)</li>
+                    <li>Expected review timeline: 3-5 business days</li>
+                </ul>
+                <div class="btn-group">
+                    <button class="btn">
+                        📥 Download Anomaly Report (PDF)
+                    </button>
+                    <button class="btn btn-secondary">
+                        🗓️ Schedule Review Meeting
+                    </button>
+                </div>
+            </div>
+            
+            <div style="background: #f8fafc; border-left: 4px solid #4299e1; padding: 16px; border-radius: 0 8px 8px 0; margin-top: 10px;">
+                <strong style="color: #2c5282;">ℹ️ Note for Instructors:</strong> 
+                This automated review protects academic standards and ensures fair evaluation. 
+                Most reviews are resolved within 72 hours. Contact the Faculty Support Desk at 
+                <span style="font-weight: 600;">support@university.edu</span> for urgent inquiries.
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="timestamp">
+                🕒 Generated: March 21, 2026 at 14:32:18 UTC
+            </div>
+            <div>
+                Reference: <span class="reference">REV-2026-CS401-8842</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
