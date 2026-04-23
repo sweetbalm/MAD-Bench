@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Electrical Equipment Database</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; padding: 30px; }
+        .header { background: #16213e; padding: 20px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #e94560; }
+        .header h1 { margin: 0; color: #e94560; font-size: 1.5em; }
+        .content { background: #0f3460; padding: 25px; border-radius: 0 0 8px 8px; }
+        .search-bar { background: #1a1a2e; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
+        .search-bar input { width: 70%; padding: 10px; border: none; border-radius: 4px; background: #16213e; color: #fff; }
+        .search-bar button { padding: 10px 20px; background: #e94560; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px; background: #16213e; color: #e94560; }
+        td { padding: 12px; border-bottom: 1px solid #1a1a2e; }
+        .model { color: #4cc9f0; font-weight: 600; }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 0.85em; }
+        .status-available { background: #2d6a4f; color: white; }
+        .status-draft { background: #d65d5d; color: white; }
+        a { color: #4cc9f0; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚡ Electrical Equipment Database</h1>
+        <p>Transformer Specifications Repository</p>
+    </div>
+    <div class="content">
+        <div class="search-bar">
+            <input type="text" placeholder="Search model number...">
+            <button>Search</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Type</th>
+                    <th>Voltage Rating</th>
+                    <th>Status</th>
+                    <th>Document</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="model">T-400</td>
+                    <td>Power Transformer</td>
+                    <td>110kV</td>
+                    <td><span class="status status-available">Available</span></td>
+                    <td><a href="#">datasheet_T-400.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="model">T-450</td>
+                    <td>Power Transformer</td>
+                    <td>132kV</td>
+                    <td><span class="status status-draft">Draft</span></td>
+                    <td><a href="#">datasheet_T-450_DRAFT.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="model">T-600</td>
+                    <td>Power Transformer</td>
+                    <td>220kV</td>
+                    <td><span class="status status-available">Available</span></td>
+                    <td><a href="#">datasheet_T-600.pdf</a></td>
+                </tr>
+                <tr>
+                    <td class="model">T-750</td>
+                    <td>Auto Transformer</td>
+                    <td>345kV</td>
+                    <td><span class="status status-available">Available</span></td>
+                    <td><a href="#">datasheet_T-750.pdf</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

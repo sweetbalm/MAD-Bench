@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Static Image as Video Player - Fixed Local Path</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a0f1e 0%, #0c1222 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .video-container {
+            max-width: 1000px;
+            width: 100%;
+            background: #0b0f17;
+            border-radius: 32px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .media-stage {
+            background: #000000;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            background: black;
+            transition: opacity 0.2s;
+        }
+
+        .status-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #8e9aaf;
+            background: rgba(10, 14, 22, 0.92);
+            backdrop-filter: blur(8px);
+            font-weight: 500;
+            gap: 12px;
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.2s;
+        }
+
+        .status-overlay svg {
+            opacity: 0.6;
+        }
+
+        .error-message {
+            color: #ff8a7a;
+            background: #2c1a1a;
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+
+        .controls {
+            padding: 20px 24px 24px 24px;
+            background: rgba(16, 20, 30, 0.95);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .progress-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-display {
+            font-family: 'JetBrains Mono', monospace, 'SF Mono';
+            font-size: 0.9rem;
+            background: #1e2438;
+            padding: 5px 12px;
+            border-radius: 40px;
+            color: #c0d0ff;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+        }
+
+        .slider-container {
+            flex: 1;
+            position: relative;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 5px;
+            -webkit-appearance: none;
+            background: #2a2f42;
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]:focus {
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #6d8eff;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 0 8px #6d8effaa;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #8aa3ff;
+        }
+
+        .button-bar {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: #1e253c;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #eef3ff;
+            font-family: inherit;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: #3b4e8c;
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 78, 140, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #4f66b0;
+            transform: translateY(-1px);
+        }
+
+        .play-pause-btn {
+            background: #2d3b62;
+            padding: 8px 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="video-container" id="appRoot">
+    <div class="media-stage" id="mediaStage">
+        <canvas id="imageCanvas" width="1280" height="720" style="width:100%; height:auto; aspect-ratio:16/9;"></canvas>
+        <div id="statusOverlay" class="status-overlay">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 16L8.58579 11.4142C9.36684 10.6332 10.6332 10.6332 11.4142 11.4142L14 14M12 8H12.01M5 20H19C20.1046 20 21 19.1046 21 18V6C21 4.89543 20.1046 4 19 4H5C3.89543 4 3 4.89543 3 6V18C3 19.1046 3.89543 20 5 20Z" stroke="#9aa9e0" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="12" cy="8" r="1" fill="#9aa9e0"/>
+            </svg>
+            <span id="overlayText">Loading image...</span>
+            <span id="overlayDetail" style="font-size:0.75rem;"></span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="progress-area">
+            <div class="time-display" id="timeLabel">00:00 / 00:00</div>
+            <div class="slider-container">
+                <input type="range" id="progressSlider" value="0" min="0" max="100" step="0.01">
+            </div>
+        </div>
+
+        <div class="button-bar">
+            <!-- Reload button removed per request -->
+            <button class="btn play-pause-btn" id="playPauseBtn">▶ Play</button>
+            <button class="btn" id="resetBtn">↺ Reset</button>
+            
+            <div class="status-badge" id="loopStatus">🔁 Loop: ON</div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    (function() {
+        const LOCAL_IMAGE_PATH = "./show.jpg";
+        const VIRTUAL_DURATION = 10.0;
+        
+        const canvas = document.getElementById('imageCanvas');
+        const ctx = canvas.getContext('2d');
+        const statusOverlay = document.getElementById('statusOverlay');
+        const overlayTextSpan = document.getElementById('overlayText');
+        const overlayDetailSpan = document.getElementById('overlayDetail');
+        const progressSlider = document.getElementById('progressSlider');
+        const timeLabel = document.getElementById('timeLabel');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        const loopStatusSpan = document.getElementById('loopStatus');
+        
+        let currentImage = null;
+        let imageWidth = 0, imageHeight = 0;
+        let animationId = null;
+        let isPlaying = false;
+        let currentProgress = 0.0;
+        let lastFrameTimestamp = 0;
+        let isDraggingSlider = false;
+        let loopEnabled = true;
+        let loadError = false;
+        
+        function formatTime(seconds) {
+            if (isNaN(seconds)) seconds = 0;
+            const clamped = Math.min(Math.max(0, seconds), VIRTUAL_DURATION);
+            const mins = Math.floor(clamped / 60);
+            const secs = Math.floor(clamped % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateUIFromProgress() {
+            if (!isDraggingSlider) {
+                progressSlider.value = (currentProgress * 100).toFixed(2);
+            }
+            const currentSecs = currentProgress * VIRTUAL_DURATION;
+            timeLabel.innerText = `${formatTime(currentSecs)} / ${formatTime(VIRTUAL_DURATION)}`;
+        }
+        
+        function drawImageOnCanvas() {
+            if (!currentImage || !currentImage.complete || currentImage.naturalWidth === 0 || loadError) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+            
+            const imgW = currentImage.naturalWidth;
+            const imgH = currentImage.naturalHeight;
+            const canvasW = canvas.width;
+            const canvasH = canvas.height;
+            
+            const scale = Math.min(canvasW / imgW, canvasH / imgH);
+            const drawW = imgW * scale;
+            const drawH = imgH * scale;
+            const offsetX = (canvasW - drawW) / 2;
+            const offsetY = (canvasH - drawH) / 2;
+            
+            ctx.clearRect(0, 0, canvasW, canvasH);
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvasW, canvasH);
+            ctx.drawImage(currentImage, offsetX, offsetY, drawW, drawH);
+        }
+        
+        function resizeCanvasToDisplay() {
+            const container = document.querySelector('.media-stage');
+            if (!container) return;
+            const maxWidth = container.clientWidth;
+            let targetWidth = Math.min(maxWidth, 1280);
+            let targetHeight = (targetWidth * 9) / 16;
+            if (currentImage && currentImage.naturalWidth && currentImage.naturalHeight && !loadError) {
+                const aspect = currentImage.naturalWidth / currentImage.naturalHeight;
+                if (maxWidth > 0) {
+                    targetWidth = Math.min(maxWidth, 1280);
+                    targetHeight = targetWidth / aspect;
+                }
+            }
+            targetWidth = Math.floor(Math.max(320, targetWidth));
+            targetHeight = Math.floor(Math.max(180, targetHeight));
+            if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+                canvas.width = targetWidth;
+                canvas.height = targetHeight;
+            }
+            drawImageOnCanvas();
+        }
+        
+        function animationLoop(nowMs) {
+            if (!isPlaying) {
+                animationId = null;
+                return;
+            }
+            if (!currentImage || loadError) {
+                if (isPlaying) pausePlayback();
+                animationId = null;
+                return;
+            }
+            
+            if (lastFrameTimestamp === 0) {
+                lastFrameTimestamp = nowMs;
+                requestAnimationFrame(animationLoop);
+                return;
+            }
+            
+            let delta = Math.min(0.1, (nowMs - lastFrameTimestamp) / 1000);
+            if (delta > 0 && !isDraggingSlider) {
+                let newProgress = currentProgress + (delta / VIRTUAL_DURATION);
+                if (newProgress >= 1.0) {
+                    if (loopEnabled) {
+                        newProgress = 0.0;
+                        currentProgress = 0.0;
+                        updateUIFromProgress();
+                        drawImageOnCanvas();
+                        lastFrameTimestamp = nowMs;
+                        requestAnimationFrame(animationLoop);
+                        return;
+                    } else {
+                        currentProgress = 1.0;
+                        updateUIFromProgress();
+                        drawImageOnCanvas();
+                        pausePlayback();
+                        lastFrameTimestamp = 0;
+                        animationId = null;
+                        return;
+                    }
+                }
+                currentProgress = newProgress;
+                if (currentProgress > 1.0) currentProgress = 1.0;
+                updateUIFromProgress();
+                drawImageOnCanvas();
+            }
+            lastFrameTimestamp = nowMs;
+            animationId = requestAnimationFrame(animationLoop);
+        }
+        
+        function startPlayback() {
+            if (loadError || !currentImage) {
+                return false;
+            }
+            if (isPlaying) return true;
+            isPlaying = true;
+            playPauseBtn.innerHTML = '⏸ Pause';
+            lastFrameTimestamp = 0;
+            if (animationId) cancelAnimationFrame(animationId);
+            animationId = requestAnimationFrame(animationLoop);
+            return true;
+        }
+        
+        function pausePlayback() {
+            if (!isPlaying) return;
+            isPlaying = false;
+            playPauseBtn.innerHTML = '▶ Play';
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            lastFrameTimestamp = 0;
+        }
+        
+        function resetPlayback() {
+            const wasPlaying = isPlaying;
+            if (wasPlaying) pausePlayback();
+            currentProgress = 0.0;
+            updateUIFromProgress();
+            drawImageOnCanvas();
+            // 重置后不自动播放，保持暂停状态
+        }
+        
+        function seekTo(fraction) {
+            fraction = Math.min(1.0, Math.max(0.0, fraction));
+            currentProgress = fraction;
+            updateUIFromProgress();
+            drawImageOnCanvas();
+        }
+
+        function setOverlay(visible, message, detail = "") {
+            if (visible) {
+                overlayTextSpan.innerText = message || "Loading...";
+                overlayDetailSpan.innerText = detail;
+                statusOverlay.style.display = 'flex';
+                statusOverlay.style.opacity = '1';
+            } else {
+                statusOverlay.style.display = 'none';
+            }
+        }
+        
+        function loadImageFromPath(imagePath) {
+            setOverlay(true, "Loading image...", `Path: ${imagePath.substring(0, 70)}${imagePath.length > 70 ? '…' : ''}`);
+            loadError = false;
+            
+            const img = new Image();
+            // 移除 crossOrigin 以避免 file:// 协议下的 CORS 错误
+            // img.crossOrigin = "Anonymous";
+            
+            img.onload = () => {
+                currentImage = img;
+                imageWidth = img.naturalWidth;
+                imageHeight = img.naturalHeight;
+                loadError = false;
+
+                // 加载成功后保持暂停状态，不自动播放
+                currentProgress = 0.0;
+                updateUIFromProgress();
+                
+                resizeCanvasToDisplay();
+                drawImageOnCanvas();
+                
+                setOverlay(false, "");
+                
+                // 移除自动播放：startPlayback();
+            };
+            
+            img.onerror = (err) => {
+                console.error("Failed to load image from path:", imagePath, err);
+                loadError = true;
+                currentImage = null;
+                imageWidth = 0;
+                imageHeight = 0;
+                
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                let errorMsg = `Cannot load image from "${imagePath}".`;
+                let suggestion = "";
+                if (imagePath.startsWith("file://") || imagePath.match(/^[A-Za-z]:\\/)) {
+                    suggestion = "Due to browser security, local file:// paths are blocked. Use a relative path and serve via local web server (e.g., 'http://localhost'). Place image in same folder as this HTML and use './your_image.jpg'.";
+                } else if (imagePath === "./demo_image.jpg") {
+                    suggestion = "Default demo path not found. Replace LOCAL_IMAGE_PATH variable with your actual image path, or add a file named 'demo_image.jpg' next to this HTML.";
+                } else {
+                    suggestion = "Check if path exists, or use relative path (e.g., './pics/photo.png'). Run with a local web server for best compatibility.";
+                }
+                setOverlay(true, "Image Load Error", `${errorMsg} ${suggestion}`);
+                if (isPlaying) pausePlayback();
+            };
+            
+            img.src = imagePath;
+        }
+        
+        function toggleLoop() {
+            loopEnabled = !loopEnabled;
+            loopStatusSpan.innerHTML = loopEnabled ? "🔁 Loop: ON" : "⏹ Loop: OFF";
+        }
+        
+        const resizeObserver = new ResizeObserver(() => {
+            resizeCanvasToDisplay();
+        });
+        const mediaStage = document.getElementById('mediaStage');
+        if (mediaStage) resizeObserver.observe(mediaStage);
+        
+        window.addEventListener('resize', () => {
+            resizeCanvasToDisplay();
+        });
+        
+        // Event listeners
+        // reloadBtn listener removed
+        
+        playPauseBtn.addEventListener('click', () => {
+            if (loadError || !currentImage) {
+                // 如果加载失败，提示用户检查路径，不自动重试
+                alert("Image not loaded. Please check the file path and ensure you're using a local web server.");
+                return;
+            }
+            if (isPlaying) pausePlayback();
+            else startPlayback();
+        });
+        
+        resetBtn.addEventListener('click', () => {
+            if (loadError || !currentImage) {
+                alert("Image not loaded. Please check the file path.");
+                return;
+            }
+            resetPlayback();
+        });
+        
+        progressSlider.addEventListener('mousedown', () => {
+            isDraggingSlider = true;
+            if (isPlaying) {
+                pausePlayback();
+                window._wasPlayingBeforeSeek = true;
+            } else {
+                window._wasPlayingBeforeSeek = false;
+            }
+        });
+        
+        progressSlider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value) / 100;
+            seekTo(val);
+        });
+        
+        progressSlider.addEventListener('mouseup', () => {
+            isDraggingSlider = false;
+            if (window._wasPlayingBeforeSeek && currentImage && !loadError) {
+                startPlayback();
+            }
+            window._wasPlayingBeforeSeek = false;
+        });
+        
+        progressSlider.addEventListener('touchstart', () => {
+            isDraggingSlider = true;
+            if (isPlaying) {
+                pausePlayback();
+                window._wasPlayingBeforeSeek = true;
+            } else {
+                window._wasPlayingBeforeSeek = false;
+            }
+        });
+        progressSlider.addEventListener('touchend', () => {
+            isDraggingSlider = false;
+            if (window._wasPlayingBeforeSeek && currentImage && !loadError) {
+                startPlayback();
+            }
+            window._wasPlayingBeforeSeek = false;
+        });
+        
+        loopStatusSpan.addEventListener('click', toggleLoop);
+
+        canvas.addEventListener('click', () => {
+            if (loadError || !currentImage) {
+                alert("Image not loaded. Please check the file path.");
+                return;
+            }
+            if (isPlaying) pausePlayback();
+            else startPlayback();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && document.activeElement !== progressSlider && !(document.activeElement?.type === 'range')) {
+                e.preventDefault();
+                if (loadError || !currentImage) {
+                    alert("Image not loaded. Please check the file path.");
+                    return;
+                }
+                if (isPlaying) pausePlayback();
+                else startPlayback();
+                }
+            if (e.code === 'KeyR') {
+                e.preventDefault();
+                if (!loadError && currentImage) resetPlayback();
+            }
+        });
+        
+        function initialSetup() {
+            canvas.width = 800;
+            canvas.height = 450;
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            setOverlay(true, "Preparing player...", `Loading from: ${LOCAL_IMAGE_PATH}`);
+            updateUIFromProgress();
+            loadImageFromPath(LOCAL_IMAGE_PATH);
+        }
+        
+        initialSetup();
+    })();
+</script>
+</body>
+</html>

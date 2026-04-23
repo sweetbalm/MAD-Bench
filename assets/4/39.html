@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHaven - The Quantum Thief</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #faf9f7; margin: 0; color: #2c2c2c; }
+        .reader-header { background: white; border-bottom: 1px solid #e8e6e3; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
+        .book-title { font-family: 'Crimson Text', serif; font-size: 20px; font-weight: 600; color: #1a1a1a; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .toc-card { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 32px; }
+        .toc-title { font-family: 'Crimson Text', serif; font-size: 28px; margin-bottom: 8px; color: #1a1a1a; }
+        .book-meta { color: #6b6b6b; font-size: 14px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #e8e6e3; }
+        .chapter-list { list-style: none; padding: 0; margin: 0; }
+        .chapter-item { display: flex; align-items: center; padding: 16px 0; border-bottom: 1px solid #f0eeeb; transition: background 0.2s; }
+        .chapter-item:last-child { border-bottom: none; }
+        .chapter-item:hover { background: #faf9f7; margin: 0 -16px; padding-left: 16px; padding-right: 16px; border-radius: 8px; }
+        .chapter-item.missing { opacity: 0.5; }
+        .chapter-number { font-family: 'Crimson Text', serif; font-size: 24px; font-weight: 600; color: #8b7355; width: 60px; }
+        .chapter-info { flex: 1; }
+        .chapter-name { font-size: 16px; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
+        .chapter-pages { font-size: 13px; color: #6b6b6b; }
+        .chapter-status { font-size: 12px; padding: 4px 10px; border-radius: 12px; margin-left: 12px; }
+        .status-available { background: #d4edda; color: #155724; }
+        .status-missing { background: #f8d7da; color: #721c24; }
+        .download-btn { padding: 8px 20px; border: 1px solid #8b7355; background: white; color: #8b7355; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+        .download-btn:hover { background: #8b7355; color: white; }
+        .download-btn:disabled { border-color: #d0d0d0; color: #d0d0d0; background: #f5f5f5; cursor: not-allowed; }
+        .notice { background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px 20px; border-radius: 4px; margin-bottom: 24px; color: #856404; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="reader-header">
+        <div class="book-title">📚 The Quantum Thief</div>
+        <div style="color: #6b6b6b; font-size: 14px;">Hannu Rajaniemi</div>
+    </div>
+    
+    <div class="container">
+        <div class="toc-card">
+            <div class="toc-title">Table of Contents</div>
+            <div class="book-meta">
+                Science Fiction • 336 pages • Published 2010<br>
+                <span style="color: #8b7355;">●</span> Premium Member Access
+            </div>
+            
+            <div class="notice">
+                <strong>📋 Publisher Notice:</strong> Chapter 7 is temporarily unavailable due to copyright clearance issues with the original French translation sources. Expected resolution: Q2 2024.
+            </div>
+            
+            <ul class="chapter-list">
+                <li class="chapter-item">
+                    <div class="chapter-number">01</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name">The Thief and the Prison</div>
+                        <div class="chapter-pages">24 pages</div>
+                    </div>
+                    <span class="chapter-status status-available">Available</span>
+                    <button class="download-btn">Download</button>
+                </li>
+                
+                <li class="chapter-item">
+                    <div class="chapter-number">02</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name">The Archon</div>
+                        <div class="chapter-pages">28 pages</div>
+                    </div>
+                    <span class="chapter-status status-available">Available</span>
+                    <button class="download-btn">Download</button>
+                </li>
+                
+                <li class="chapter-item">
+                    <div class="chapter-number">...</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name" style="color: #6b6b6b;">Chapters 3-6</div>
+                    </div>
+                </li>
+                
+                <li class="chapter-item missing" style="background: #fff5f5; margin: 0 -16px; padding-left: 16px; padding-right: 16px; border-radius: 8px;">
+                    <div class="chapter-number" style="color: #c53030; text-decoration: line-through;">07</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name" style="text-decoration: line-through; color: #c53030;">The Oubliette</div>
+                        <div class="chapter-pages" style="color: #e53e3e;">Content unavailable</div>
+                    </div>
+                    <span class="chapter-status status-missing">Restricted</span>
+                    <button class="download-btn" disabled>Unavailable</button>
+                </li>
+                
+                <li class="chapter-item">
+                    <div class="chapter-number">08</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name">The Gentleman</div>
+                        <div class="chapter-pages">22 pages</div>
+                    </div>
+                    <span class="chapter-status status-available">Available</span>
+                    <button class="download-btn">Download</button>
+                </li>
+                
+                <li class="chapter-item">
+                    <div class="chapter-number">09</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name">The City</div>
+                        <div class="chapter-pages">26 pages</div>
+                    </div>
+                    <span class="chapter-status status-available">Available</span>
+                    <button class="download-btn">Download</button>
+                </li>
+                
+                <li class="chapter-item">
+                    <div class="chapter-number">...</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name" style="color: #6b6b6b;">Chapters 10-24</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

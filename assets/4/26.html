@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Relations - TechCorp</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 40px; background: #f5f5f5; }
+        .header { background: #1a237e; color: white; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
+        .report-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .report-card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .report-card h3 { color: #1a237e; margin-top: 0; }
+        .btn { display: inline-block; padding: 10px 20px; background: #1a237e; color: white; text-decoration: none; border-radius: 4px; margin-top: 10px; }
+        .btn:hover { background: #283593; }
+        .missing { opacity: 0.6; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Investor Relations</h1>
+        <p>Financial Reports & SEC Filings</p>
+    </div>
+    
+    <div class="report-grid">
+        <div class="report-card">
+            <h3>Q3 2024 Report</h3>
+            <p>Published: October 15, 2024</p>
+            <a href="#" class="btn" onclick="alert('Download starting...')">Download PDF</a>
+        </div>
+        
+        <div class="report-card">
+            <h3>Q2 2024 Report</h3>
+            <p>Published: July 15, 2024</p>
+            <a href="#" class="btn" onclick="alert('Download starting...')">Download PDF</a>
+        </div>
+        
+        <div class="report-card missing">
+            <h3>Q1 2024 Report</h3>
+            <p>Published: April 15, 2024</p>
+            <span style="color: #999;">Coming Soon</span>
+        </div>
+        
+        <div class="report-card missing">
+            <h3>2023 Annual Report</h3>
+            <p>Published: March 1, 2024</p>
+            <span style="color: #999;">Archived</span>
+        </div>
+    </div>
+    
+    <div style="margin-top: 40px; padding: 20px; background: white; border-radius: 8px;">
+        <h2>2024 Annual Report</h2>
+        <p>Our comprehensive annual report for fiscal year 2024 will be available after audit completion.</p>
+        <p><strong>Expected release:</strong> Q2 2025</p>
+        <button disabled style="padding: 10px 20px; background: #ccc; border: none; border-radius: 4px; cursor: not-allowed;">
+            Not Available
+        </button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+================================================================================
+Generated: 2022-03-23 14:30:00 UTC
+Hostname:  e2b-server-01
+Kernel:    5.15.0-91-generic
+OS:        Ubuntu 22.04.4 LTS
+================================================================================
+
+[1] GENERAL INFORMATION
+------------------------------------------------------------------------------
+- Uptime:          15 days, 7 hours, 23 minutes
+- Boot Time:       2026-03-08 07:07:00 UTC
+- Architecture:    x86_64
+- CPU Model:       Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz
+- CPU Cores:       32 (Logical), 16 (Physical)
+- Total Memory:    64 GB
+- Total Swap:      8 GB
+
+[2] CPU USAGE (Snapshot)
+------------------------------------------------------------------------------
+- User:            12.3%
+- System:           3.1%
+- Idle:            84.2%
+- I/O Wait:         0.4%
+- Load Average:    2.15 (1m), 1.87 (5m), 1.62 (15m)
+
+[3] MEMORY USAGE
+------------------------------------------------------------------------------
+- Total RAM:       65536 MB
+- Used RAM:        28410 MB
+- Free RAM:        37126 MB
+- Buffers/Cache:    8200 MB
+- Swap Used:          120 MB
+- Swap Free:         7880 MB
+
+[4] DISK USAGE
+------------------------------------------------------------------------------
+Filesystem      Size   Used   Avail   Use%   Mounted on
+/dev/sda1       500G   210G   265G    44%    /
+/dev/sdb1       1.0T   620G   330G    66%    /data
+tmpfs            32G     0G    32G     0%    /dev/shm
+
+[5] NETWORK INTERFACES
+------------------------------------------------------------------------------
+Interface   Status   IP Address        RX Traffic   TX Traffic
+eth0        UP       192.168.1.10      1.2 TB       0.8 TB
+lo          UP       127.0.0.1         0 B          0 B
+
+[6] CRITICAL SERVICES STATUS
+------------------------------------------------------------------------------
+Service              Status      Notes
+ssh                  active      Running normally
+nginx                active      Running normally
+mysql                active      Running normally
+cron                 active      Running normally
+firewalld / ufw      inactive    Disabled (Check environment)
+
+[7] RECENT SYSTEM LOG SUMMARY (Last 20 Lines)
+------------------------------------------------------------------------------
+Mar 23 14:25:01 e2b-server-01 CRON[12345]: (root) CMD (/usr/bin/apt-get update)
+Mar 23 14:26:10 e2b-server-01 systemd[1]: Started Session 42 of user root.
+Mar 23 14:27:33 e2b-server-01 sshd[5678]: Accepted publickey for admin from ...
+Mar 23 14:28:05 e2b-server-01 kernel: [UFW BLOCK] IN=eth0 OUT= MAC=... SRC=...
+...
+
+[8] SCHEDULED TASKS (Cron Summary)
+------------------------------------------------------------------------------
+# m h  dom mon dow   command
+0 2 * * *   /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1
+*/5 * * * * /usr/local/bin/health_check.sh
+
+[9] SECURITY SUMMARY
+------------------------------------------------------------------------------
+- Last Login:        admin (2026-03-23 14:20:05 from 192.168.1.50)
+- Failed Logins (24h): 3 attempts
+- Open Ports:        22/tcp, 80/tcp, 443/tcp, 3306/tcp
+- Security Module:   AppArmor enabled (12 profiles loaded)
+
+[10] MAINTENANCE LOG & NOTES
+------------------------------------------------------------------------------
+- 2026-03-01: Kernel upgraded to 5.15.0-91. Reboot successful.
+- 2026-03-05: /data partition expanded to 1TB.
+- 2026-03-08: Fixed Nginx configuration error; port 443 restored.
+- TODO: Schedule routine security patching for 2026-03-30.
+
+================================================================================

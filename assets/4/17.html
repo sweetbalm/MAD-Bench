@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Inbox - StreamFlix Subscription</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+            color: #0f172a;
+        }
+
+        .email-client {
+            max-width: 1000px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inbox-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-icon {
+            font-size: 1.5rem;
+            cursor: default;
+            color: #475569;
+        }
+
+        .inbox-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .badge {
+            background-color: #eef2ff;
+            color: #2563eb;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 8px;
+            color: #64748b;
+            cursor: default;
+            transition: background 0.2s;
+        }
+
+        .icon-btn:hover {
+            background-color: #f1f5f9;
+            cursor: pointer;
+        }
+
+        .toolbar {
+            padding: 12px 28px;
+            background-color: #fafcff;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #475569;
+            border-radius: 6px;
+            cursor: default;
+            transition: background 0.2s;
+        }
+
+        .tool-btn:hover {
+            background-color: #eef2ff;
+            cursor: pointer;
+        }
+
+        .email-list {
+            flex: 1;
+            background-color: #ffffff;
+        }
+
+        .email-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 28px;
+            border-bottom: 1px solid #e9eef3;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            position: relative;
+        }
+
+        .email-row:hover {
+            background-color: #f8fafc;
+        }
+
+        .email-row.unread {
+            background-color: #ffffff;
+        }
+
+        .email-row.unread .email-subject,
+        .email-row.unread .sender-name {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .email-row.unread .email-preview {
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .unread-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #3b82f6;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .email-select {
+            flex-shrink: 0;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            background: white;
+            cursor: default;
+        }
+
+        .email-avatar {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .email-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .email-header-line {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .sender-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .email-date {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            flex-shrink: 0;
+        }
+
+        .email-subject {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 4px;
+        }
+
+        .email-preview {
+            font-size: 0.85rem;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .attachment-icon {
+            flex-shrink: 0;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .email-detail {
+            padding: 28px 32px;
+            background-color: #fefefe;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-header {
+            margin-bottom: 24px;
+        }
+
+        .detail-sender-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .detail-sender-info h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .detail-sender-info p {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .detail-date {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .detail-subject {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 16px 0 8px 0;
+        }
+
+        .detail-body {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #1e293b;
+        }
+
+        .subscription-card {
+            background: linear-gradient(135deg, #fef9e3 0%, #fff7ed 100%);
+            border-radius: 20px;
+            margin: 24px 0;
+            padding: 24px;
+            border: 1px solid #fed7aa;
+        }
+
+        .plan-badge {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            font-weight: 600;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #7c2d12;
+            margin-bottom: 8px;
+        }
+
+        .plan-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #9a3412;
+            margin: 12px 0 8px;
+        }
+
+        .plan-price small {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #b45309;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #422006;
+        }
+
+        .check-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #fed7aa;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            color: #c2410c;
+        }
+
+        .btn-manage {
+            background-color: #ea580c;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-manage:hover {
+            background-color: #c2410c;
+        }
+
+        .footer-note {
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 12px;
+            }
+            .email-row {
+                padding: 14px 20px;
+                gap: 12px;
+            }
+            .email-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            .email-detail {
+                padding: 20px;
+            }
+            .detail-subject {
+                font-size: 1.1rem;
+            }
+            .subscription-card {
+                padding: 16px;
+            }
+            .plan-title {
+                font-size: 1.2rem;
+            }
+            .plan-price {
+                font-size: 1.4rem;
+            }
+            .inbox-header {
+                padding: 16px 20px;
+            }
+            .toolbar {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="email-client">
+    <div class="inbox-header">
+        <div class="header-left">
+            <div class="menu-icon">☰</div>
+            <div class="inbox-title">
+                Inbox
+                <span class="badge">1 new</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="icon-btn">🔄</div>
+            <div class="icon-btn">⚙️</div>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="tool-btn">📩 Archive</div>
+        <div class="tool-btn">🗑️ Delete</div>
+        <div class="tool-btn">📬 Mark as read</div>
+        <div class="tool-btn">⋯ More</div>
+    </div>
+
+    <div class="email-list">
+        <div class="email-row unread" id="emailRow">
+            <div class="email-select">
+                <div class="checkbox"></div>
+            </div>
+            <div class="unread-dot"></div>
+            <div class="email-avatar">SF</div>
+            <div class="email-info">
+                <div class="email-header-line">
+                    <span class="sender-name">StreamFlix</span>
+                    <span class="email-date">Mar 24, 2025</span>
+                </div>
+                <div class="email-subject">✨ Your StreamFlix Premium Membership is confirmed!</div>
+                <div class="email-preview">
+                    Thank you for subscribing to StreamFlix Ultra! Your 4K streaming, exclusive originals, and offline access are now active...
+                </div>
+            </div>
+            <div class="attachment-icon">📎</div>
+        </div>
+    </div>
+
+    <div class="email-detail" id="emailDetail" style="display: none;">
+        <div class="detail-header">
+            <div class="detail-sender-section">
+                <div class="detail-sender-info">
+                    <h2>StreamFlix</h2>
+                    <p>support@streamflix.com</p>
+                </div>
+                <div class="detail-date">March 24, 2025 · 9:42 AM</div>
+            </div>
+            <div class="detail-subject">
+                🎬 You're now a StreamFlix Premium Member – Welcome!
+            </div>
+        </div>
+        <div class="detail-body">
+            <p>Hi there,</p>
+            <p style="margin-top: 12px;">Thanks for choosing <strong>StreamFlix</strong> — the ultimate streaming destination for award-winning series, blockbuster movies, and exclusive originals. We're thrilled to welcome you to the family! Your membership is now active and you can start streaming immediately.</p>
+            
+            <div class="subscription-card">
+                <div class="plan-badge">✓ ACTIVE MEMBERSHIP</div>
+                <div class="plan-title">StreamFlix Ultra Plan</div>
+                <div class="plan-price">$14.99 <small>/ month</small></div>
+                <p style="font-size: 0.8rem; color: #9a3412;">Next billing: April 24, 2025</p>
+                <ul class="feature-list">
+                    <li><span class="check-icon">✓</span> Unlimited access to 12,000+ movies & TV shows</li>
+                    <li><span class="check-icon">✓</span> 4K Ultra HD + Dolby Atmos sound</li>
+                    <li><span class="check-icon">✓</span> Stream on 5 devices simultaneously</li>
+                    <li><span class="check-icon">✓</span> Download for offline viewing</li>
+                    <li><span class="check-icon">✓</span> Zero ads + exclusive member content</li>
+                </ul>
+                <button class="btn-manage" id="manageBtn">Manage Subscription →</button>
+            </div>
+            
+            <p style="margin: 16px 0 8px;"><strong>What's included:</strong></p>
+            <ul style="margin-left: 24px; color: #334155;">
+                <li>🔥 New releases every Friday</li>
+                <li>📱 StreamFlix App on iOS, Android, Smart TV, PlayStation, Xbox</li>
+                <li>🎁 Refer a friend and get 1 month free</li>
+                <li>🎬 StreamFlix Originals: award-winning exclusive content</li>
+            </ul>
+            
+            <hr />
+            
+            <p>Need help? Visit our <strong>Help Center</strong> or reply to this email. Our support team is available 24/7.</p>
+            <p style="margin-top: 20px;">Happy streaming!<br/><strong>The StreamFlix Team</strong></p>
+            <div class="footer-note">
+                StreamFlix, Inc. · 1000 Entertainment Ave, Los Angeles, CA 90028<br/>
+                © 2025 StreamFlix. All rights reserved. If you didn't sign up for this subscription, please contact us immediately.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const emailRow = document.getElementById('emailRow');
+    const emailDetail = document.getElementById('emailDetail');
+    const manageBtn = document.getElementById('manageBtn');
+    
+    let isDetailOpen = false;
+    
+    emailRow.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (isDetailOpen) {
+            emailDetail.style.display = 'none';
+            isDetailOpen = false;
+            emailRow.classList.remove('selected');
+        } else {
+            emailDetail.style.display = 'block';
+            isDetailOpen = true;
+            emailRow.classList.add('selected');
+
+            emailDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    });
+
+    if (manageBtn) {
+        manageBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            alert('🔐 This is a demo. In a real app, you would be redirected to manage your StreamFlix subscription settings.');
+        });
+    }
+    
+    const archiveBtn = document.querySelector('.tool-btn:nth-child(1)');
+    const deleteBtn = document.querySelector('.tool-btn:nth-child(2)');
+    const markReadBtn = document.querySelector('.tool-btn:nth-child(3)');
+    const moreBtn = document.querySelector('.tool-btn:nth-child(4)');
+    const refreshBtn = document.querySelector('.icon-btn:first-child');
+    
+    if (moreBtn) {
+        moreBtn.addEventListener('click', () => {
+            alert('No other emails.');
+        });
+    }
+    
+    if (markReadBtn) {
+        markReadBtn.addEventListener('click', () => {
+            const unreadDot = emailRow.querySelector('.unread-dot');
+            if (unreadDot) {
+                unreadDot.style.opacity = '0';
+                emailRow.classList.remove('unread');
+                alert('✓ Marked as read');
+            }
+        });
+    }
+    
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            alert('Inbox refreshed. You have 1 unread message from StreamFlix.');
+        });
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+        .email-row.selected {
+            background-color: #f0f9ff;
+            border-left: 3px solid #3b82f6;
+        }
+        .email-row.selected .unread-dot {
+            opacity: 0;
+        }
+    `;
+    document.head.appendChild(style);
+
+    console.log('Inbox ready — one subscription email from StreamFlix video platform');
+
+    const checkbox = document.querySelector('.checkbox');
+    if (checkbox) {
+        checkbox.addEventListener('click', (e) => {
+            e.stopPropagation();
+            alert('This inbox contains exactly one subscription email.');
+        });
+    }
+    
+    const attachmentIcon = document.querySelector('.attachment-icon');
+    if (attachmentIcon) {
+        attachmentIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            alert('No attachments — this is a membership confirmation email.');
+        });
+    }
+</script>
+</body>
+</html>

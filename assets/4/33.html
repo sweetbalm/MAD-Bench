@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State University - Student Portal</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; margin: 0; }
+        .navbar { background: #1e3a8a; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { margin: 0; font-size: 20px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: white; text-decoration: none; opacity: 0.9; }
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 24px; }
+        .semester-list { margin-top: 24px; }
+        .semester-item { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 2px solid #e5e7eb; border-radius: 12px; margin-bottom: 16px; transition: all 0.2s; }
+        .semester-item:hover { border-color: #3b82f6; }
+        .semester-item.unavailable { border-color: #fecaca; background: #fef2f2; }
+        .semester-info h3 { margin: 0 0 8px 0; color: #111827; }
+        .semester-info p { margin: 0; color: #6b7280; font-size: 14px; }
+        .btn { padding: 10px 24px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; }
+        .btn-disabled { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+        .gpa-badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-left: 12px; }
+        .warning-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 16px; border-radius: 8px; margin-bottom: 24px; color: #92400e; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>🎓 State University Portal</h1>
+        <div class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="#">Courses</a>
+            <a href="#">Grades</a>
+            <a href="#">Transcripts</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <h2 style="margin-top: 0; color: #1e3a8a;">Official Transcripts</h2>
+            <p style="color: #6b7280;">Download official transcripts for each semester. Unofficial transcripts are available for current semester.</p>
+            
+            <div class="warning-box">
+                <strong>📋 Processing Delay:</strong> Fall 2023 grades are currently under administrative review due to academic integrity investigations in the Chemistry Department. Transcripts expected to be available by May 15, 2024.
+            </div>
+            
+            <div class="semester-list">
+                <div class="semester-item">
+                    <div class="semester-info">
+                        <h3>Spring 2024 <span class="gpa-badge">GPA: In Progress</span></h3>
+                        <p>Current semester • Unofficial transcript available</p>
+                    </div>
+                    <button class="btn btn-primary">Download Unofficial</button>
+                </div>
+                
+                <div class="semester-item unavailable">
+                    <div class="semester-info">
+                        <h3>Fall 2023 <span class="gpa-badge" style="background: #fee2e2; color: #991b1b;">UNAVAILABLE</span></h3>
+                        <p>Administrative hold • Under review</p>
+                    </div>
+                    <button class="btn btn-disabled" disabled>Not Available</button>
+                </div>
+                
+                <div class="semester-item">
+                    <div class="semester-info">
+                        <h3>Summer 2023 <span class="gpa-badge">GPA: 3.85</span></h3>
+                        <p>6 credits completed • Official transcript</p>
+                    </div>
+                    <button class="btn btn-primary">Download PDF</button>
+                </div>
+                
+                <div class="semester-item">
+                    <div class="semester-info">
+                        <h3>Spring 2023 <span class="gpa-badge">GPA: 3.72</span></h3>
+                        <p>15 credits completed • Official transcript</p>
+                    </div>
+                    <button class="btn btn-primary">Download PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aviation Technical Library</title>
+    <style>
+        body { font-family: 'Courier New', monospace; background: #2b2b2b; color: #c5c5c5; padding: 40px; }
+        .library-header { background: #1e1e1e; border: 2px solid #4a9eff; padding: 20px; border-radius: 6px; margin-bottom: 25px; }
+        .library-header h1 { color: #4a9eff; margin: 0; font-size: 1.4em; }
+        .library-header p { margin: 5px 0 0 0; color: #888; }
+        .doc-section { background: #1e1e1e; border: 1px solid #3a3a3a; border-radius: 6px; overflow: hidden; }
+        .section-title { background: #3a3a3a; padding: 12px 20px; color: #4a9eff; font-weight: 600; }
+        .doc-list { list-style: none; padding: 0; margin: 0; }
+        .doc-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #3a3a3a; }
+        .doc-item:last-child { border-bottom: none; }
+        .doc-item:hover { background: #2a2a2a; }
+        .doc-info { display: flex; align-items: center; gap: 15px; }
+        .doc-type { font-size: 1.5em; }
+        .doc-title { font-weight: 600; color: #fff; }
+        .doc-code { color: #888; font-size: 0.85em; margin-left: 10px; }
+        .action-btn { padding: 8px 16px; background: #4a9eff; color: #1e1e1e; text-decoration: none; border-radius: 4px; font-weight: 600; }
+        .action-btn:hover { background: #3a8eef; }
+        .warning { background: #3d2914; border: 1px solid #d65d5d; color: #d65d5d; padding: 10px 15px; border-radius: 4px; margin-bottom: 20px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="library-header">
+        <h1>✈️ Aviation Technical Library</h1>
+        <p>Boeing Aircraft Documentation Repository</p>
+    </div>
+    <div class="warning">⚠️ Restricted Access: Authorized Personnel Only</div>
+    <div class="doc-section">
+        <div class="section-title">📚 B737 Series Documentation</div>
+        <ul class="doc-list">
+            <li class="doc-item">
+                <div class="doc-info">
+                    <span class="doc-type">📘</span>
+                    <div>
+                        <div class="doc-title">Flight Manual - B737-800 <span class="doc-code">FM-737-800-REV12</span></div>
+                        <div style="color:#888;font-size:0.85em;">Last Updated: 2024-11-20</div>
+                    </div>
+                </div>
+                <a href="#" class="action-btn">Download PDF</a>
+            </li>
+            <li class="doc-item">
+                <div class="doc-info">
+                    <span class="doc-type">🔧</span>
+                    <div>
+                        <div class="doc-title">Maintenance Manual - B737-MAX <span class="doc-code">MM-737MAX-REV8</span></div>
+                        <div style="color:#888;font-size:0.85em;">Last Updated: 2025-01-15</div>
+                    </div>
+                </div>
+                <a href="#" class="action-btn">Download PDF</a>
+            </li>
+            <li class="doc-item">
+                <div class="doc-info">
+                    <span class="doc-type">📋</span>
+                    <div>
+                        <div class="doc-title">Parts Catalog - B737-MAX <span class="doc-code">PC-737MAX-REV5</span></div>
+                        <div style="color:#888;font-size:0.85em;">Last Updated: 2024-09-10</div>
+                    </div>
+                </div>
+                <a href="#" class="action-btn">Download PDF</a>
+            </li>
+            <li class="doc-item">
+                <div class="doc-info">
+                    <span class="doc-type">⚠️</span>
+                    <div>
+                        <div class="doc-title">Safety Bulletin - B737-MAX <span class="doc-code">SB-737MAX-2024-03</span></div>
+                        <div style="color:#888;font-size:0.85em;">Last Updated: 2024-06-25</div>
+                    </div>
+                </div>
+                <a href="#" class="action-btn">Download PDF</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
