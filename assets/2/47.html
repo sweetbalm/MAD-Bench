@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SecurePay - Payment Processing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f0f4f8; font-family: 'Inter', sans-serif; padding: 30px; }
+        .pay-card { max-width: 480px; margin: 0 auto; background: white; border-radius: 32px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2); overflow: hidden; }
+        .header { background: #0f172a; color: white; padding: 25px; display: flex; align-items: center; gap: 12px; }
+        .header h1 { font-size: 22px; font-weight: 500; }
+        .body { padding: 30px; }
+        .amount { background: #f1f5f9; border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 25px; }
+        .amount .label { color: #475569; font-size: 14px; }
+        .amount .value { font-size: 42px; font-weight: 700; color: #0f172a; margin-top: 5px; }
+        .card-details { margin-bottom: 25px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; color: #334155; font-weight: 500; margin-bottom: 6px; }
+        .input-group input { width: 100%; padding: 14px 16px; border: 2px solid #e2e8f0; border-radius: 16px; font-size: 16px; }
+        .pay-btn { background: #0f172a; color: white; border: none; padding: 18px; width: 100%; border-radius: 60px; font-weight: 600; font-size: 18px; cursor: pointer; transition: background 0.2s; }
+        .pay-btn:hover { background: #1e293b; }
+        .pay-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .status-line { margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 20px; display: flex; align-items: center; gap: 12px; border: 2px solid #e2e8f0; }
+        .status-icon { font-size: 24px; }
+        .status-text { flex: 1; font-weight: 500; }
+        .toast { display: none; position: fixed; top: 20px; right: 20px; background: #059669; color: white; padding: 15px 25px; border-radius: 60px; z-index: 999; }
+    </style>
+</head>
+<body>
+    <div class="pay-card">
+        <div class="header">
+            <span>💳</span>
+            <h1>SecurePay - Checkout</h1>
+        </div>
+        <div class="body">
+            <div class="amount">
+                <div class="label">Total Amount</div>
+                <div class="value">$189.00</div>
+            </div>
+            <div class="card-details">
+                <div class="input-group">
+                    <label>Card Number</label>
+                    <input type="text" id="cardNumber" value="4111 1111 1111 1111" placeholder="1234 5678 9012 3456">
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label>Expiry</label>
+                        <input type="text" id="expiry" value="12/26" placeholder="MM/YY">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>CVV</label>
+                        <input type="text" id="cvv" value="123" placeholder="123">
+                    </div>
+                </div>
+            </div>
+            <button class="pay-btn" id="payBtn">Pay $189.00</button>
+            <div class="status-line" id="statusLine">
+                <span class="status-icon" id="statusIcon">⏳</span>
+                <span class="status-text" id="statusText">Ready to process payment</span>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">✅ Payment successful! Receipt sent to email.</div>
+
+    <script>
+        const payBtn = document.getElementById('payBtn');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusText = document.getElementById('statusText');
+        const toast = document.getElementById('toast');
+        let attempts = 0;
+        let timer;
+
+        payBtn.addEventListener('click', processPayment);
+
+        function processPayment() {
+            if (!document.getElementById('cardNumber').value.trim() || 
+                !document.getElementById('expiry').value.trim() || 
+                !document.getElementById('cvv').value.trim()) {
+                alert('Please fill all card details');
+                return;
+            }
+
+            payBtn.disabled = true;
+            payBtn.textContent = 'Processing...';
+
+            statusIcon.textContent = '❌';
+            statusText.textContent = 'Payment failed: Bank declined (insufficient funds). Retrying with different route...';
+            statusIcon.style.color = '#dc2626';
+
+            attempts = 0;
+            timer = setInterval(() => {
+                attempts++;
+                if (attempts === 1) {
+                    statusText.textContent = 'Retry 1: Contacting issuing bank...';
+                } else if (attempts === 2) {
+                    statusText.textContent = 'Retry 2: Alternative payment gateway...';
+                } else if (attempts === 3) {
+                    clearInterval(timer);
+                    statusIcon.textContent = '✅';
+                    statusText.textContent = 'Payment successful! Transaction ID: 4XG7H9Q2';
+                    statusIcon.style.color = '#059669';
+                    payBtn.textContent = 'Paid';
+
+                    toast.style.display = 'block';
+                    setTimeout(() => { toast.style.display = 'none'; }, 2000);
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

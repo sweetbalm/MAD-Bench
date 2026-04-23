@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SkyFly - Flight Booking</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #e9f0f9; font-family: 'Inter', -apple-system, sans-serif; padding: 30px; }
+        .booking-card { max-width: 650px; margin: 0 auto; background: white; border-radius: 32px; box-shadow: 0 25px 45px -10px rgba(10,30,60,0.2); overflow: hidden; }
+        .header { background: #1e4a6d; color: white; padding: 25px; display: flex; align-items: center; gap: 12px; }
+        .header h1 { font-size: 26px; font-weight: 500; }
+        .flight-info { padding: 25px; background: #f0f7ff; border-bottom: 1px solid #d0e0f0; }
+        .flight-row { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .flight-city { font-size: 22px; font-weight: 600; color: #1e293b; }
+        .flight-date { color: #4b5563; }
+        .price-tag { font-size: 32px; font-weight: 700; color: #1e4a6d; }
+        .passenger-form { padding: 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 500; color: #1e293b; margin-bottom: 8px; }
+        .form-group input { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 18px; font-size: 16px; transition: border 0.2s; }
+        .form-group input:focus { border-color: #1e4a6d; outline: none; }
+        .pay-btn { background: #1e4a6d; color: white; border: none; padding: 18px; width: 100%; border-radius: 40px; font-size: 18px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .pay-btn:hover { background: #143a54; }
+        .pay-btn:disabled { background: #9bb0c2; cursor: not-allowed; }
+        .status-area { margin: 20px 25px; padding: 20px; border-radius: 20px; display: none; align-items: center; gap: 15px; }
+        .status-area.processing { background: #fff3cd; border: 2px solid #fbbf24; display: flex; }
+        .status-area.failed { background: #fee2e2; border: 2px solid #ef4444; display: flex; color: #991b1b; }
+        .status-area.success { background: #d1fae5; border: 2px solid #10b981; display: flex; color: #065f46; }
+        .status-icon { font-size: 24px; }
+        .toast { display: none; position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 16px 28px; border-radius: 60px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 999; }
+    </style>
+</head>
+<body>
+    <div class="booking-card">
+        <div class="header">
+            <span style="font-size: 28px;">✈️</span>
+            <h1>SkyFly Airlines</h1>
+        </div>
+        <div class="flight-info">
+            <div class="flight-row">
+                <span class="flight-city">JFK ✈️ LAX</span>
+                <span class="flight-date">Fri, May 15, 2026</span>
+            </div>
+            <div class="flight-row">
+                <span style="color: #2d3748;">Departure: 08:30 AM · Arrival: 11:45 AM</span>
+            </div>
+            <div class="flight-row" style="margin-top: 10px;">
+                <span>Total Price</span>
+                <span class="price-tag">$349.99</span>
+            </div>
+        </div>
+        <div class="passenger-form">
+            <div class="form-group">
+                <label>Full Name (as on ID)</label>
+                <input type="text" id="fullName" value="Michael Brown" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" value="michael.b@example.com" placeholder="email@example.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="phone" value="+1 555-123-4567" placeholder="+1 555-123-4567">
+            </div>
+            <button class="pay-btn" id="payBtn">Confirm & Pay $349.99</button>
+            <div class="status-area" id="statusArea">
+                <span class="status-icon" id="statusIcon">⏳</span>
+                <span id="statusMessage">Processing...</span>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">✅ Booking confirmed! Tickets sent to your email.</div>
+
+    <script>
+        const payBtn = document.getElementById('payBtn');
+        const statusArea = document.getElementById('statusArea');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusMessage = document.getElementById('statusMessage');
+        const toast = document.getElementById('toast');
+        let bookingCompleted = false;
+
+        payBtn.addEventListener('click', processPayment);
+
+        function processPayment() {
+            if (bookingCompleted) return;
+
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            if (!name || !email) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            payBtn.disabled = true;
+            payBtn.textContent = 'Processing...';
+
+            statusArea.className = 'status-area failed';
+            statusIcon.textContent = '❌';
+            statusMessage.textContent = 'Payment failed: Insufficient funds. Retrying with alternative method...';
+            statusArea.style.display = 'flex';
+
+            setTimeout(() => {
+                statusArea.className = 'status-area processing';
+                statusIcon.textContent = '⏳';
+                statusMessage.textContent = 'Trying another payment method...';
+            }, 2000);
+
+            setTimeout(() => {
+                statusArea.className = 'status-area success';
+                statusIcon.textContent = '✅';
+                statusMessage.textContent = 'Payment successful! Confirming booking...';
+                
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 3000);
+
+                payBtn.textContent = 'Booking Confirmed';
+                payBtn.disabled = true;
+                bookingCompleted = true;
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

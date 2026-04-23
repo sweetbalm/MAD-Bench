@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin & Save · discount wheel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f6f9fc 0%, #e9f2f9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            padding: 16px;
+        }
+
+        .card {
+            max-width: 520px;
+            width: 100%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 48px 48px 40px 40px;
+            box-shadow: 0 30px 50px rgba(0, 20, 30, 0.2),
+                        0 0 0 1px rgba(255,255,255,0.6) inset;
+            padding: 32px 28px 38px;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #0a2e3f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        h1 i {
+            font-size: 2rem;
+            color: #2c7da0;
+            background: rgba(44, 125, 160, 0.15);
+            padding: 10px;
+            border-radius: 50%;
+        }
+
+        .subhead {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2d5f7e;
+            margin-left: 8px;
+            margin-bottom: 28px;
+            border-left: 4px solid #61a5c2;
+            padding-left: 16px;
+            background: rgba(97, 165, 194, 0.1);
+            border-radius: 0 20px 20px 0;
+        }
+
+        .discount-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+
+        .discount-tile {
+            flex: 1 1 70px;
+            background: white;
+            border-radius: 30px;
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 8px 12px rgba(0,30,40,0.08), 0 2px 4px rgba(0,0,0,0.02);
+            border: 1px solid rgba(44, 125, 160, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+        }
+
+        .discount-tile span {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0b3b4b;
+        }
+
+        .discount-tile small {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3f7b99;
+            margin-top: 4px;
+        }
+
+        .wheel-display {
+            background: #ffffffd9;
+            backdrop-filter: blur(4px);
+            border-radius: 80px;
+            padding: 18px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px dashed #61a5c2;
+            box-shadow: 0 10px 18px -8px rgba(33, 87, 114, 0.3);
+        }
+
+        .current-label {
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #1f5068;
+            background: #cde7f5;
+            padding: 8px 22px;
+            border-radius: 40px;
+            letter-spacing: 0.8px;
+        }
+
+        .current-value {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #0a384b;
+        }
+
+        .current-value small {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #4682a0;
+        }
+
+        .chance-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #e1eff7;
+            border-radius: 60px;
+            padding: 6px 10px 6px 24px;
+            margin-bottom: 28px;
+            border: 1px solid #afd2e6;
+        }
+
+        .chance-text {
+            font-weight: 600;
+            color: #0e4b62;
+            font-size: 1rem;
+        }
+
+        .chance-badge {
+            background: #0b556b;
+            color: white;
+            font-weight: 700;
+            padding: 8px 28px;
+            border-radius: 40px;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(6, 60, 80, 0.2);
+        }
+
+        .draw-btn {
+            width: 100%;
+            background: #1e677f;
+            border: none;
+            border-radius: 60px;
+            padding: 22px 18px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 18px 28px -10px #1a4b5e, 0 4px 0 #0b3a48;
+            transition: all 0.12s ease;
+            cursor: pointer;
+            border: 1px solid #b1e6ff;
+            margin-bottom: 18px;
+        }
+
+        .draw-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 10px 18px -8px #124c60, 0 1px 0 #0b3a48;
+        }
+
+        .draw-btn:disabled {
+            opacity: 0.45;
+            transform: translateY(2px);
+            box-shadow: 0 8px 14px -8px #1a4b5e, 0 1px 0 #0b3a48;
+            pointer-events: none;
+            filter: grayscale(0.3);
+        }
+
+        .draw-btn i {
+            font-size: 2rem;
+            color: #ffd966;
+        }
+
+        .info-note {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            color: #206684;
+            font-weight: 500;
+            font-size: 0.9rem;
+            background: rgba(255,255,240,0.7);
+            padding: 8px 18px;
+            border-radius: 100px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #b7d9ec;
+        }
+
+        .info-note i {
+            color: #d97706;
+        }
+
+        .footer-reset {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .reset-link {
+            background: none;
+            border: none;
+            color: #2a6f8f;
+            font-weight: 500;
+            text-decoration: underline dotted;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: background 0.2s;
+        }
+
+        .reset-link:hover {
+            background: rgba(44, 125, 160, 0.12);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 430px) {
+            .card { padding: 22px 16px 30px; }
+            .current-value { font-size: 3.2rem; }
+            .discount-tile span { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>
+            <i class="fas fa-tag"></i> Discount Spin
+        </h1>
+        <div class="subhead">
+            reveal your instant saving · 10% 20% 30% 40%
+        </div>
+
+        <div class="discount-grid">
+            <div class="discount-tile"><span>10%</span><small>off</small></div>
+            <div class="discount-tile"><span>20%</span><small>off</small></div>
+            <div class="discount-tile"><span>30%</span><small>off</small></div>
+            <div class="discount-tile"><span>40%</span><small>off</small></div>
+        </div>
+
+        <div class="wheel-display" id="wheelDisplay">
+            <span class="current-label"><i class="far fa-hand-pointer" style="margin-right: 6px;"></i>YOUR DISCOUNT</span>
+            <div class="current-value" id="discountValue">0<span>%</span></div>
+        </div>
+
+        <div class="chance-container">
+            <span class="chance-text"><i class="fas fa-dice-d6" style="margin-right: 8px;"></i>draws left</span>
+            <span class="chance-badge" id="chanceCount">9</span>
+        </div>
+
+        <button class="draw-btn" id="drawBtn">
+            <i class="fas fa-gift"></i> draw again
+        </button>
+
+        <div class="info-note">
+            <i class="fas fa-info-circle"></i> each draw uses one chance
+        </div>
+
+        <div class="footer-reset">
+            <button class="reset-link" id="resetBtn"><i class="fas fa-sync-alt" style="margin-right: 6px;"></i>refresh chances</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const DISCOUNTS = [10, 20, 30, 40];
+            let currentDiscount = 0;
+            let remainingChances = 9;
+
+            const discountValueEl = document.getElementById('discountValue');
+            const chanceCountEl = document.getElementById('chanceCount');
+            const drawBtn = document.getElementById('drawBtn');
+            const resetBtn = document.getElementById('resetBtn');
+
+            function updateUI() {
+                discountValueEl.innerHTML = `${currentDiscount}<span>%</span>`;
+                chanceCountEl.textContent = remainingChances;
+                if (remainingChances <= 0) {
+                    drawBtn.disabled = true;
+                } else {
+                    drawBtn.disabled = false;
+                }
+            }
+
+            function drawRandomDiscount() {
+                const randomIndex = Math.floor(Math.random() * DISCOUNTS.length);
+                return DISCOUNTS[randomIndex];
+            }
+
+            function performDraw() {
+                if (remainingChances <= 0) {
+                    return false;
+                }
+                const newDiscount = drawRandomDiscount();
+                currentDiscount = newDiscount;
+                remainingChances -= 1;
+                updateUI();
+                return true;
+            }
+
+            function resetGame() {
+                remainingChances = 9;
+                currentDiscount = 0;
+                updateUI();
+            }
+
+            updateUI();
+
+            drawBtn.addEventListener('click', function() {
+                performDraw();
+            });
+
+            resetBtn.addEventListener('click', function() {
+                resetGame();
+            });
+
+        })();
+    </script>
+</body>
+</html>

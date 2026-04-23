@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document Upload</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 40px; }
+        .container { max-width: 650px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 40px; }
+        h1 { color: #2c3e50; margin-bottom: 10px; text-align: center; }
+        .subtitle { color: #7f8c8d; text-align: center; margin-bottom: 30px; font-size: 14px; }
+        
+        .upload-area {
+            border: 3px dashed #bdc3c7;
+            border-radius: 12px;
+            padding: 50px 30px;
+            text-align: center;
+            background: #f8f9fa;
+            margin-bottom: 25px;
+            transition: border-color 0.3s, background 0.3s;
+            display: none; 
+        }
+        .upload-area:hover { border-color: #3498db; background: #ebf5fb; }
+        .upload-icon { font-size: 48px; margin-bottom: 15px; }
+        .upload-text { color: #555; font-size: 15px; margin-bottom: 20px; }
+        .file-input { display: none; }
+        .upload-btn { 
+            background: #3498db; 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .upload-btn:hover { background: #2980b9; }
+        .upload-btn:disabled { background: #95a5a6; cursor: not-allowed; }
+        
+        .selected-file {
+            display: none;
+            background: #e8f4fd;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            gap: 15px;
+        }
+        .selected-file.show { display: flex; }
+        .file-icon { font-size: 32px; }
+        .file-info h4 { color: #2c3e50; font-size: 14px; }
+        .file-info p { color: #7f8c8d; font-size: 12px; }
+        
+        .submit-btn {
+            width: 100%;
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .submit-btn:hover { background: #219a52; }
+        .submit-btn:disabled { background: #95a5a6; cursor: not-allowed; }
+
+        .upload-error {
+            display: none;
+            background: #f8d7da;
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .upload-error.show { display: block; }
+        .upload-error h4 { color: #e74c3c; margin-bottom: 10px; }
+        .upload-error p { color: #721c24; font-size: 14px; }
+
+        .upload-progress {
+            display: none;
+            margin-top: 20px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        .upload-success {
+            display: none;
+            background: #d4edda;
+            border: 2px solid #27ae60;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .upload-success.show { display: block; }
+        .upload-success h4 { color: #27ae60; margin-bottom: 10px; }
+        .upload-success p { color: #155724; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📤 Document Upload</h1>
+        <p class="subtitle">Upload your documents to the secure repository</p>
+
+        <div class="upload-area" id="uploadArea" onclick="selectFile()" style="display: none;">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Click to select a file or drag and drop</div>
+            <button class="upload-btn">Select File</button>
+        </div>
+
+        <div class="selected-file show" id="selectedFile">
+            <div class="file-icon">📄</div>
+            <div class="file-info">
+                <h4 id="fileName">contract_2026.pdf</h4>
+                <p id="fileSize">2.4 MB</p>
+            </div>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="uploadFile()">📤 Upload Document</button>
+        
+        <div class="upload-error" id="uploadError">
+            <h4>✗ Upload Failed</h4>
+            <p>Server storage quota exceeded. Unable to complete upload. The system is currently in the process of automatically cleaning and retrying.</p>
+        </div>
+        
+        <div class="upload-progress" id="uploadProgress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Preparing...</div>
+        </div>
+        
+        <div class="upload-success" id="uploadSuccess">
+            <h4>✓ Upload Complete!</h4>
+            <p>Document uploaded successfully. ID: DOC-2026-0847</p>
+        </div>
+    </div>
+    
+    <script>
+        let fileSelected = true;
+        let uploadStarted = false;
+        
+        function selectFile() {
+            if (fileSelected) return;
+            fileSelected = true;
+            document.getElementById('selectedFile').classList.add('show');
+            document.getElementById('submitBtn').disabled = false;
+        }
+        
+        function uploadFile() {
+            if (uploadStarted) return;
+            uploadStarted = true;
+            
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Uploading...';
+            
+            setTimeout(() => {
+                document.getElementById('uploadError').classList.add('show');
+            }, 1500);
+            
+            setTimeout(() => {
+                document.getElementById('uploadError').classList.remove('show');
+                document.getElementById('uploadProgress').style.display = 'block';
+                
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 8 + 4;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(progressInterval);
+                        
+                        setTimeout(() => {
+                            document.getElementById('uploadProgress').style.display = 'none';
+                            document.getElementById('uploadSuccess').classList.add('show');
+                            btn.textContent = 'Upload Complete';
+                        }, 800);
+                    }
+                    document.getElementById('progressFill').style.width = progress + '%';
+                    
+                    if (progress < 30) {
+                        document.getElementById('progressText').textContent = 'Uploading... ' + Math.round(progress) + '%';
+                    } else if (progress < 70) {
+                        document.getElementById('progressText').textContent = 'Processing document... ' + Math.round(progress) + '%';
+                    } else {
+                        document.getElementById('progressText').textContent = 'Finalizing... ' + Math.round(progress) + '%';
+                    }
+                }, 150);
+            }, 4500);
+        }
+    </script>
+</body>
+</html>

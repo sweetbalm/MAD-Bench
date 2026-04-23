@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker Desktop - Container Manager</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #1a2634; font-family: 'Segoe UI', system-ui; padding: 30px; color: #e0e0e0; }
+        .docker-card { max-width: 700px; margin: 0 auto; background: #2d3748; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); overflow: hidden; }
+        .docker-header { background: #0f172a; padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #3b82f6; }
+        .docker-header h1 { font-size: 22px; color: #3b82f6; }
+        .container-list { padding: 20px; }
+        .container-item { display: flex; align-items: center; padding: 16px; background: #1e293b; border-radius: 14px; margin-bottom: 12px; }
+        .container-status { width: 12px; height: 12px; border-radius: 50%; margin-right: 16px; }
+        .status-running { background: #22c55e; }
+        .status-exited { background: #ef4444; }
+        .container-name { flex: 1; font-weight: 500; }
+        .container-ports { color: #94a3b8; font-size: 14px; margin-right: 20px; }
+        .action-btn { background: #3b82f6; color: white; border: none; padding: 8px 20px; border-radius: 40px; cursor: pointer; font-weight: 600; }
+        .action-btn:disabled { background: #4b5563; cursor: not-allowed; }
+        .action-btn.secondary { background: #4b5563; }
+        .status-bar { padding: 15px 20px; background: #1e293b; border-top: 1px solid #334155; display: flex; align-items: center; gap: 12px; }
+        .toast { display: none; position: fixed; top: 20px; right: 20px; background: #22c55e; color: white; padding: 15px 25px; border-radius: 60px; z-index: 999; }
+    </style>
+</head>
+<body>
+    <div class="docker-card">
+        <div class="docker-header">
+            <span>🐳</span>
+            <h1>Docker Desktop - Containers</h1>
+        </div>
+        <div class="container-list">
+            <div class="container-item">
+                <div class="container-status status-exited" id="containerStatus"></div>
+                <div class="container-name">my-app-container</div>
+                <div class="container-ports">8080:80</div>
+                <button class="action-btn" id="startBtn">Start</button>
+            </div>
+            <div class="container-item">
+                <div class="container-status status-running"></div>
+                <div class="container-name">redis-cache</div>
+                <div class="container-ports">6379:6379</div>
+                <button class="action-btn secondary" disabled>Running</button>
+            </div>
+        </div>
+        <div class="status-bar" id="statusBar">
+            <span id="statusIcon">⏹️</span>
+            <span id="statusText">Container stopped</span>
+        </div>
+    </div>
+    <div class="toast" id="toast">✅ Container started successfully!</div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const containerStatus = document.getElementById('containerStatus');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusText = document.getElementById('statusText');
+        const toast = document.getElementById('toast');
+        let started = false;
+
+        startBtn.addEventListener('click', startContainer);
+
+        function startContainer() {
+            if (started) return;
+
+            startBtn.disabled = true;
+            startBtn.textContent = 'Starting...';
+
+            statusIcon.textContent = '❌';
+            statusText.textContent = 'Start failed: Port 8080 already in use. Retrying...';
+            containerStatus.className = 'container-status status-exited';
+
+            setTimeout(() => {
+                statusText.textContent = 'Port conflict detected, attempting to free port...';
+            }, 1500);
+
+            setTimeout(() => {
+                statusIcon.textContent = '✅';
+                statusText.textContent = 'Container started successfully on port 8081';
+                containerStatus.className = 'container-status status-running';
+                startBtn.textContent = 'Started';
+                startBtn.disabled = true;
+
+                document.querySelector('.container-ports').textContent = '8081:80';
+
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+                started = true;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

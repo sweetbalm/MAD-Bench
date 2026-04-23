@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Bank - Fund Transfer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #eef2f6; font-family: 'Inter', sans-serif; padding: 30px; }
+        .bank-card { max-width: 550px; margin: 0 auto; background: white; border-radius: 28px; box-shadow: 0 30px 50px -15px rgba(0,30,60,0.25); overflow: hidden; }
+        .bank-header { background: #0a2540; color: white; padding: 25px; }
+        .bank-header h1 { font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .balance { background: #f0f7ff; padding: 20px; margin: 20px; border-radius: 20px; text-align: center; }
+        .balance .label { color: #475569; }
+        .balance .amount { font-size: 36px; font-weight: 700; color: #0a2540; }
+        .transfer-form { padding: 0 25px 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 500; color: #334155; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 16px; font-size: 16px; }
+        .transfer-btn { background: #0a2540; color: white; border: none; padding: 18px; width: 100%; border-radius: 40px; font-size: 18px; font-weight: 600; cursor: pointer; }
+        .transfer-btn:hover { background: #123456; }
+        .transfer-btn:disabled { background: #94a3b8; }
+        .status-area { margin-top: 20px; padding: 20px; border-radius: 16px; display: none; }
+        .status-area.processing { background: #fff3cd; border: 2px solid #fbbf24; }
+        .status-area.failed { background: #fee2e2; border: 2px solid #dc2626; }
+        .status-area.success { background: #d1fae5; border: 2px solid #10b981; }
+        .attempt-counter { text-align: center; color: #64748b; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="bank-card">
+        <div class="bank-header">
+            <h1>🏦 Secure Bank · Fund Transfer</h1>
+        </div>
+        <div class="balance">
+            <div class="label">Available Balance</div>
+            <div class="amount">$5,234.56</div>
+        </div>
+        <div class="transfer-form">
+            <div class="form-group">
+                <label>Recipient Account</label>
+                <input type="text" id="account" value="****1234 (John Doe)">
+            </div>
+            <div class="form-group">
+                <label>Amount ($)</label>
+                <input type="number" id="amount" value="250.00">
+            </div>
+            <div class="form-group">
+                <label>Memo (optional)</label>
+                <input type="text" id="memo" value="Rent payment">
+            </div>
+            <button class="transfer-btn" id="transferBtn">Transfer Now</button>
+            <div class="status-area" id="statusArea"></div>
+            <div class="attempt-counter" id="attemptCounter">Attempts: 0</div>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        const transferBtn = document.getElementById('transferBtn');
+        const statusArea = document.getElementById('statusArea');
+        const toast = document.getElementById('toast');
+        const attemptCounter = document.getElementById('attemptCounter');
+        
+        transferBtn.addEventListener('click', transferMoney);
+        
+        function transferMoney() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount.');
+                return;
+            }
+            
+            attempts++;
+            attemptCounter.textContent = `Attempts: ${attempts}`;
+
+            const isSuccess = Math.random() < 0.4;
+            
+            transferBtn.disabled = true;
+            transferBtn.textContent = 'Processing...';
+            
+            statusArea.className = 'status-area processing';
+            statusArea.innerHTML = '<strong>⏳ Processing transfer...</strong><p>Please wait while we verify your transaction.</p>';
+            statusArea.style.display = 'block';
+            
+            setTimeout(() => {
+                if (isSuccess) {
+                    statusArea.className = 'status-area success';
+                    statusArea.innerHTML = '<strong>✅ Transfer Successful</strong><p>$' + amount.toFixed(2) + ' has been sent to the recipient.</p>';
+                    transferBtn.disabled = true;
+                    transferBtn.textContent = 'Completed';
+                    
+                    const balanceElement = document.querySelector('.balance .amount');
+                    const currentBalance = parseFloat(balanceElement.textContent.replace('$', '').replace(',', ''));
+                    const newBalance = currentBalance - amount;
+                    balanceElement.textContent = '$' + newBalance.toFixed(2);
+                } else {
+                    const failures = [
+                        'Banking network unavailable. Please try again later.',
+                        'Transaction timeout due to high volume. Please retry.',
+                    ];
+                    const randomFailure = failures[Math.floor(Math.random() * failures.length)];
+                    
+                    statusArea.className = 'status-area failed';
+                    statusArea.innerHTML = `<strong>❌ Transfer Failed</strong><p>${randomFailure}</p>`;
+                    transferBtn.disabled = false;
+                    transferBtn.textContent = 'Try Again';
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

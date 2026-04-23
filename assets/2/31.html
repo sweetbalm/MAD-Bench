@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Final Exam Submission</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; padding: 30px; }
+        .exam-container { max-width: 800px; margin: 0 auto; background: white; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .header { background: #8B0000; color: white; padding: 25px; border-radius: 24px 24px 0 0; }
+        .header h1 { font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .timer { background: #fff3cd; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; border-bottom: 2px solid #ffc107; }
+        .questions { padding: 30px; }
+        .question { margin-bottom: 30px; }
+        .question h3 { color: #333; margin-bottom: 15px; }
+        .options { padding-left: 20px; }
+        .options label { display: block; margin-bottom: 10px; }
+        .submit-section { background: #f8f9fa; padding: 20px 30px; border-radius: 0 0 24px 24px; }
+        .submit-btn { background: #8B0000; color: white; border: none; padding: 15px 40px; border-radius: 40px; font-size: 18px; font-weight: 600; cursor: pointer; }
+        .submit-btn:hover { background: #6B0000; }
+        .submit-btn:disabled { background: #cc9c9c; cursor: not-allowed; }
+        .status-area { margin-top: 20px; padding: 20px; border-radius: 12px; display: none; }
+        .status-area.processing { background: #fff3cd; border: 2px solid #ffc107; }
+        .status-area.failed { background: #f8d7da; border: 2px solid #dc3545; }
+        .status-area.success { background: #d4edda; border: 2px solid #28a745; }
+        .attempt-counter { font-size: 14px; color: #666; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="exam-container">
+        <div class="header">
+            <h1>📝 CS 101: Introduction to Programming - Final Exam</h1>
+        </div>
+        <div class="timer" id="timer">Time Remaining: 02:00</div>
+        <div class="questions">
+            <div class="question">
+                <h3>1. What is the output of print(2**3)?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="5"> 5</label>
+                    <label><input type="radio" name="q1" value="6"> 6</label>
+                    <label><input type="radio" name="q1" value="8" checked> 8</label>
+                    <label><input type="radio" name="q1" value="9"> 9</label>
+                </div>
+            </div>
+            <div class="question">
+                <h3>2. Which data type is immutable in Python?</h3>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="list"> List</label>
+                    <label><input type="radio" name="q2" value="dict"> Dictionary</label>
+                    <label><input type="radio" name="q2" value="tuple" checked> Tuple</label>
+                    <label><input type="radio" name="q2" value="set"> Set</label>
+                </div>
+            </div>
+        </div>
+        <div class="submit-section">
+            <button class="submit-btn" id="submitBtn">Submit Exam</button>
+            <div class="status-area" id="statusArea"></div>
+            <div class="attempt-counter" id="attemptCounter">Attempts: 0</div>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        let timerInterval;
+        let timeLeft = 120;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = `Time Remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('statusArea').className = 'status-area failed';
+                document.getElementById('statusArea').innerHTML = '<strong>❌ Time Expired</strong><p>Your exam has been automatically submitted.</p>';
+                document.getElementById('statusArea').style.display = 'block';
+            }
+            timeLeft--;
+        }
+        
+        timerInterval = setInterval(updateTimer, 1000);
+        
+        document.getElementById('submitBtn').addEventListener('click', submitExam);
+        
+        function submitExam() {
+            attempts++;
+            document.getElementById('attemptCounter').textContent = `Attempts: ${attempts}`;
+            
+            const isSuccess = Math.random() < 0.5;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            const statusArea = document.getElementById('statusArea');
+            statusArea.className = 'status-area processing';
+            statusArea.innerHTML = '<strong>⏳ Submitting your exam...</strong><p>Please wait while we process your answers.</p>';
+            statusArea.style.display = 'block';
+            
+            setTimeout(() => {
+                if (isSuccess) {
+                    statusArea.className = 'status-area success';
+                    statusArea.innerHTML = '<strong>✅ Exam Submitted Successfully!</strong><p>Your answers have been recorded. Thank you.</p>';
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitted';
+                    clearInterval(timerInterval);
+                } else {
+                    const failures = [
+                        'Network connection lost. Please try again.',
+                        'Server timeout. Your answers could not be saved. Please retry.',
+                        'Concurrent submission detected. Please retry.'
+                    ];
+                    const randomFailure = failures[Math.floor(Math.random() * failures.length)];
+                    
+                    statusArea.className = 'status-area failed';
+                    statusArea.innerHTML = `<strong>❌ Submission Failed</strong><p>${randomFailure}</p>`;
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Retry Submission';
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

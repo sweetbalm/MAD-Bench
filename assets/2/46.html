@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MapNav - GPS Navigation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #121826; font-family: 'Inter', sans-serif; padding: 30px; color: #e0e0e0; }
+        .nav-card { max-width: 400px; margin: 0 auto; background: #1e293b; border-radius: 32px; box-shadow: 0 25px 40px -12px #00000080; overflow: hidden; }
+        .map-placeholder { height: 250px; background: #2d3b4f; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+        .nav-content { padding: 25px; }
+        .destination-input { display: flex; gap: 12px; margin-bottom: 20px; }
+        .destination-input input { flex: 1; padding: 14px 18px; border: 2px solid #3b4a5e; border-radius: 40px; background: #0f172a; color: white; font-size: 16px; }
+        .nav-btn { background: #3b82f6; color: white; border: none; padding: 16px; width: 100%; border-radius: 60px; font-weight: 600; font-size: 18px; cursor: pointer; }
+        .nav-btn:disabled { background: #4b5563; cursor: not-allowed; }
+        .gps-status { margin-top: 20px; padding: 16px; background: #0f172a; border-radius: 20px; display: flex; align-items: center; gap: 15px; }
+        .gps-icon { font-size: 28px; }
+        .gps-text { flex: 1; }
+        .gps-signal { width: 60px; height: 8px; background: #2d3b4f; border-radius: 10px; overflow: hidden; }
+        .signal-bar { height: 100%; width: 0%; background: #22c55e; transition: width 0.3s; }
+        .toast { display: none; position: fixed; top: 20px; right: 20px; background: #22c55e; color: white; padding: 15px 25px; border-radius: 60px; z-index: 999; }
+    </style>
+</head>
+<body>
+    <div class="nav-card">
+        <div class="map-placeholder">
+            🗺️
+        </div>
+        <div class="nav-content">
+            <div class="destination-input">
+                <input type="text" id="destination" value="Central Park" placeholder="Enter destination">
+            </div>
+            <button class="nav-btn" id="startNavBtn">Start Navigation</button>
+            <div class="gps-status" id="gpsStatus">
+                <span class="gps-icon">📡</span>
+                <div class="gps-text">
+                    <div id="gpsLabel">GPS: Searching...</div>
+                    <div style="font-size: 12px; color: #94a3b8;" id="gpsDetail">Waiting for signal</div>
+                </div>
+                <div class="gps-signal">
+                    <div class="signal-bar" id="signalBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">✅ Navigation started! Follow the route.</div>
+
+    <script>
+        const startBtn = document.getElementById('startNavBtn');
+        const gpsLabel = document.getElementById('gpsLabel');
+        const gpsDetail = document.getElementById('gpsDetail');
+        const signalBar = document.getElementById('signalBar');
+        const toast = document.getElementById('toast');
+        let navStarted = false;
+
+        startBtn.addEventListener('click', startNavigation);
+
+        function startNavigation() {
+            if (navStarted) return;
+
+            const destination = document.getElementById('destination').value.trim();
+            if (!destination) {
+                alert('Please enter a destination.');
+                return;
+            }
+
+            startBtn.disabled = true;
+            startBtn.textContent = 'Acquiring GPS...';
+
+            gpsLabel.textContent = 'GPS: Weak signal';
+            gpsDetail.textContent = 'Unable to get location. Retrying...';
+            signalBar.style.width = '20%';
+            signalBar.style.background = '#ef4444';
+
+            setTimeout(() => {
+                gpsLabel.textContent = 'GPS: Improving...';
+                gpsDetail.textContent = 'Signal strength increasing';
+                signalBar.style.width = '50%';
+                signalBar.style.background = '#fbbf24';
+            }, 2000);
+
+            setTimeout(() => {
+                gpsLabel.textContent = 'GPS: Strong signal';
+                gpsDetail.textContent = 'Location locked';
+                signalBar.style.width = '100%';
+                signalBar.style.background = '#22c55e';
+
+                startBtn.textContent = 'Navigation Started';
+
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+                navStarted = true;
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
