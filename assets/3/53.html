@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseball Scorecard</title>
+    <style>
+        body {
+            background: #1a472a;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .scorecard {
+            width: 650px;
+            background: #fffef8;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            padding: 25px;
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1a472a;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .league {
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .teams {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a472a;
+            margin: 10px 0;
+        }
+        .vs {
+            color: #c0392b;
+            font-size: 20px;
+        }
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+        .game-id {
+            font-weight: bold;
+            color: #1a472a;
+        }
+        .id-blur {
+            filter: blur(5px) opacity(0.4);
+            background: #d5dbdb;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .scoreboard {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .team-card {
+            flex: 1;
+            background: #f8f9fa;
+            border: 2px solid #1a472a;
+            padding: 15px;
+            text-align: center;
+        }
+        .team-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a472a;
+            margin-bottom: 10px;
+        }
+        .team-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #c0392b;
+        }
+        .innings {
+            font-size: 10px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .box-score {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        .box-score th {
+            background: #1a472a;
+            color: white;
+            padding: 6px;
+            text-align: center;
+        }
+        .box-score td {
+            padding: 6px;
+            text-align: center;
+            border-bottom: 1px solid #d5dbdb;
+        }
+        .box-score td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
+        .pitcher-cell {
+            filter: blur(6px) opacity(0.4);
+            background: #eaeded;
+        }
+        .stats-summary {
+            display: flex;
+            gap: 15px;
+            font-size: 11px;
+        }
+        .stat-box {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .stat-label {
+            color: #666;
+            text-transform: uppercase;
+            font-size: 9px;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #1a472a;
+        }
+        .winning-pitcher {
+            background: #1a472a;
+            color: transparent;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .grime {
+            position: absolute;
+            width: 60px;
+            height: 50px;
+            background: radial-gradient(ellipse at center, rgba(139, 69, 19, 0.15) 0%, transparent 70%);
+            filter: blur(6px);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="scorecard" style="position: relative;">
+        <div class="grime" style="top: 60px; right: 30px;"></div>
+        <div class="grime" style="bottom: 80px; left: 20px;"></div>
+        
+        <div class="header">
+            <div class="league">Major League Baseball • Regular Season</div>
+            <div class="teams">Yankees <span class="vs">VS</span> Red Sox</div>
+        </div>
+        
+        <div class="game-info">
+            <div>Fenway Park • Boston, MA</div>
+            <div class="game-id">Game ID: <span class="id-blur">MLB-2024-884729</span></div>
+            <div>Oct 15, 2024</div>
+        </div>
+        
+        <div class="scoreboard">
+            <div class="team-card">
+                <div class="team-name">NYY</div>
+                <div class="team-score">5</div>
+                <div class="innings">Runs / 9 Innings</div>
+            </div>
+            <div style="display: flex; align-items: center; font-size: 24px; color: #666; font-weight: bold;">FINAL</div>
+            <div class="team-card">
+                <div class="team-name">BOS</div>
+                <div class="team-score" style="filter: blur(8px) opacity(0.3); color: transparent;">3</div>
+                <div class="innings">Runs / 9 Innings</div>
+            </div>
+        </div>
+        
+        <table class="box-score">
+            <tr>
+                <th>Team</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>R</th><th>H</th><th>E</th>
+            </tr>
+            <tr>
+                <td>NYY</td><td>0</td><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>5</td><td>8</td><td>0</td>
+            </tr>
+            <tr>
+                <td>BOS</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td class="pitcher-cell">3</td><td>6</td><td>1</td>
+            </tr>
+        </table>
+        
+        <div class="stats-summary">
+            <div class="stat-box">
+                <div class="stat-label">Winning Pitcher</div>
+                <div class="stat-value"><span class="winning-pitcher">Cole (15-4)</span></div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Losing Pitcher</div>
+                <div class="stat-value">Sale (8-10)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Save</div>
+                <div class="stat-value">Chapman (32)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Attendance</div>
+                <div class="stat-value">37,492</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lamp Product Label</title>
+    <style>
+        body {
+            background: #1a1a2e;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .product-label {
+            width: 500px;
+            background: linear-gradient(180deg, #fff 0%, #f5f5f5 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .glow-header {
+            height: 100px;
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 50%, #9b59b6 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            overflow: hidden;
+        }
+        .glow-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+            animation: glow 3s infinite;
+        }
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .lamp-icon {
+            font-size: 48px;
+            margin-right: 20px;
+            z-index: 1;
+        }
+        .brand-text {
+            z-index: 1;
+            color: white;
+        }
+        .brand-name {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .brand-sub {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .label-body {
+            padding: 25px;
+        }
+        .product-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .product-subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .specs-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .spec-badge {
+            flex: 1;
+            background: #ecf0f1;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .spec-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .spec-label {
+            font-size: 10px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .spec-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 3px;
+        }
+        .data-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 14px;
+        }
+        .data-row:last-child {
+            border-bottom: none;
+        }
+        .d-label {
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+        .d-value {
+            color: #2c3e50;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+        .sku-blur {
+            filter: blur(6px) opacity(0.4);
+            background: #bdc3c7;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .batch-mask {
+            background: #2c3e50;
+            color: transparent;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .pairing-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .pairing-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        .pairing-code {
+            font-family: 'Courier New', monospace;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            position: relative;
+        }
+        .code-scrambled {
+            filter: blur(8px) opacity(0.3);
+            color: transparent;
+        }
+        .wifi-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .footer-bar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 25px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .energy-badge {
+            background: #27ae60;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        .light-ray {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-label" style="position: relative;">
+        <div class="light-ray" style="top: 80px; right: 30px;"></div>
+        <div class="light-ray" style="bottom: 100px; left: 20px;"></div>
+        
+        <div class="glow-header">
+            <div class="lamp-icon">💡</div>
+            <div class="brand-text">
+                <div class="brand-name">LumiSmart</div>
+                <div class="brand-sub">Intelligent Lighting Solutions</div>
+            </div>
+        </div>
+        
+        <div class="label-body">
+            <div class="product-title">Aura Desk Pro</div>
+            <div class="product-subtitle">WiFi-Enabled LED Desk Lamp with Alexa</div>
+            
+            <div class="specs-row">
+                <div class="spec-badge">
+                    <div class="spec-icon">🔆</div>
+                    <div class="spec-label">Brightness</div>
+                    <div class="spec-value">1000 lm</div>
+                </div>
+                <div class="spec-badge">
+                    <div class="spec-icon">🎨</div>
+                    <div class="spec-label">Color Temp</div>
+                    <div class="spec-value">2700K-6500K</div>
+                </div>
+                <div class="spec-badge">
+                    <div class="spec-icon">⚡</div>
+                    <div class="spec-label">Power</div>
+                    <div class="spec-value">12W</div>
+                </div>
+            </div>
+            
+            <div class="data-section">
+                <div class="data-row">
+                    <span class="d-label">Product SKU</span>
+                    <span class="d-value"><span class="sku-blur">LMP-2024-AURA-8847</span></span>
+                </div>
+                <div class="data-row">
+                    <span class="d-label">Manufactured</span>
+                    <span class="d-value">Vietnam</span>
+                </div>
+                <div class="data-row">
+                    <span class="d-label">Batch Number</span>
+                    <span class="d-value"><span class="batch-mask">BT-2024-Q4-X92</span></span>
+                </div>
+                <div class="data-row">
+                    <span class="d-label">Input Voltage</span>
+                    <span class="d-value">100-240V ~ 50/60Hz</span>
+                </div>
+            </div>
+            
+            <div class="pairing-box">
+                <div class="wifi-icon">📶</div>
+                <div class="pairing-title">Smart Home Pairing Code</div>
+                <div class="pairing-code">
+                    <span class="code-scrambled">8847-X92-ABCD</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bar">
+            <div>Model: Aura-Pro-2024</div>
+            <div class="energy-badge">A++ Energy Class</div>
+        </div>
+    </div>
+</body>
+</html>

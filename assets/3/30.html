@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Sound Festival 2024 - Official Schedule</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Roboto:wght@300;400;700&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(180deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+            min-height: 100vh;
+            color: #2d3436;
+        }
+        .festival-header {
+            background: rgba(0,0,0,0.85);
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .festival-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+            background-size: 50px 50px;
+            opacity: 0.5;
+        }
+        .festival-header h1 {
+            font-family: 'Bungee', cursive;
+            font-size: 3.5em;
+            color: #feca57;
+            text-shadow: 4px 4px 0 #ff6b6b;
+            position: relative;
+            z-index: 1;
+        }
+        .festival-date {
+            font-size: 1.5em;
+            margin-top: 15px;
+            color: #48dbfb;
+            position: relative;
+            z-index: 1;
+        }
+        .venue-info {
+            margin-top: 10px;
+            color: #b2bec3;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .schedule-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .stage-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .stage-tab {
+            background: rgba(255,255,255,0.9);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        .stage-tab.active {
+            background: #2d3436;
+            color: #feca57;
+            border-color: #feca57;
+            transform: scale(1.05);
+        }
+        
+        .timeline {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .timeline-header h2 {
+            font-family: 'Bungee', cursive;
+            font-size: 2em;
+            color: #2d3436;
+        }
+        .timeline-header p {
+            color: #636e72;
+            margin-top: 10px;
+        }
+        
+        .performance {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #ddd;
+            transition: transform 0.2s;
+        }
+        .performance:hover {
+            transform: translateX(10px);
+        }
+        .performance.headliner {
+            background: linear-gradient(90deg, #2d3436 0%, #636e72 100%);
+            color: #fff;
+            border-left: 5px solid #feca57;
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .performance.headliner:hover {
+            transform: scale(1.02) translateX(10px);
+        }
+        
+        .time-slot {
+            min-width: 120px;
+            text-align: center;
+            padding-right: 30px;
+            border-right: 2px solid #ddd;
+        }
+        .performance.headliner .time-slot {
+            border-right-color: #feca57;
+        }
+        .time-display {
+            filter: blur(4px);
+            font-family: 'Bungee', cursive;
+            font-size: 1.3em;
+            color: #2d3436;
+        }
+        .performance.headliner .time-display {
+            color: #feca57;
+            font-size: 1.5em;
+        }
+        .duration {
+            font-size: 0.85em;
+            color: #636e72;
+            margin-top: 5px;
+        }
+        .performance.headliner .duration {
+            color: #b2bec3;
+        }
+        
+        .corrupted-time {
+            position: relative;
+            filter: blur(7px);
+            display: inline-block;
+        }
+        .corrupted-time::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: -20px;
+            right: -20px;
+            bottom: -15px;
+            background: 
+                radial-gradient(ellipse 60px 40px at 30% 40%, rgba(111,78,55,0.9) 0%, transparent 70%),
+                radial-gradient(ellipse 40px 30px at 70% 60%, rgba(139,90,43,0.8) 0%, transparent 60%),
+                radial-gradient(ellipse 50px 35px at 50% 50%, rgba(160,82,45,0.7) 0%, transparent 65%),
+                radial-gradient(ellipse 80px 60px at 40% 70%, rgba(200,200,200,0.4) 0%, transparent 50%);
+            filter: blur(2px);
+            pointer-events: none;
+            z-index: 10;
+        }
+        .corrupted-time::after {
+            content: "ILLEGIBLE";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #5d4037;
+            font-size: 0.6em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            z-index: 11;
+            background: rgba(255,255,255,0.8);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .artist-info {
+            flex: 1;
+            padding-left: 30px;
+        }
+        .artist-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .performance.headliner .artist-name {
+            font-size: 1.8em;
+            color: #fff;
+        }
+        .artist-genre {
+            display: inline-block;
+            background: #ddd;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: #636e72;
+        }
+        .performance.headliner .artist-genre {
+            background: #feca57;
+            color: #2d3436;
+            font-weight: bold;
+        }
+        .artist-description {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #636e72;
+        }
+        .performance.headliner .artist-description {
+            color: #dfe6e9;
+        }
+        
+        .special-badge {
+            background: #e74c3c;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 15px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .footer-banner {
+            background: #2d3436;
+            color: #fff;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        .footer-banner p {
+            color: #b2bec3;
+        }
+    </style>
+</head>
+<body>
+    <div class="festival-header">
+        <h1>SUMMER SOUND FESTIVAL 2024</h1>
+        <div class="festival-date">August 15-17, 2024</div>
+        <div class="venue-info">Sunset Valley Amphitheater | Los Angeles, CA</div>
+    </div>
+    
+    <div class="schedule-container">
+        <div class="stage-tabs">
+            <div class="stage-tab">Main Stage</div>
+            <div class="stage-tab active">Sunset Stage</div>
+            <div class="stage-tab">Electronic Tent</div>
+            <div class="stage-tab">Acoustic Grove</div>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-header">
+                <h2>SATURDAY, AUGUST 16</h2>
+                <p>Sunset Stage Schedule - Alternative & Indie Rock</p>
+            </div>
+            
+            <div class="performance">
+                <div class="time-slot">
+                    <div class="time-display">2:00 PM</div>
+                    <div class="duration">45 min</div>
+                </div>
+                <div class="artist-info">
+                    <div class="artist-name">The Midnight Owls</div>
+                    <span class="artist-genre">Indie Folk</span>
+                    <p class="artist-description">Opening the day with dreamy acoustic melodies from their debut album "Moonlight Sessions".</p>
+                </div>
+            </div>
+            
+            <div class="performance">
+                <div class="time-slot">
+                    <div class="time-display">3:15 PM</div>
+                    <div class="duration">50 min</div>
+                </div>
+                <div class="artist-info">
+                    <div class="artist-name">Neon Horizon</div>
+                    <span class="artist-genre">Synth-Pop</span>
+                    <p class="artist-description">80s-inspired electronic sounds with modern production. Fresh off their European tour.</p>
+                </div>
+            </div>
+            
+            <div class="performance">
+                <div class="time-slot">
+                    <div class="time-display">4:45 PM</div>
+                    <div class="duration">60 min</div>
+                </div>
+                <div class="artist-info">
+                    <div class="artist-name">Velvet Crush</div>
+                    <span class="artist-genre">Alternative Rock</span>
+                    <p class="artist-description">High-energy performance featuring tracks from their platinum-selling record "Electric Hearts".</p>
+                </div>
+            </div>
+            
+            <div class="performance">
+                <div class="time-slot">
+                    <div class="time-display">6:15 PM</div>
+                    <div class="duration">55 min</div>
+                </div>
+                <div class="artist-info">
+                    <div class="artist-name">Coastal Waves</div>
+                    <span class="artist-genre">Surf Rock</span>
+                    <p class="artist-description">California beach vibes with reverb-drenched guitars. Special guest appearance expected.</p>
+                </div>
+            </div>
+            
+            <div class="performance headliner">
+                <div class="time-slot">
+                    <div class="time-display corrupted-time" data-actual="8:30 PM">
+                        8:30 PM
+                    </div>
+                    <div class="duration">90 min set</div>
+                </div>
+                <div class="artist-info">
+                    <div class="artist-name">
+                        The Electric Souls
+                        <span class="special-badge">HEADLINER</span>
+                    </div>
+                    <span class="artist-genre">Indie Rock / Art Pop</span>
+                    <p class="artist-description">Grammy-nominated quartet performing their critically acclaimed album "Neon Dreams" in full, plus fan favorites. Featuring pyrotechnics and special visual effects.</p>
+                </div>
+            </div>
+            
+            <div class="performance" style="opacity: 0.6;">
+                <div class="time-slot">
+                    <div class="time-display">10:30 PM</div>
+                    <div class="duration">30 min</div>
+                </div>
+                <div class="artist-info">
+                    <div class="artist-name">DJ Sunset (Closing Set)</div>
+                    <span class="artist-genre">Electronic / Ambient</span>
+                    <p class="artist-description">Wind down with atmospheric beats as the festival day concludes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-banner">
+        <p>Gates open at 12:00 PM | Rain or Shine | All ages welcome</p>
+        <p style="margin-top: 10px; font-size: 0.9em;">Tickets: www.summersoundfest.com | Food & beverage vendors on-site</p>
+    </div>
+</body>
+</html>

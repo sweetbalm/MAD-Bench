@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optical Prescription Form</title>
+    <style>
+        body {
+            background: #f0f3f5;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .rx-form {
+            width: 550px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .clinic-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            padding: 25px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .eye-icon {
+            font-size: 36px;
+        }
+        .clinic-info h2 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+        .clinic-info p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .form-body {
+            padding: 25px;
+        }
+        .rx-number {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .rx-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .rx-value {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .rx-blur {
+            filter: blur(6px) opacity(0.4);
+            background: #bdc3c7;
+            padding: 3px 10px;
+            border-radius: 4px;
+        }
+        .patient-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .patient-field {
+            flex: 1;
+        }
+        .field-label {
+            font-size: 11px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .field-value {
+            font-size: 15px;
+            color: #2c3e50;
+            font-weight: 600;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .rx-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .rx-table th {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .rx-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ecf0f1;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .rx-table td:first-child {
+            text-align: left;
+            font-family: 'Arial', sans-serif;
+            font-weight: normal;
+            background: #f8f9fa;
+        }
+        .measurement-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .measure-card {
+            flex: 1;
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .measure-label {
+            font-size: 11px;
+            color: #856404;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .measure-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #856404;
+        }
+        .pd-obscured {
+            filter: blur(8px) opacity(0.3);
+            color: transparent;
+        }
+        .lens-section {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .lens-title {
+            font-size: 12px;
+            color: #2e7d32;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .lens-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .lens-serial {
+            font-family: 'Courier New', monospace;
+            background: #2e7d32;
+            color: transparent;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .doctor-sig {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sig-block {
+            text-align: center;
+        }
+        .sig-line {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 20px;
+            color: #2c3e50;
+            border-bottom: 1px solid #2c3e50;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+        .sig-label {
+            font-size: 10px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+        .stamp-box {
+            width: 70px;
+            height: 70px;
+            border: 3px solid #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3498db;
+            font-size: 10px;
+            font-weight: bold;
+            transform: rotate(-15deg);
+            opacity: 0.6;
+        }
+        .smudge {
+            position: absolute;
+            width: 60px;
+            height: 50px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, transparent 70%);
+            filter: blur(8px);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="rx-form" style="position: relative;">
+        <div class="smudge" style="top: 150px; right: 40px;"></div>
+        <div class="smudge" style="bottom: 100px; left: 30px;"></div>
+        
+        <div class="clinic-header">
+            <div class="eye-icon">👓</div>
+            <div class="clinic-info">
+                <h2>ClearVision Optical</h2>
+                <p>Licensed Optometrists • Since 1985</p>
+            </div>
+        </div>
+        
+        <div class="form-body">
+            <div class="rx-number">
+                <span class="rx-label">Prescription Number</span>
+                <span class="rx-value"><span class="rx-blur">RX-2024-884729</span></span>
+            </div>
+            
+            <div class="patient-row">
+                <div class="patient-field">
+                    <div class="field-label">Patient</div>
+                    <div class="field-value">Alex Thompson</div>
+                </div>
+                <div class="patient-field">
+                    <div class="field-label">Date</div>
+                    <div class="field-value">Nov 14, 2024</div>
+                </div>
+            </div>
+            
+            <table class="rx-table">
+                <tr>
+                    <th></th>
+                    <th>SPH</th>
+                    <th>CYL</th>
+                    <th>AXIS</th>
+                    <th>ADD</th>
+                </tr>
+                <tr>
+                    <td>OD (Right)</td>
+                    <td>-2.50</td>
+                    <td>-1.25</td>
+                    <td>180</td>
+                    <td>+2.00</td>
+                </tr>
+                <tr>
+                    <td>OS (Left)</td>
+                    <td>-2.75</td>
+                    <td>-1.00</td>
+                    <td>175</td>
+                    <td>+2.00</td>
+                </tr>
+            </table>
+            
+            <div class="measurement-box">
+                <div class="measure-card">
+                    <div class="measure-label">Pupillary Distance</div>
+                    <div class="measure-value"><span class="pd-obscured">64 mm</span></div>
+                </div>
+                <div class="measure-card" style="background: #e3f2fd; border-color: #2196f3;">
+                    <div class="measure-label" style="color: #1565c0;">Lens Height</div>
+                    <div class="measure-value" style="color: #1565c0;">32 mm</div>
+                </div>
+            </div>
+            
+            <div class="lens-section">
+                <div class="lens-title">Lens Specifications</div>
+                <div class="lens-row">
+                    <span>Lens Type:</span>
+                    <span>Progressive Polycarbonate</span>
+                </div>
+                <div class="lens-row">
+                    <span>Coating:</span>
+                    <span>Anti-Reflective / UV400</span>
+                </div>
+                <div class="lens-row">
+                    <span>Serial Code:</span>
+                    <span class="lens-serial">LNS-2024-X992</span>
+                </div>
+            </div>
+            
+            <div class="doctor-sig">
+                <div class="sig-block">
+                    <div class="sig-line">Dr. Sarah Chen</div>
+                    <div class="sig-label">Optometrist OD-77482</div>
+                </div>
+                <div class="stamp-box">VERIFIED</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

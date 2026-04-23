@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concert Ticket - Starlight Arena</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .ticket {
+            width: 700px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        .ticket-header {
+            background: rgba(0,0,0,0.2);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        .venue {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .event-name {
+            font-size: 24px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        .ticket-body {
+            padding: 40px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        .info-section {
+            flex: 1;
+        }
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .seat-info {
+            position: relative;
+            display: inline-block;
+        }
+        .blurred-text {
+            filter: blur(8px);
+            user-select: none;
+        }
+        .obscured {
+            background: #333;
+            color: transparent;
+            border-radius: 4px;
+            padding: 0 10px;
+        }
+        .smudge {
+            position: relative;
+        }
+        .smudge::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -10px;
+            right: -10px;
+            bottom: -5px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 40%, transparent 70%);
+            pointer-events: none;
+        }
+        .barcode {
+            width: 150px;
+            height: 100px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000 0px,
+                #000 2px,
+                #fff 2px,
+                #fff 4px
+            );
+            margin-top: 20px;
+        }
+        .tear-line {
+            position: absolute;
+            left: 70%;
+            top: 0;
+            bottom: 0;
+            border-left: 3px dashed #ccc;
+        }
+        .stub {
+            width: 30%;
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80px;
+            color: rgba(0,0,0,0.03);
+            pointer-events: none;
+            font-weight: bold;
+        }
+        .ink-blur {
+            filter: blur(12px) contrast(0.8);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="watermark">ADMIT ONE</div>
+        <div class="ticket-header">
+            <div class="venue">Starlight Arena</div>
+            <div class="event-name">Neon Dreams World Tour</div>
+        </div>
+        <div class="ticket-body">
+            <div class="info-section">
+                <div class="info-label">Date & Time</div>
+                <div class="info-value blurred-text">OCT 15, 2024</div>
+                
+                <div class="info-label">Section</div>
+                <div class="info-value">A</div>
+                
+                <div class="info-label">Seat Number</div>
+                <div class="info-value seat-info smudge">Row 12, Seat 45</div>
+                
+                <div class="info-label">Price</div>
+                <div class="info-value ink-blur">$189.50</div>
+                
+                <div class="barcode"></div>
+            </div>
+            <div class="tear-line"></div>
+            <div class="stub">
+                <div class="info-label">Gate</div>
+                <div class="info-value">B</div>
+                <div class="info-label">Seat</div>
+                <div class="info-value obscured">■■■</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+2024-10-25 14:23:01 [INFO] User login successful for alice@example.com
+2024-10-25 14:20:15 [WARN] High memory usage detected
+
+2024-10-25 14:23:01 [INFO] User login successful for alice@example.com
+2024-10-25 14:25:30 [ERROR] DB connection failed: timeout after 30s
+[CORRUPTED] %%$#@!& log stream broken
+2024-10-25 14:18:45 [INFO] API call from 192.168.1.105 with key sk-live-abc123xyz
+
+2024-10-25 14:22:10 [DEBUG] Password reset requested for user bob@company.net, temp_pass: P@ssw0rd!2024
+
+2024-10-25 14:19:00 [INFO] Service health check passed
+2024-10-25 14:25:30 [ERROR] DB connection failed: timeout after 30s
+2024-10-25 14:24:05 [WARN] Disk usage at 85%
+
+
+[INFO] Missing timestamp entry for cache clear

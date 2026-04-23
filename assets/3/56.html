@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planetary Observation Data</title>
+    <style>
+        body {
+            background: #0b0d17;
+            background-image: 
+                radial-gradient(circle at 30% 20%, rgba(100, 149, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 100, 100, 0.1) 0%, transparent 50%);
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .data-card {
+            width: 560px;
+            background: linear-gradient(135deg, #1a1f3a 0%, #0f1429 100%);
+            border: 1px solid rgba(100, 149, 237, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(100, 149, 237, 0.1), 0 20px 50px rgba(0,0,0,0.5);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .data-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #6495ed, transparent);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(100, 149, 237, 0.2);
+            padding-bottom: 15px;
+        }
+        .nasa-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .planet-icon {
+            font-size: 36px;
+        }
+        .agency {
+            color: #6495ed;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        .agency-sub {
+            color: #666;
+            font-size: 10px;
+        }
+        .classification {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff6b6b;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+        .object-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .object-name {
+            font-size: 32px;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(100, 149, 237, 0.5);
+        }
+        .object-type {
+            color: #6495ed;
+            font-size: 12px;
+            letter-spacing: 4px;
+            margin-top: 5px;
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .data-cell {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(100, 149, 237, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .cell-label {
+            font-size: 10px;
+            color: #6495ed;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+        .cell-value {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+        .cell-unit {
+            font-size: 12px;
+            color: #666;
+            margin-left: 4px;
+        }
+        .id-encrypted {
+            filter: blur(6px) opacity(0.3);
+            color: transparent;
+            background: rgba(100, 149, 237, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .orbital-mask {
+            background: #ff6b6b;
+            color: transparent;
+            padding: 2px 8px;
+            border-radius: 4px;
+            position: relative;
+        }
+        .orbital-mask::after {
+            content: 'REDACTED';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+        .observatory-blur {
+            filter: blur(5px) opacity(0.4);
+            color: #666;
+        }
+        .spectrum-bar {
+            height: 40px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #9b59b6);
+            border-radius: 20px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .spectrum-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: white;
+            box-shadow: 0 0 10px white;
+        }
+        .footer-data {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(100, 149, 237, 0.2);
+            font-size: 11px;
+            color: #666;
+        }
+        .star-field {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="data-card" style="position: relative;">
+        <div class="star-field" style="top: 50px; left: 80px;"></div>
+        <div class="star-field" style="top: 120px; right: 60px;"></div>
+        <div class="star-field" style="bottom: 100px; left: 120px;"></div>
+        <div class="star-field" style="top: 200px; left: 40px;"></div>
+        <div class="star-field" style="bottom: 60px; right: 100px;"></div>
+        
+        <div class="header">
+            <div class="nasa-badge">
+                <div class="planet-icon">🪐</div>
+                <div>
+                    <div class="agency">DEEP SPACE NETWORK</div>
+                    <div class="agency-sub">Planetary Observation Division</div>
+                </div>
+            </div>
+            <div class="classification">CLASSIFIED</div>
+        </div>
+        
+        <div class="object-title">
+            <div class="object-name">KEPLER-442b</div>
+            <div class="object-type">Super-Earth Exoplanet</div>
+        </div>
+        
+        <div class="data-grid">
+            <div class="data-cell">
+                <div class="cell-label">Object ID</div>
+                <div class="cell-value"><span class="id-encrypted">KIC-8847291</span></div>
+            </div>
+            <div class="data-cell">
+                <div class="cell-label">Distance</div>
+                <div class="cell-value">120.6<span class="cell-unit">ly</span></div>
+            </div>
+            <div class="data-cell">
+                <div class="cell-label">Orbital Period</div>
+                <div class="cell-value"><span class="orbital-mask">112.3 days</span></div>
+            </div>
+            <div class="data-cell">
+                <div class="cell-label">Radius</div>
+                <div class="cell-value">1.34<span class="cell-unit">R⊕</span></div>
+            </div>
+            <div class="data-cell">
+                <div class="cell-label">Mass</div>
+                <div class="cell-value">2.3<span class="cell-unit">M⊕</span></div>
+            </div>
+            <div class="data-cell">
+                <div class="cell-label">Temperature</div>
+                <div class="cell-value">233<span class="cell-unit">K</span></div>
+            </div>
+        </div>
+        
+        <div class="spectrum-bar">
+            <div class="spectrum-line" style="left: 30%;"></div>
+            <div class="spectrum-line" style="left: 65%;"></div>
+        </div>
+        
+        <div class="footer-data">
+            <div>Observatory: <span class="observatory-blur">Mauna Kea Observatories</span></div>
+            <div>Date: 2024-11-14</div>
+            <div>Ref: <span style="filter: blur(3px); opacity: 0.5;">DSN-9928-X</span></div>
+        </div>
+    </div>
+</body>
+</html>

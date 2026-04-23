@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botanical Garden Plant Care Tag</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&display=swap');
+        
+        body {
+            background: linear-gradient(to bottom, #134e5e 0%, #71b280 100%);
+            font-family: 'Lato', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .plant-tag {
+            width: 500px;
+            background: #faf9f6;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+            position: relative;
+            border: 8px solid #5d4e37;
+        }
+        .tag-header {
+            background: linear-gradient(135deg, #2d5016 0%, #3a6b1f 100%);
+            padding: 25px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .botanical-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .nursery-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+        .tag-body {
+            padding: 35px;
+            position: relative;
+        }
+        .plant-latin-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-style: italic;
+            color: #2d5016;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .plant-common {
+            text-align: center;
+            color: #718096;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .care-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .care-item {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .care-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .care-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #a0aec0;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .care-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        .foggy-text {
+            filter: blur(6px) opacity(0.5);
+            color: #a0aec0;
+        }
+        .dirt-smudge {
+            position: absolute;
+            width: 80px;
+            height: 60px;
+            background: radial-gradient(ellipse at center, rgba(139, 90, 43, 0.3) 0%, transparent 70%);
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        .specimen-data {
+            background: #f0fff4;
+            border: 2px solid #9ae6b4;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+        .data-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #22543d;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #9ae6b4;
+            padding-bottom: 10px;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .data-label {
+            color: #4a5568;
+        }
+        .data-value {
+            font-weight: 700;
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+        }
+        .masked {
+            background: #2d3748;
+            color: transparent;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .weathered {
+            position: relative;
+            display: inline-block;
+        }
+        .weathered::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.8) 50%, transparent 70%);
+            opacity: 0.7;
+        }
+        .sun-bleach {
+            filter: brightness(1.5) contrast(0.8) blur(2px);
+            opacity: 0.6;
+        }
+        .footer-barcode {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #cbd5e0;
+        }
+        .micro-text {
+            font-size: 8px;
+            color: #a0aec0;
+            text-align: center;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        .hole-punch {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #134e5e;
+            border-radius: 50%;
+            top: 50%;
+            left: -14px;
+            transform: translateY(-50%);
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        }
+        .leaf-watermark {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 100px;
+            opacity: 0.03;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="plant-tag">
+        <div class="hole-punch"></div>
+        <div class="tag-header">
+            <div class="botanical-icon">🌱</div>
+            <div class="nursery-name">Evergreen Botanical Gardens</div>
+            <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Est. 1985</div>
+        </div>
+        <div class="tag-body">
+            <div class="leaf-watermark">🌿</div>
+            <div class="dirt-smudge" style="top: 150px; right: 40px;"></div>
+            <div class="dirt-smudge" style="bottom: 100px; left: 30px; width: 60px;"></div>
+            
+            <div class="plant-latin-name">Hydrangea macrophylla</div>
+            <div class="plant-common">Bigleaf Hydrangea 'Endless Summer'</div>
+            
+            <div class="care-grid">
+                <div class="care-item">
+                    <div class="care-icon">☀️</div>
+                    <div class="care-label">Light</div>
+                    <div class="care-value">Partial Shade</div>
+                </div>
+                <div class="care-item">
+                    <div class="care-icon">💧</div>
+                    <div class="care-label">Water</div>
+                    <div class="care-value">Keep Moist</div>
+                </div>
+                <div class="care-item">
+                    <div class="care-icon">🌡️</div>
+                    <div class="care-label">Hardiness</div>
+                    <div class="care-value">Zones 4-9</div>
+                </div>
+                <div class="care-item">
+                    <div class="care-icon">📏</div>
+                    <div class="care-label">Mature Size</div>
+                    <div class="care-value foggy-text">3-5 ft</div>
+                </div>
+            </div>
+            
+            <div class="specimen-data">
+                <div class="data-title">Specimen Data</div>
+                <div class="data-row">
+                    <span class="data-label">Species Code:</span>
+                    <span class="data-value masked">HYM-ES-2024</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Accession Date:</span>
+                    <span class="data-value">2024-03-15</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Optimal pH Level:</span>
+                    <span class="data-value weathered" style="position: relative;">
+                        <span style="filter: blur(4px);">5.5 - 6.5</span>
+                    </span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Fertilization:</span>
+                    <span class="data-value sun-bleach">Monthly, 10-10-10 NPK</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Source Nursery:</span>
+                    <span class="data-value" style="filter: blur(5px); opacity: 0.5;">GreenLeaf Farms Inc.</span>
+                </div>
+            </div>
+            
+            <div class="footer-barcode">
+                <div style="height: 50px; background: repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px); opacity: 0.8;"></div>
+                <div class="micro-text">
+                    TAG ID: <span class="masked">████████</span> | GARDEN LOCATION: SECTION C-14
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

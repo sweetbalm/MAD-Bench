@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furniture Specification Label</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap');
+        
+        body {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .spec-sheet {
+            width: 650px;
+            background: #f5f5f0;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.4),
+                inset 0 0 100px rgba(0,0,0,0.05);
+            padding: 50px;
+            position: relative;
+            border: 1px solid #d4d4d4;
+        }
+        .spec-sheet::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #c9a961 0%, #e8d5a3 50%, #c9a961 100%);
+        }
+        .brand-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #c9a961;
+            padding-bottom: 25px;
+        }
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: #2c2c2c;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c9a961;
+            font-size: 32px;
+            margin-right: 25px;
+            font-weight: 700;
+        }
+        .brand-info h1 {
+            font-size: 32px;
+            margin: 0;
+            color: #2c2c2c;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .brand-tagline {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .product-title {
+            font-size: 28px;
+            color: #2c2c2c;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        .spec-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #c9a961;
+        }
+        .spec-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .spec-value {
+            font-size: 18px;
+            color: #2c2c2c;
+            font-weight: 600;
+        }
+        .mono-font {
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 1px;
+        }
+        .faded-print {
+            filter: blur(4px) opacity(0.5);
+            color: #999;
+        }
+        .scratch-out {
+            position: relative;
+            display: inline-block;
+        }
+        .scratch-out::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -5px;
+            right: -5px;
+            height: 2px;
+            background: #c9a961;
+            transform: translateY(-50%) rotate(-2deg);
+        }
+        .smudge-mark {
+            position: absolute;
+            width: 100px;
+            height: 80px;
+            background: radial-gradient(ellipse at center, rgba(139, 90, 43, 0.2) 0%, transparent 70%);
+            filter: blur(15px);
+            pointer-events: none;
+        }
+        .barcode-area {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            position: relative;
+        }
+        .barcode-lines {
+            height: 70px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000 0px,
+                #000 3px,
+                #fff 3px,
+                #fff 6px,
+                #000 6px,
+                #000 9px,
+                #fff 9px,
+                #fff 11px,
+                #000 11px,
+                #000 14px,
+                #fff 14px,
+                #fff 18px
+            );
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        .qr-blocked {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            background: #e0e0e0;
+            filter: blur(8px);
+            opacity: 0.7;
+        }
+        .warning-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffa000;
+            padding: 15px 20px;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #5d4037;
+        }
+        .sticker-residue {
+            position: absolute;
+            width: 120px;
+            height: 40px;
+            background: rgba(200, 180, 140, 0.2);
+            transform: rotate(-5deg);
+            filter: blur(2px);
+            pointer-events: none;
+        }
+        .tech-specs {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .tech-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .tech-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            border-bottom: 1px dotted #e0e0e0;
+        }
+        .tech-label {
+            color: #666;
+        }
+        .tech-value {
+            color: #2c2c2c;
+            font-weight: 600;
+        }
+        .blackened {
+            background: #2c2c2c;
+            color: transparent;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="spec-sheet" style="position: relative;">
+        <div class="smudge-mark" style="top: 150px; left: 50px;"></div>
+        <div class="smudge-mark" style="bottom: 200px; right: 80px;"></div>
+        <div class="sticker-residue" style="top: 200px; right: 100px;"></div>
+        
+        <div class="brand-header">
+            <div class="logo-box">L</div>
+            <div class="brand-info">
+                <h1>LUXE FURNITURE</h1>
+                <div class="brand-tagline">Swedish Design • Premium Quality</div>
+            </div>
+        </div>
+        
+        <div class="product-title">Malmo Executive Desk</div>
+        
+        <div class="spec-grid">
+            <div class="spec-item">
+                <div class="spec-label">Product SKU</div>
+                <div class="spec-value mono-font">MAL-DESK-001</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Finish</div>
+                <div class="spec-value">Walnut Veneer</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Serial Number</div>
+                <div class="spec-value mono-font scratch-out">
+                    <span class="faded-print">SN8847291</span>
+                </div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Dimensions</div>
+                <div class="spec-value">63" W × 31" D × 30" H</div>
+            </div>
+        </div>
+        
+        <div class="tech-specs">
+            <div class="tech-title">Manufacturing Details</div>
+            <div class="tech-row">
+                <span class="tech-label">Manufacturing Date</span>
+                <span class="tech-value faded-print">September 2024</span>
+            </div>
+            <div class="tech-row">
+                <span class="tech-label">Factory Code</span>
+                <span class="tech-value">SH-04</span>
+            </div>
+            <div class="tech-row">
+                <span class="tech-label">Batch ID</span>
+                <span class="tech-value blackened">BT-WAL-9928</span>
+            </div>
+            <div class="tech-row">
+                <span class="tech-label">Customer Service Code</span>
+                <span class="tech-value" style="position: relative;">
+                    <span style="filter: blur(6px) opacity(0.4);">CS-WAL-2024-XJ</span>
+                    <div style="position: absolute; top: 50%; left: -5px; right: -5px; height: 3px; background: #c9a961; transform: translateY(-50%) rotate(-3deg);"></div>
+                </span>
+            </div>
+        </div>
+        
+        <div class="barcode-area">
+            <div class="qr-blocked"></div>
+            <div class="barcode-lines"></div>
+            <div style="font-family: 'Roboto Mono', monospace; font-size: 12px; color: #666; letter-spacing: 2px;">
+                <span class="blackened">7 12345</span> 67890 <span class="faded-print">12345</span>
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <strong>Important:</strong> Retain this label for warranty service. For assistance, quote your service code when contacting customer support.
+        </div>
+    </div>
+</body>
+</html>

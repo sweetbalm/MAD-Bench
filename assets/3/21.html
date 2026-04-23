@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mineral Resource Estimate – Gold Project</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #2c2b28;
+            margin: 0;
+            padding: 2rem;
+            color: #f0ede8;
+        }
+        .paper {
+            background: #3e3c38;
+            max-width: 900px;
+            margin: auto;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 12px 28px black;
+        }
+        h1 {
+            border-bottom: 2px solid #c9a03d;
+            display: inline-block;
+        }
+        .grade-area {
+            background: #524e48;
+            border-radius: 28px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .value {
+            font-size: 3rem;
+            font-weight: bold;
+            display: inline-block;
+            filter: blur(7px) brightness(0.4);
+            background: #6a655c;
+            padding: 0 20px;
+            border-radius: 60px;
+            letter-spacing: 4px;
+        }
+        .scratched {
+            position: relative;
+        }
+        .scratched:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, #00000044 0px, #00000044 2px, transparent 2px, transparent 10px);
+            pointer-events: none;
+        }
+        .drill-table {
+            margin-top: 1.5rem;
+            background: #2b2a26;
+            border-radius: 16px;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <h1>⛏️ Macassa Gold Project – Resource Update</h1>
+    <p>NI 43-101 Technical Report | Kirkland Lake District</p>
+    <div class="grade-area scratched">
+        <div>🔥 Indicated Resource – Gold Grade</div>
+        <div class="value">8.42 g/t Au</div>
+        <div style="font-size:0.75rem;">* 3D block model estimate, confidential section masked</div>
+    </div>
+    <div class="drill-table">
+        <p><strong>Mineralized intercept highlights:</strong> 12.3 g/t over 4.5m, 9.1 g/t over 6.2m</p>
+        <p>Contained ounces: 1.2 Moz (Indicated) + 0.9 Moz (Inferred)</p>
+        <p style="color: #d4b87a;">⚠️ Certain grade values redacted pending QA/QC sign-off.</p>
+    </div>
+</div>
+</body>
+</html>

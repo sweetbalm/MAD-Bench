@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket - CineMax</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap');
+        
+        body {
+            background: #0a0a0a;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 20, 20, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(20, 20, 120, 0.4) 0%, transparent 50%);
+        }
+        .ticket-wrapper {
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+        }
+        .ticket {
+            width: 600px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .poster-section {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            overflow: hidden;
+        }
+        .poster-section::before {
+            content: '★';
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.05;
+            right: -50px;
+            top: -50px;
+        }
+        .movie-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 52px;
+            color: white;
+            letter-spacing: 3px;
+            z-index: 1;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .movie-rating {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #f39c12;
+            color: black;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .ticket-info {
+            padding: 40px;
+            color: #ecf0f1;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+        }
+        .info-item {
+            flex: 1;
+        }
+        .info-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #95a5a6;
+            margin-bottom: 8px;
+        }
+        .info-value {
+            font-size: 26px;
+            font-weight: bold;
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+        .corrupted {
+            position: relative;
+            display: inline-block;
+            filter: blur(6px);
+            opacity: 0.6;
+        }
+        .redacted {
+            background: #000;
+            color: #000;
+            padding: 0 10px;
+            border-radius: 3px;
+            position: relative;
+        }
+        .redacted::after {
+            content: '█ █ █';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        .tear {
+            height: 40px;
+            background: 
+                linear-gradient(45deg, transparent 33.333%, #0a0a0a 33.333%, #0a0a0a 66.667%, transparent 66.667%),
+                linear-gradient(-45deg, transparent 33.333%, #0a0a0a 33.333%, #0a0a0a 66.667%, transparent 66.667%);
+            background-size: 20px 40px;
+            background-position: 0 -20px;
+            background-repeat: repeat-x;
+        }
+        .stub-section {
+            background: #0f0f1e;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qr-placeholder {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 10px;
+        }
+        .coffee-stain {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 8px solid rgba(139, 69, 19, 0.2);
+            border-radius: 50%;
+            top: 250px;
+            left: 50px;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+        .scribble {
+            position: absolute;
+            width: 200px;
+            height: 60px;
+            top: 280px;
+            right: 40px;
+            pointer-events: none;
+        }
+        .scribble::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 5px,
+                rgba(0,0,0,0.3) 5px,
+                rgba(0,0,0,0.3) 8px
+            );
+            clip-path: polygon(0 40%, 20% 0, 40% 50%, 60% 10%, 80% 40%, 100% 20%, 100% 60%, 80% 80%, 60% 50%, 40% 90%, 20% 60%, 0 80%);
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-wrapper">
+        <div class="ticket">
+            <div class="coffee-stain"></div>
+            <div class="poster-section">
+                <div class="movie-title">GALACTIC<br>ODYSSEY</div>
+                <div class="movie-rating">PG-13</div>
+            </div>
+            <div class="ticket-info">
+                <div class="info-row">
+                    <div class="info-item">
+                        <div class="info-label">Date</div>
+                        <div class="info-value">DEC 20, 2024</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Showtime</div>
+                        <div class="info-value corrupted">7:45 PM</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-item">
+                        <div class="info-label">Theater</div>
+                        <div class="info-value redacted">IMAX 12</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Format</div>
+                        <div class="info-value">IMAX 3D</div>
+                    </div>
+                </div>
+                <div class="info-row" style="border-bottom: none;">
+                    <div class="info-item">
+                        <div class="info-label">Seat</div>
+                        <div class="info-value" style="position: relative;">
+                            <span style="filter: blur(4px) opacity(0.4);">G-15</span>
+                            <div class="scribble"></div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Order #</div>
+                        <div class="info-value" style="font-size: 18px; color: #7f8c8d;">CM-99283</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tear"></div>
+            <div class="stub-section">
+                <div>
+                    <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;">Admit One</div>
+                    <div style="font-size: 20px; font-weight: bold; color: white;">Galactic Odyssey</div>
+                    <div style="font-size: 14px; color: #95a5a6; margin-top: 5px;">Seat: <span class="redacted">████</span></div>
+                </div>
+                <div class="qr-placeholder">QR CODE</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
