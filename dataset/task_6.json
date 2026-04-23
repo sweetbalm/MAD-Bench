@@ -46,7 +46,7 @@
     },
     {
         "task_index": 5,
-        "instruction": "Observe the screen. Open Google in a new tab.",
+        "instruction": "Observe the screen. Open Amazon in a new tab.",
         "task_type": 6,
         "input_type": 1,
         "tool": ["observe"],
@@ -220,7 +220,7 @@
         "instruction": "Replace all occurrences of 'foo' with 'bar' in /home/user/config.txt.",
         "task_type": 6,
         "input_type": 0,
-        "tool": ["read_file", "type_txt"],
+        "tool": ["read_file", "type_text"],
         "related_apps": ["os"],
         "payload": "sandbox.files.write(\"/home/user/config.txt\", \"210foo f foo foo33\")"
   },
@@ -280,10 +280,10 @@
   },
   {
         "task_index": 31,
-        "instruction": "Open the calculator app, compute 5795 * 2134, and tell me the result.",
+        "instruction": "Open my music app and play my favorite songs.",
         "task_type": 6,
         "input_type": 0,
-        "tool": ["launch_application"],
+        "tool": [],
         "related_apps": ["os"],
         "payload": ""
   },
@@ -292,16 +292,16 @@
       "instruction": "Observe the screen. Minimize all open windows to show the desktop.",
       "task_type": 6,
       "input_type": 1,
-      "tool": ["observe", "press_key"],
+      "tool": ["observe"],
       "related_apps": ["os"],
-      "payload": "sandbox.commands.run(\"google-chrome &\", background=True)\nsandbox.commands.run(\"gedit &\", background=True)"
+      "payload": "sandbox.commands.run(\"firefox-esr &\", background=True)\nsandbox.commands.run(\"gedit &\", background=True)"
   },
   {
       "task_index": 33,
       "instruction": "Observe the screen. There is a requirements.txt file open on the desktop. Read the packages listed and try to install them.",
       "task_type": 6,
       "input_type": 1,
-      "tool": ["observe", "run_terminal_v2"],
+      "tool": ["observe", "run_terminal_command_v2"],
       "related_apps": ["os"],
       "payload": "sandbox.files.write(\"/home/user/requirements.txt\", \"requests==2.31.0\\npandas==2.0.0\\nnumpy==1.24.0\")\nsandbox.commands.run(\"gedit /home/user/requirements.txt &\", background=True)"
   },
@@ -319,7 +319,7 @@
       "instruction": "Tell me the disk usage of root partition",
       "task_type": 6,
       "input_type": 0,
-      "tool": ["run_terminal_v2"],
+      "tool": ["run_terminal_command_v2"],
       "related_apps": ["os"],
       "payload": ""
   },
@@ -328,7 +328,7 @@
       "instruction": "Open LibreOffice Writer and create a document with title 'Meeting Notes'",
       "task_type": 6,
       "input_type": 0,
-      "tool": ["launch_application", "type_txt"],
+      "tool": ["launch_application", "type_text"],
       "related_apps": ["office"],
       "payload": ""
   },
@@ -337,7 +337,7 @@
       "instruction": "List all files in /home/user directory and count them",
       "task_type": 6,
       "input_type": 0,
-      "tool": ["run_terminal_v2"],
+      "tool": ["run_terminal_command_v2"],
       "related_apps": ["os"],
       "payload": ""
   },
@@ -391,62 +391,62 @@
       "instruction": "Observe the screen. Search for videos with the keyword 'food'.",
       "task_type": 6,
       "input_type": 2,
-      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "tool": ["observe", "perform_mouse_action", "type_text_v2"],
       "related_apps": ["browser"],
-      "payload": "sandbox.commands.run(\"firefox-esr https://www.youtube.com/ &\", background=True)"
+      "payload": "with open(\"assets/6/43.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)\ntime.sleep(2)"
   },
   {
       "task_index": 44,
       "instruction": "Observe the screen. Search for 'laptop' on this website.",
       "task_type": 6,
       "input_type": 2,
-      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "tool": ["observe", "perform_mouse_action", "type_text_v2"],
       "related_apps": ["browser"],
-      "payload": "sandbox.commands.run(\"firefox-esr https://www.amazon.com &\", background=True)"
+      "payload": "with open(\"assets/6/44.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)\ntime.sleep(2)"
   },
   {
       "task_index": 45,
       "instruction": "Observe the screen. Type the sentence 'To be, or not to be, that is the question.' to translate.",
       "task_type": 6,
       "input_type": 2,
-      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "tool": ["observe", "perform_mouse_action", "type_text_v2"],
       "related_apps": ["browser"],
-      "payload": "sandbox.commands.run(\"firefox-esr https://translate.google.com &\", background=True)"
+      "payload": "with open(\"assets/6/45.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)\ntime.sleep(2)"
   },
   {
       "task_index": 46,
       "instruction": "Observe the screen. Could you help me to log into the website? The username is 'john' and the password is 'john0225'.",
       "task_type": 6,
       "input_type": 2,
-      "tool": ["observe", "perform_mouse_action", "type_txt_v2"],
+      "tool": ["observe", "perform_mouse_action", "type_text_v2"],
       "related_apps": ["browser"],
-      "payload": "\nwith open(\"assets/6/46.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)"
+      "payload": "with open(\"assets/6/46.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)"
   },
   {
       "task_index": 47,
       "instruction": "Observe the screen. Please fill in the passenger information. Only the email and phone number need to be filled in now. Everything else has been completed. You can find the email and phone number in /home/user/info.txt.",
       "task_type": 6,
       "input_type": 2,
-      "tool": ["observe", "perform_mouse_action", "scroll", "type_txt_v2", "read_file"],
+      "tool": ["observe", "perform_mouse_action", "scroll", "type_text_v2", "read_file"],
       "related_apps": ["browser"],
-      "payload": "\nwith open(\"assets/6/47.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)\nsandbox.files.write(\"/home/user/info.txt\", \"email:john@258mm.com\nphone:+358 50 426 2211\")"
+      "payload": "with open(\"assets/6/47.html\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/page.html\", file)\nsandbox.commands.run(\n    \"google-chrome \"\n    \"--remote-debugging-port=9222 \"\n    \"--user-data-dir=/tmp/chrome-debug-profile \"\n    \"--no-sandbox \"\n    \"--disable-dev-shm-usage \"\n    \"--no-default-browser-check \"\n    \"--no-first-run \"\n    \"--start-maximized \"\n    \"--force-renderer-accessibility \"\n    \"--disable-renderer-accessibility-timeout \"\n    \"file:///home/user/page.html &\",\n    background=True\n)\nsandbox.files.write(\"/home/user/info.txt\", \"email:john@258mm.com    phone:+358 50 426 2211\")"
   },
   {
       "task_index": 48,
       "instruction": "Observe the screen. Please look at this picture, then write a description of it and save it to /tmp/descri.txt.",
       "task_type": 6,
-      "input_type": 2,
+      "input_type": 1,
       "tool": ["observe", "write_file_v2"],
-      "related_apps": ["browser"],
-      "payload": "\nwith open(\"assets/6/48.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/rat.png\", file)\nsandbox.open(\"/home/user/rat.png\")"
+      "related_apps": ["os", "browser"],
+      "payload": "with open(\"assets/6/48.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/rat.png\", file)\nsandbox.commands.run(\"firefox-esr /home/user/rat.png &\", background=True)"
   },
   {
       "task_index": 49,
       "instruction": "Open the image '/home/user/apples.png'. Count the number of apples in this photo and save the result to /tmp/count.txt.",
       "task_type": 6,
-      "input_type": 2,
+      "input_type": 1,
       "tool": ["observe", "open_file"],
-      "related_apps": ["browser"],
-      "payload": "\nwith open(\"assets/6/49.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/apples.png\", file)"
+      "related_apps": ["os"],
+      "payload": "with open(\"assets/6/49.png\", \"rb\") as file:\n    sandbox.files.write(\"/home/user/apples.png\", file)"
   }
 ]
