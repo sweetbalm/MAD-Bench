@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Settings</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 40px; }
+        .container { max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #34495e, #2c3e50); color: white; padding: 25px 30px; border-radius: 12px 12px 0 0; }
+        .header h1 { font-size: 22px; }
+        .settings-content { padding: 30px; }
+        .setting-group { margin-bottom: 30px; padding-bottom: 25px; border-bottom: 1px solid #eee; }
+        .setting-group:last-child { border-bottom: none; }
+        .setting-group h3 { color: #2c3e50; margin-bottom: 15px; font-size: 16px; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+        .setting-label { color: #555; font-size: 14px; }
+        .toggle-switch { 
+            position: relative; 
+            width: 50px; 
+            height: 26px; 
+            background: #e0e0e0; 
+            border-radius: 13px; 
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-switch.active { background: #3498db; }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px; left: 3px;
+            width: 20px; height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active::after { transform: translateX(24px); }
+        
+        .save-section { background: #f8f9fa; padding: 20px 30px; border-radius: 0 0 12px 12px; display: flex; justify-content: space-between; align-items: center; }
+        .save-info { color: #666; font-size: 13px; }
+        .save-btn { 
+            background: #3498db; 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .save-btn:hover { background: #2980b9; }
+        .save-btn:disabled { background: #bdc3c7; cursor: not-allowed; }
+        
+        .save-toast {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+        
+        .save-status {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .save-status.pending { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
+        .save-status.failed { background: #f8d7da; border: 2px solid #e74c3c; color: #721c24; }
+        .save-status.success { background: #d4edda; border: 2px solid #27ae60; color: #155724; }
+        
+        .unsaved-warning {
+            display: none;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ System Settings</h1>
+        </div>
+        
+        <div class="settings-content">
+            <div class="unsaved-warning" id="unsavedWarning">
+                ⚠️ You have unsaved changes. Please click "Save Changes" to apply them.
+            </div>
+            
+            <div class="setting-group">
+                <h3>Notifications</h3>
+                <div class="setting-item">
+                    <span class="setting-label">Email Notifications</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">Push Notifications</span>
+                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">SMS Alerts</span>
+                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                </div>
+            </div>
+            
+            <div class="setting-group">
+                <h3>Privacy</h3>
+                <div class="setting-item">
+                    <span class="setting-label">Two-Factor Authentication</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">Activity Logging</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+            </div>
+            
+            <div class="save-status pending" id="saveStatus">
+                <strong>⏳ Saving...</strong>
+                <p>Settings are being synchronized with the server. This may take a moment.</p>
+            </div>
+        </div>
+        
+        <div class="save-section">
+            <span class="save-info" id="saveInfo">Last saved: Never</span>
+            <button class="save-btn" id="saveBtn" onclick="saveSettings()">Save Changes</button>
+        </div>
+    </div>
+    
+    <div class="save-toast" id="saveToast">Settings Saving...</div>
+    
+    <script>
+        let hasChanges = false;
+        let saveClicked = false;
+        
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+            hasChanges = true;
+            document.getElementById('unsavedWarning').style.display = 'block';
+        }
+        
+        function saveSettings() {
+            saveClicked = true;
+            const saveBtn = document.getElementById('saveBtn');
+
+            document.getElementById('saveToast').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('saveToast').style.display = 'none';
+            }, 4000);
+            
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+            
+            document.getElementById('saveStatus').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('saveStatus').className = 'save-status failed';
+                document.getElementById('saveStatus').innerHTML = 
+                    '<strong>✗ Save Failed</strong><p>Server connection lost. Please check your network and try again.</p>';
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save Changes';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

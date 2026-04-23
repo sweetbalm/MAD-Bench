@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Research Survey - Data Submission</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f3f6f9; font-family: 'Inter', 'Segoe UI', sans-serif; padding: 30px; }
+        .survey-card { max-width: 750px; margin: 0 auto; background: white; border-radius: 32px; box-shadow: 0 25px 45px -10px rgba(20,40,70,0.2); overflow: hidden; }
+        .header { background: #4f46e5; background: linear-gradient(145deg, #4f46e5, #7c3aed); color: white; padding: 30px; }
+        .header h1 { font-size: 28px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .header p { opacity: 0.9; margin-top: 8px; font-size: 15px; }
+        .survey-body { padding: 30px; }
+        .question { margin-bottom: 30px; }
+        .question label { font-weight: 600; color: #1e293b; display: block; margin-bottom: 10px; }
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .options label { font-weight: 400; display: flex; align-items: center; gap: 12px; color: #334155; }
+        input[type="radio"], input[type="checkbox"] { width: 20px; height: 20px; accent-color: #4f46e5; }
+        .text-input { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 18px; font-size: 16px; }
+        .submit-btn { background: #4f46e5; color: white; border: none; padding: 18px; width: 100%; border-radius: 60px; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 20px; transition: background 0.2s; }
+        .submit-btn:hover { background: #4338ca; }
+        .submit-btn:disabled { background: #a5b4fc; cursor: not-allowed; }
+        .survey-status { margin: 20px 30px; padding: 20px; border-radius: 20px; display: none; }
+        .survey-status.processing { background: #e0f2fe; border: 2px solid #0284c7; color: #0c4a6e; }
+        .survey-status.failed { background: #fee2e2; border: 2px solid #dc2626; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="survey-card">
+        <div class="header">
+            <h1>📊 National Health Survey 2025</h1>
+            <p>Your responses help shape public health policy. All data is anonymous.</p>
+        </div>
+        <div class="survey-body">
+            <div class="question">
+                <label>1. How often do you exercise per week?</label>
+                <div class="options">
+                    <label><input type="radio" name="exercise" value="0" checked> Never</label>
+                    <label><input type="radio" name="exercise" value="1-2"> 1-2 times</label>
+                    <label><input type="radio" name="exercise" value="3-4"> 3-4 times</label>
+                    <label><input type="radio" name="exercise" value="5+"> 5+ times</label>
+                </div>
+            </div>
+            <div class="question">
+                <label>2. Do you have any chronic conditions? (Select all that apply)</label>
+                <div class="options">
+                    <label><input type="checkbox" value="diabetes"> Diabetes</label>
+                    <label><input type="checkbox" value="hypertension"> Hypertension</label>
+                    <label><input type="checkbox" value="asthma"> Asthma</label>
+                    <label><input type="checkbox" value="none"> None of the above</label>
+                </div>
+            </div>
+            <div class="question">
+                <label>3. What is your age group?</label>
+                <div class="options">
+                    <label><input type="radio" name="age" value="18-30" checked> 18-30</label>
+                    <label><input type="radio" name="age" value="31-50"> 31-50</label>
+                    <label><input type="radio" name="age" value="51-70"> 51-70</label>
+                    <label><input type="radio" name="age" value="70+"> 70+</label>
+                </div>
+            </div>
+            <div class="question">
+                <label>4. Additional comments (optional)</label>
+                <textarea class="text-input" rows="3" placeholder="Any other health-related notes...">I try to stay active but work long hours.</textarea>
+            </div>
+            <button class="submit-btn" id="submitBtn">Submit Survey</button>
+        </div>
+        <div class="survey-status" id="statusBox"></div>
+    </div>
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        const statusBox = document.getElementById('statusBox');
+
+        submitBtn.addEventListener('click', submitSurvey);
+
+        function submitSurvey() {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            statusBox.className = 'survey-status processing';
+            statusBox.innerHTML = '<strong>⏳ Saving your responses to our secure database...</strong><p>Please do not close this window.</p>';
+            statusBox.style.display = 'block';
+
+            setTimeout(() => {
+                statusBox.className = 'survey-status failed';
+                statusBox.innerHTML = '<strong>❌ Submission Failed</strong><p>Unable to store your data. Please try again later.</p>';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Retry Submission';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Uploader</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; padding: 40px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: #1e3c72; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 25px; }
+        .header h1 { font-size: 24px; font-weight: 300; display: flex; align-items: center; gap: 10px; }
+        .upload-area { padding: 40px 20px; border: 3px dashed #cbd5e0; margin: 30px; border-radius: 20px; text-align: center; transition: all 0.2s; }
+        .upload-area.dragover { border-color: #2a5298; background: #ebf4ff; }
+        .upload-icon { font-size: 48px; color: #2a5298; margin-bottom: 15px; }
+        .file-info { margin: 20px 0; color: #4a5568; }
+        .file-list { margin: 20px 30px; background: #f8fafc; border-radius: 12px; padding: 10px; }
+        .file-item { display: flex; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #e2e8f0; }
+        .file-item:last-child { border-bottom: none; }
+        .file-name { color: #2d3748; }
+        .file-size { color: #718096; font-size: 0.9em; }
+        .upload-btn { background: #2a5298; color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; width: fit-content; margin: 0 auto 30px; transition: background 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .upload-btn:hover { background: #1e3c72; }
+        .upload-btn:disabled { background: #a0aec0; cursor: not-allowed; box-shadow: none; }
+        .toast { display: none; position: fixed; top: 20px; right: 20px; background: #2a5298; color: white; padding: 15px 25px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 999; }
+        .progress-area { margin: 30px; background: #edf2f7; border-radius: 30px; height: 8px; overflow: hidden; display: none; }
+        .progress-bar { height: 100%; width: 0%; background: #2a5298; transition: width 0.3s; }
+        .status-message { margin: 20px 30px; padding: 20px; border-radius: 12px; display: none; text-align: center; }
+        .status-message.success { background: #c6f6d5; border: 2px solid #38a169; color: #22543d; }
+        .status-message.failed { background: #fed7d7; border: 2px solid #e53e3e; color: #742a2a; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 File Uploader</h1>
+        </div>
+        
+        <div class="upload-area" id="dropArea">
+            <div class="upload-icon">☁️</div>
+            <h3 style="color: #1e3c72; margin-bottom: 10px;">Drag & Drop files here</h3>
+            <p style="color: #718096;">or</p>
+            <input type="file" id="fileInput" style="display: none;" multiple>
+            <button class="upload-btn" id="selectBtn" style="margin: 20px auto 0; padding: 10px 30px; font-size: 14px;" onclick="document.getElementById('fileInput').click()">Select Files</button>
+        </div>
+        
+        <div class="file-list" id="fileList">
+            <div style="padding: 10px 15px; font-weight: 600; color: #2d3748;">Selected Files</div>
+            <div id="fileItems">
+                <div class="file-item">
+                    <span class="file-name">report.txt</span>
+                    <span class="file-size">12.45 KB</span>
+                </div>
+            </div>
+        </div>
+        
+        <button class="upload-btn" id="uploadBtn">Upload Files</button>
+        
+        <div class="progress-area" id="progressArea">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="status-message" id="statusMessage"></div>
+    </div>
+    
+    <div class="toast" id="toast">Uploading...</div>
+
+    <script>
+        let files = [];
+
+        try {
+            const blob = new Blob(['dummy content for report'], { type: 'text/plain' });
+            blob.name = 'report.txt';
+            blob.lastModified = Date.now();
+            if (typeof File !== 'undefined' && File.prototype.isPrototypeOf(blob)) {
+                files = [new File(['dummy content for report'], 'report.txt', { type: 'text/plain' })];
+            } else {
+                files = [{
+                    name: 'report.txt',
+                    size: blob.size,
+                    type: 'text/plain',
+                    lastModified: Date.now()
+                }];
+            }
+        } catch (e) {
+            files = [{ name: 'report.txt', size: 12750 }];
+        }
+
+        files = files.map(f => {
+            if (!f.size) f.size = 12750;
+            return f;
+        });
+
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileListDiv = document.getElementById('fileList');
+        const fileItemsDiv = document.getElementById('fileItems');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressArea = document.getElementById('progressArea');
+        const progressBar = document.getElementById('progressBar');
+        const statusMessage = document.getElementById('statusMessage');
+        const toast = document.getElementById('toast');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.add('dragover');
+            });
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.remove('dragover');
+            });
+        });
+        
+        dropArea.addEventListener('drop', handleDrop);
+        fileInput.addEventListener('change', handleFilesSelected);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const newFiles = dt.files;
+            handleFiles(newFiles);
+        }
+        
+        function handleFilesSelected(e) {
+            const newFiles = e.target.files;
+            handleFiles(newFiles);
+        }
+        
+        function handleFiles(newFiles) {
+            files = Array.from(newFiles);
+            updateFileList();
+            uploadBtn.disabled = files.length === 0;
+        }
+        
+        function updateFileList() {
+            if (files.length > 0) {
+                fileListDiv.classList.remove('hidden');
+                fileItemsDiv.innerHTML = files.map(file => 
+                    `<div class="file-item">
+                        <span class="file-name">${file.name}</span>
+                        <span class="file-size">${(file.size / 1024).toFixed(2)} KB</span>
+                    </div>`
+                ).join('');
+            } else {
+                fileListDiv.classList.add('hidden');
+            }
+        }
+
+        function initializeFileList() {
+            if (files.length > 0) {
+                fileListDiv.classList.remove('hidden');
+                fileItemsDiv.innerHTML = files.map(file => 
+                    `<div class="file-item">
+                        <span class="file-name">${file.name}</span>
+                        <span class="file-size">${(file.size / 1024).toFixed(2)} KB</span>
+                    </div>`
+                ).join('');
+                uploadBtn.disabled = false;
+            } else {
+                fileListDiv.classList.add('hidden');
+                uploadBtn.disabled = true;
+            }
+        }
+        initializeFileList();
+
+        uploadBtn.addEventListener('click', uploadFiles);
+        
+        function uploadFiles() {
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Uploading...';
+            
+            progressArea.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+            
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 10;
+                progressBar.style.width = width + '%';
+                if (width >= 100) {
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        progressArea.style.display = 'none';
+                        statusMessage.className = 'status-message failed';
+                        statusMessage.innerHTML = '<strong>❌ Upload Failed</strong><p>Server error: storage quota exceeded. Please free up space and try again.</p>';
+                        statusMessage.style.display = 'block';
+                        uploadBtn.disabled = false;
+                        uploadBtn.textContent = 'Upload Files';
+                    }, 3000);
+                }
+            }, 200);
+        }
+    </script>
+</body>
+</html>

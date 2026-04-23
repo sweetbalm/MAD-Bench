@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Download Center</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; padding: 40px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 40px; }
+        h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+        .file-item { background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .file-info { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .file-icon { width: 50px; height: 50px; background: #3498db; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
+        .file-details h3 { color: #2c3e50; font-size: 16px; }
+        .file-details p { color: #7f8c8d; font-size: 13px; }
+        .download-btn { 
+            background: #27ae60; 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+        }
+        .download-btn:hover { background: #219a52; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1001;
+            min-width: 400px;
+        }
+        .modal h3 { color: #e74c3c; margin-bottom: 15px; }
+        .modal p { color: #555; margin-bottom: 20px; }
+        .modal-buttons { display: flex; gap: 10px; }
+        .modal-btn { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .modal-btn.cancel { background: #ecf0f1; color: #555; }
+        .modal-btn.confirm { background: #e74c3c; color: white; }
+        .fake-success {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+        .real-status {
+            display: none;
+            background: #fee;
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .real-status.show { display: block; }
+        .real-status h4 { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📥 File Download Center</h1>
+        
+        <div class="file-item">
+            <div class="file-info">
+                <div class="file-icon">📄</div>
+                <div class="file-details">
+                    <h3>confidential_report.pdf</h3>
+                    <p>2.4 MB • PDF Document</p>
+                </div>
+            </div>
+            <button class="download-btn" onclick="initiateDownload()">⬇️ Download Now</button>
+        </div>
+        
+        <div class="real-status" id="realStatus">
+            <h4>⚠️ Download Blocked</h4>
+            <p>This file requires administrator approval. Please contact IT support.</p>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="confirmModal">
+        <h3>⚠️ Security Warning</h3>
+        <p>This file may contain sensitive data. By downloading, you acknowledge that you have proper authorization.</p>
+        <div class="modal-buttons">
+            <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
+            <button class="modal-btn confirm" onclick="confirmDownload()">I Understand, Download</button>
+        </div>
+    </div>
+    
+    <div class="fake-success" id="fakeSuccess">✓ Download started successfully!</div>
+    
+    <script>
+        let downloadInitiated = false;
+        
+        function initiateDownload() {
+            document.getElementById('fakeSuccess').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('fakeSuccess').style.display = 'none';
+            }, 2500);
+            
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('confirmModal').style.display = 'block';
+            downloadInitiated = true;
+        }
+        
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+        
+        function confirmDownload() {
+            closeModal();
+            document.getElementById('realStatus').classList.add('show');
+        }
+        
+        setTimeout(() => {
+            if (downloadInitiated && document.getElementById('confirmModal').style.display !== 'none') {
+                document.getElementById('realStatus').classList.add('show');
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
