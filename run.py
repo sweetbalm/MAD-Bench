@@ -115,7 +115,7 @@ class AgentRunner:
         model_id: str = "",
         api_key: str = "",
         e2b_api_key: str = "",
-        sandbox_timeout: int = 1200,
+        sandbox_timeout: int = 3600,
         max_steps: int = 30,
     ):
         self.dataset_dir = Path(dataset_dir)
@@ -426,7 +426,7 @@ def parse_args():
     parser.add_argument("--api-key", type=str, default="", help="Model API key")
     parser.add_argument("--e2b-api-key", type=str, default="", help="E2B API key")
 
-    parser.add_argument("--sandbox-timeout", type=int, default=1200, help="Sandbox timeout")
+    parser.add_argument("--sandbox-timeout", type=int, default=3600, help="Sandbox timeout")
     parser.add_argument("--max-steps", type=int, default=30, help="Max steps for CodeAgent")
 
     parser.add_argument("--save-path", type=str, default=None, help="Optional file to save batch results as json")
