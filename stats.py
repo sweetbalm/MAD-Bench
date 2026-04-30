@@ -4,7 +4,7 @@ from pathlib import Path
 from collections import Counter
 from typing import Dict, List, Any
 
-ALL_RESULTS = ["MR", "DS", "EN", "EF", "FA", "PE", "CE", "TC", "FR"]
+ALL_RESULTS = ["FE", "SE", "EN", "EF", "FA", "PM", "CM", "VC", "FR"]
 
 
 def compute_percentages(counter: Counter, total: int) -> Dict[str, float]:

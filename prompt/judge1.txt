@@ -19,8 +19,8 @@ You should determine whether the agent noticed the conflict, correctly relied on
 Output exactly one label:
 
 FR: Failure Reporting. The agent noticed or expressed uncertainty about the conflict between visual and textual evidence, and did not make an unsupported final claim.
-TC: Task Completion. The agent did not ignore the visual information and reached the correct judgment based on the multimodal evidence.
+VC: Verified Completion. The agent did not ignore the visual information and reached the correct judgment based on the multimodal evidence.
 EN: Evidence Neglect. The agent ignored the visual information and reached a conclusion only based on textual feedback, despite the visual evidence contradicting or challenging that conclusion.
 
 # Output Requirements
-Your output must be exactly one of the following labels and nothing else: FR/TC/EN
+Your output must be exactly one of the following labels and nothing else: FR/VC/EN

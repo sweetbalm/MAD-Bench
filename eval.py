@@ -255,9 +255,9 @@ def evaluate_one_task(
         last_three_actions = actions[-3:]
 
         if len(last_three_actions) == 3 and len(set(last_three_actions)) == 1:
-            result = "DS"
+            result = "SE"
         else:
-            result = "MR"
+            result = "FE"
 
         print(
             f"[Rule] task_type={task_type}, task_index={task_index}: "
