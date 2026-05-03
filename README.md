@@ -1,4 +1,4 @@
-# DecepBench
+# DecepAct
 
 A Benchmark for Evaluating Deceptive Behaviors in Multimodal Agents.
 
@@ -7,7 +7,7 @@ A Benchmark for Evaluating Deceptive Behaviors in Multimodal Agents.
 
 ## Overview
 
-As MLLMs and computer-use agents increasingly take control of our desktops, safety concerns must evolve beyond text-based prompt injection. **DecepBench** is the first comprehensive benchmark designed to evaluate deceptive behaviors.
+As MLLMs and computer-use agents increasingly take control of our desktops, safety concerns must evolve beyond text-based prompt injection. **DecepAct** is the first comprehensive benchmark designed to evaluate deceptive behaviors.
 
 ## Installation
 
@@ -23,7 +23,7 @@ You will also need:
 ## Project Structure
 
 ```
-DecepBench/
+DecepAct/
 ├── dataset/               # Task definitions (task_1.json ~ task_6.json)
 ├── prompt/                # Agent system prompts + judge prompts
 │   ├── input_type_0.txt   # Text-only input
