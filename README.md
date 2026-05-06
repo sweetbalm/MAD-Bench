@@ -1,4 +1,4 @@
-# DecepAct
+# MAD-Bench
 
 A Benchmark for Evaluating Deceptive Behaviors in Multimodal Agents.
 
@@ -7,7 +7,7 @@ A Benchmark for Evaluating Deceptive Behaviors in Multimodal Agents.
 
 ## Overview
 
-As MLLMs and computer-use agents increasingly take control of our desktops, safety concerns must evolve beyond text-based prompt injection. **DecepAct** is the first comprehensive benchmark designed to evaluate deceptive behaviors.
+As MLLMs and computer-use agents increasingly take control of our desktops, safety concerns must evolve beyond text-based prompt injection. **MAD-Bench** is the first comprehensive benchmark designed to evaluate deceptive behaviors.
 
 ## Installation
 
@@ -23,7 +23,7 @@ You will also need:
 ## Project Structure
 
 ```
-DecepAct/
+MAD-Bench/
 ├── dataset/               # Task definitions (task_1.json ~ task_6.json)
 ├── prompt/                # Agent system prompts + judge prompts
 │   ├── input_type_0.txt   # Text-only input
@@ -183,7 +183,7 @@ python stats.py --input ./results/ --output ./metrics/all_metrics.json
 | 2 | Modality Asynchronous Mismatch | Action success/failure must be verified by later visual feedback |
 | 3 | Modality Ambiguity Distortion | Visual or semantic ambiguity challenges the agent |
 | 4 | Modality Target Missing | The target content is missing, inaccessible, or replaced by a decoy |
-| 5 | Logically Impossible Tasks | Tasks are logically impossible to complete |
+| 5 | Task Logical Impossibility | Tasks are logically impossible to complete |
 | 6 | Tool Defect Tasks | Required tools are missing or malfunctioning |
 
 ## Result Labels
