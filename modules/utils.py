@@ -4,7 +4,7 @@ import time
 from time import sleep
 from io import BytesIO
 import ast
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Optional
 import xml.etree.ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
 from e2b_desktop import Sandbox
@@ -14,14 +14,31 @@ from .tools import ClickElementTool
 
 
 sandbox = None
+trajectory_dir: Optional[str] = None
+trajectory_screenshot_dir: Optional[str] = None
 
 
-def init_sandbox(timeout: int):
+def set_trajectory_dir(task_dir: str):
+    """
+    Set the current task trajectory directory.
+    Screenshots will be saved under: {task_dir}/screenshots
+    """
+    global trajectory_dir, trajectory_screenshot_dir
+    trajectory_dir = task_dir
+    trajectory_screenshot_dir = os.path.join(task_dir, "screenshots")
+    os.makedirs(trajectory_screenshot_dir, exist_ok=True)
+
+
+def init_sandbox(timeout: int, with_extra_setup: bool = False):
     sandbox_instance = Sandbox.create(timeout=timeout)
-    sandbox_instance.commands.run("sudo apt-get update && sudo apt-get install -y python3-pyatspi")
-    sandbox_instance.commands.run("sudo pip install playwright && playwright install chromium")
-    with open("assets/at_dump_script.py", "rb") as file:
-        sandbox_instance.files.write("/home/user/dump_at.py", file)
+
+    if with_extra_setup:
+        sandbox_instance.commands.run("sudo pip install psutil")
+        sandbox_instance.commands.run("sudo apt-get update && sudo apt-get install -y python3-pyatspi")
+        sandbox_instance.commands.run("sudo pip install playwright && playwright install chromium")
+        with open("assets/at_dump_script.py", "rb") as file:
+            sandbox_instance.files.write("/home/user/dump_at.py", file)
+
     return sandbox_instance
 
 
@@ -46,7 +63,7 @@ def _extract_visible_elements(xml_str: str) -> list[dict]:
         
         is_interactive = (
             tag.endswith("button") or 
-            tag in ["link", "menu", "menu-item", "entry", "check-box", "combo-box", "text"] or 
+            tag in ["input", "link", "menu", "menu-item", "entry", "check-box", "combo-box", "text"] or 
             name != ""
         )
 
@@ -153,39 +170,78 @@ def annotate_screenshot(
     return image
 
 
-def input_sc(memory_step: ActionStep, agent: CodeAgent):
-    """Input the screenshot to the memory step."""
-    sleep(1.0)
-    current_step = memory_step.step_number
+def _cleanup_old_steps(agent: CodeAgent, current_step: int, clear_text: bool = False):
+    """
+    Clear old observations to reduce memory usage.
+    """
     for previous_memory_step in agent.memory.steps:
         if isinstance(previous_memory_step, ActionStep) and previous_memory_step.step_number <= current_step - 2:
+            if clear_text:
+                previous_memory_step.observations = None
             previous_memory_step.observations_images = None
+
+
+def _save_step_image(image: Image.Image, current_step: int) -> Optional[str]:
+    """
+    Save step image to trajectory directory.
+    """
+    global trajectory_screenshot_dir
+
+    if trajectory_screenshot_dir is None:
+        return None
+
+    filename = f"Step{current_step}.png"
+
+    screenshot_path = os.path.join(trajectory_screenshot_dir, filename)
+    image.save(screenshot_path)
+
+
+def input_screenshot(memory_step: ActionStep, agent: CodeAgent):
+    """Input the screenshot to the memory step."""
+    global sandbox
+
+    if sandbox is None:
+        raise RuntimeError("Sandbox is not initialized.")
+
+    sleep(1.0)
+    current_step = memory_step.step_number
+
+    _cleanup_old_steps(agent, current_step, clear_text=False)
+
     screenshot = sandbox.screenshot()
-    image = Image.open(BytesIO(screenshot))
-    image.save(f"screenshot_step_{current_step}.png")
-    print(f"Captured a screenshot: {image.size} pixels")
+    image = Image.open(BytesIO(screenshot)).convert("RGB")
     memory_step.observations_images = [image.copy()]
+
+    _save_step_image(image, current_step)
 
 
 def input_sc_and_txt(memory_step: ActionStep, agent: CodeAgent):
     """Input the screenshot and the linear text of the UI tree to the memory step."""
+    global sandbox
+
+    if sandbox is None:
+        raise RuntimeError("Sandbox is not initialized.")
+
     sleep(1.0)
     current_step = memory_step.step_number
-    for previous_memory_step in agent.memory.steps:
-        if isinstance(previous_memory_step, ActionStep) and previous_memory_step.step_number <= current_step - 2:
-            previous_memory_step.observations = None
-            previous_memory_step.observations_images = None
+
+    _cleanup_old_steps(agent, current_step, clear_text=True)
+
     screenshot = sandbox.screenshot()
     result = sandbox.commands.run("python3 /home/user/dump_at.py")
     if result.error:
         raise Exception(f"Failed to dump UI tree: {result.error}")
     else:
         raw_xml = result.stdout
-    image = Image.open(BytesIO(screenshot))
-    image.save(f"screenshot_step_{current_step}.png")
-    print(f"Captured a screenshot: {image.size} pixels")
-    memory_step.observations = get_linearized_text(raw_xml)[0]
+
+    image = Image.open(BytesIO(screenshot)).convert("RGB")
+
+    linearized_text, _ = get_linearized_text(raw_xml)
+    # print(f"Linearized text for step {current_step}:\n{linearized_text}")
+    memory_step.observations = linearized_text
     memory_step.observations_images = [image.copy()]
+
+    _save_step_image(image, current_step)
 
 
 class InputSoMCallback:
@@ -212,6 +268,6 @@ class InputSoMCallback:
 
         screenshot = sandbox.screenshot()
         anno_image = annotate_screenshot(screenshot, raw_xml)
-        anno_image.save(f"annotated_screenshot_step_{current_step}.png")
+        # anno_image.save(f"annotated_screenshot_step_{current_step}.png")
         print(f"Captured an annotated screenshot: {anno_image.size} pixels")
         memory_step.observations_images = [anno_image.copy()]
