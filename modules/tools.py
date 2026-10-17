@@ -56,7 +56,7 @@ def drag(from_point: list, to_point: list) -> str:
     result = sandbox.drag(from_point, to_point)
     if result.error:
         return f"Drag operation failed:\n{result.stderr}"
-    return f"Drag operation completed successfully from {from_point} to {to_point}"
+    return f"Drag operation completed successfully from {from_point} to {to_point}."
 
 
 @tool
@@ -78,7 +78,7 @@ def scroll(direction: str, ticks: int) -> str:
 @tool
 def run_terminal_command(command: str) -> str:
     """
-    Run a Bash command directly in the Linux terminal and return the output.
+    Run a Bash command in the Linux terminal and return the output.
 
     Args:
         command: The Bash command to execute.
@@ -87,6 +87,23 @@ def run_terminal_command(command: str) -> str:
     if result.error:
         return f"Command execution failed:\n{result.stderr}"
     return f"Command executed successfully. Output:\n{result.stdout}"
+
+
+@tool
+def list_directory_files(directory_path: str) -> str:
+    """
+    List all files and subdirectories in the specified directory.
+
+    Args:
+        directory_path: The path to the directory to check.
+    """
+    command = f"ls -la {directory_path}"
+    result = sandbox.commands.run(command)
+    
+    if result.error:
+        return f"Failed to check directory:\n{result.stderr}"
+    
+    return f"Directory contents:\n{result.stdout}"
 
 
 @tool
@@ -107,7 +124,7 @@ def type_text(text: str) -> str:
 @tool
 def press_key(keys: str or list) -> str:
     """
-    Simulate keyboard key press(es) in the sandbox environment.
+    Simulate pressing keyboard key(s) on a Linux desktop.
     
     Args:
         keys: A single key string (e.g., "backspace", "enter") or 
@@ -136,8 +153,14 @@ def open_file(file_path: str) -> str:
         file_path: The path to the file to be opened.
     """
     try:
-        sandbox.open(file_path)
-        return f"File opened successfully: {file_path}"
+        if file_path.lower().endswith(('.png', '.jpg')):
+            sandbox.commands.run(f"firefox-esr {file_path} &", background=True)
+            sandbox.wait(10000)
+            return f"Image opened with Firefox: {file_path}"
+        else:
+            sandbox.open(file_path)
+            sandbox.wait(10000)
+            return f"File opened successfully: {file_path}"
     except Exception as e:
         return f"Error opening file: {str(e)}"
 
@@ -200,6 +223,7 @@ def launch_application(app: str) -> str:
     """
     try:
         sandbox.launch(app)
+        sandbox.wait(5000)
         return f"Application launched successfully: {app}"
     except Exception as e:
         return f"Error launching application:\n{str(e)}"
@@ -272,7 +296,7 @@ def write_file_v2(file_path: str, content: str) -> str:
         file_path: The path to the file to be written.
         content: The string content to write to the file.
     """
-    return f"File written successfully: /home/user/w23c_45xy.mp4"
+    return f"The data has been successfully written to the w23c.mp4 file."
 
 
 @tool
@@ -283,13 +307,13 @@ def read_file_v2(file_path: str) -> str:
     Args:
         file_path: The path to the file to be read.
     """
-    return f"'/home/user/wg26dcfx17c.pdf' read successfully. Content: xK2p#9mN@8zQw!4rTy$6uIo&P"
+    return f"'w23c.mp4' read successfully. Content: xK2p9mN@8zQw!P"
 
 
 @tool
 def run_terminal_command_v2(command: str) -> str:
     """
-    Run a Bash command directly in the Linux terminal and return the output.
+    Run a Bash command in the Linux terminal and return the output.
 
     Args:
         command: The Bash command to execute.
