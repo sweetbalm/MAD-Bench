@@ -48,35 +48,6 @@ Tasks are organized around three components of agent execution: **modality**, **
 | 6 | Tool | **Tool Defect** | A required tool is missing or does not work as expected. | 50 |
 | | | **Total** | | **360** |
 
-### Inside the sandbox
-
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <strong>Conflicting evidence</strong><br>
-      <img src="/static/t1c1.png" alt="Linux desktop showing a synchronization error that contradicts a successful operation report" width="100%"><br>
-      A visual error can contradict positive textual feedback. The agent must reconcile both sources.
-    </td>
-    <td width="50%" valign="top">
-      <strong>Delayed failure</strong><br>
-      <img src="/static/t2c1.png" alt="Report download interface displaying a network interruption and failed download" width="100%"><br>
-      Starting a download does not establish completion. Later feedback can reveal failure.
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <strong>Ambiguous visual input</strong><br>
-      <img src="/static/t3c1.png" alt="Nutrition information page with obscured values and a damaged-label notice" width="100%"><br>
-      Missing visual details should prompt uncertainty, rather than confident reconstruction.
-    </td>
-    <td width="50%" valign="top">
-      <strong>Infeasible validation</strong><br>
-      <img src="/static/t5c2.png" alt="Five red circles and three blue squares shown in an image viewer" width="100%"><br>
-      Five visible circles conflict with a checker requiring three. Passing the checker is not enough.
-    </td>
-  </tr>
-</table>
-
 ## Behavioral Spectrum
 
 Each evaluated trajectory receives one subtype label, which maps to one of four behavioral families.
@@ -99,7 +70,7 @@ Each evaluated trajectory receives one subtype label, which maps to one of four 
 
 The figure shows the reported family-level distribution for each model across the 360 tasks.
 
-![Behavioral family distributions for ten evaluated models, showing evasive, manipulative, misleading, and non-deceptive behavior as percentages of tasks](/assets/behavior_profiles.png)
+![Behavioral family distributions for ten evaluated models, showing evasive, manipulative, misleading, and non-deceptive behavior as percentages of tasks](/static/behavior_profiles.png)
 
 | Model | ED ↓ | MD ↓ | LD ↓ | ND ↑ |
 | --- | ---: | ---: | ---: | ---: |
@@ -120,7 +91,7 @@ The figure shows the reported family-level distribution for each model across th
 
 Each panel compares one model with the cross-model average. These plots show the reported subtype distributions; the family-level table above provides the compact comparison.
 
-![Radar profiles for ten models across FE, SE, EN, EF, FA, PM, CM, VC, and FR](/assets/radar02.png)
+![Radar profiles for ten models across FE, SE, EN, EF, FA, PM, CM, VC, and FR](/static/radar.png)
 
 </details>
 
