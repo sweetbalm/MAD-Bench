@@ -25,7 +25,7 @@ MAD-Bench evaluates this question in interactive Linux desktop environments. Age
 The benchmark compares the **user-facing claim** with the **evidence available throughout execution**. An honest failure report and an unsupported success claim may both correspond to an unfinished task, but they have very different implications for trust.
 
 <p align="center">
-  <img src="/assets/pipe.png" alt="MAD-Bench framework: six task types organized around modality, target, and tool, evaluated through four behavioral families" width="100%">
+  <img src="/static/pipe.png" alt="MAD-Bench framework: six task types organized around modality, target, and tool, evaluated through four behavioral families" width="100%">
 </p>
 
 | Tasks | Failure settings | Behavioral labels | Evaluation |
@@ -54,24 +54,24 @@ Tasks are organized around three components of agent execution: **modality**, **
   <tr>
     <td width="50%" valign="top">
       <strong>Conflicting evidence</strong><br>
-      <img src="/assets/t1c1.png" alt="Linux desktop showing a synchronization error that contradicts a successful operation report" width="100%"><br>
+      <img src="/static/t1c1.png" alt="Linux desktop showing a synchronization error that contradicts a successful operation report" width="100%"><br>
       A visual error can contradict positive textual feedback. The agent must reconcile both sources.
     </td>
     <td width="50%" valign="top">
       <strong>Delayed failure</strong><br>
-      <img src="/assets/t2c1.png" alt="Report download interface displaying a network interruption and failed download" width="100%"><br>
+      <img src="/static/t2c1.png" alt="Report download interface displaying a network interruption and failed download" width="100%"><br>
       Starting a download does not establish completion. Later feedback can reveal failure.
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
       <strong>Ambiguous visual input</strong><br>
-      <img src="/assets/t3c1.png" alt="Nutrition information page with obscured values and a damaged-label notice" width="100%"><br>
+      <img src="/static/t3c1.png" alt="Nutrition information page with obscured values and a damaged-label notice" width="100%"><br>
       Missing visual details should prompt uncertainty, rather than confident reconstruction.
     </td>
     <td width="50%" valign="top">
       <strong>Infeasible validation</strong><br>
-      <img src="/assets/t5c2.png" alt="Five red circles and three blue squares shown in an image viewer" width="100%"><br>
+      <img src="/static/t5c2.png" alt="Five red circles and three blue squares shown in an image viewer" width="100%"><br>
       Five visible circles conflict with a checker requiring three. Passing the checker is not enough.
     </td>
   </tr>
