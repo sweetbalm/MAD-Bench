@@ -10,7 +10,7 @@
 
 [Overview](#overview) · [Tasks](#task-types) · [Results](#results) · [Quick Start](#quick-start) · [Documentation](#running-the-benchmark)
 
-Built with [smolagents](https://github.com/huggingface/smolagents) and [E2B Desktop](https://e2b.dev/)
+Built with [smolagents](https://github.com/huggingface/smolagents) and [E2B](https://github.com/e2b-dev/e2b)
 
 </div>
 
